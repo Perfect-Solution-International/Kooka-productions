@@ -29,6 +29,11 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  icons: {
+    icon: "/Logo-kooka.png",
+    shortcut: "/Logo-kooka.png",
+    apple: "/Logo-kooka.png",
+  },
   keywords: [
     "event production Melbourne",
     "AV hire Melbourne",
