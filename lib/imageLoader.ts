@@ -11,8 +11,11 @@ import type { ImageLoaderProps } from "next/image";
  * that saturates the CPU and blows the optimizer's hardcoded 7s upstream-fetch
  * abort, producing `TimeoutError` + 500 on `/_next/image`.
  *
- * Deferring to the CDN removes the server round trip entirely. Local assets are
- * passed through untouched.
+ * Deferring to the CDN removes the server round trip entirely.
+ *
+ * Local assets are passed through untouched, so they cannot vary by width —
+ * mark those `<Image>` instances `unoptimized` or Next warns that the loader
+ * ignores `width`.
  */
 export default function kookaImageLoader({
   src,

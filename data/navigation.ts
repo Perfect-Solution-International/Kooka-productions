@@ -1,3 +1,5 @@
+import { services } from "./services";
+
 export type NavItem = {
   label: string;
   href: string;
@@ -17,18 +19,12 @@ export const mainNav: NavItem[] = [
     label: "What We Do",
     href: "/services",
     description: "Technical artistry, zero compromise",
-    children: [
-      {
-        label: "Kooka Solutions",
-        href: "/services",
-        description: "Nine production disciplines",
-      },
-      {
-        label: "Kooka Footprint",
-        href: "/where-we-work",
-        description: "Events, environments & experiences",
-      },
-    ],
+    // One source of truth: the dropdown mirrors the nine service blocks and
+    // jumps straight to each anchor on /services.
+    children: services.map((service) => ({
+      label: service.title,
+      href: `/services#${service.slug}`,
+    })),
   },
   {
     label: "Contact Us",

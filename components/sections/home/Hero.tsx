@@ -23,9 +23,25 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const backdropY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const backdropScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // `useReducedMotion` resolves to null on the server and to the real
+  // preference on the client, so branching the `style` prop on it would
+  // hydrate mismatched markup. Flatten the output ranges instead — the element
+  // keeps the same shape either way and simply stops moving.
+  const backdropY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", reduceMotion ? "0%" : "18%"],
+  );
+  const backdropScale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [1, reduceMotion ? 1 : 1.12],
+  );
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    [1, reduceMotion ? 1 : 0],
+  );
 
   return (
     <section
@@ -34,7 +50,7 @@ export function Hero() {
     >
       {/* Cinematic backdrop */}
       <motion.div
-        style={reduceMotion ? undefined : { y: backdropY, scale: backdropScale }}
+        style={{ y: backdropY, scale: backdropScale }}
         className="absolute inset-0 -z-20"
       >
         <Image
@@ -63,7 +79,7 @@ export function Hero() {
       />
 
       <motion.div
-        style={reduceMotion ? undefined : { opacity: contentOpacity }}
+        style={{ opacity: contentOpacity }}
         className="kooka-container relative"
       >
         <motion.div

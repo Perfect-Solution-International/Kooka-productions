@@ -121,28 +121,22 @@ export function Header() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 6 }}
                             transition={{ duration: 0.28, ease: EASE_KOOKA }}
-                            className="kooka-glass absolute top-full left-1/2 mt-3 w-72 -translate-x-1/2 overflow-hidden rounded-2xl p-2 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)]"
+                            // `before` bridges the 12px gap under the trigger so
+                            // travelling into the panel does not fire mouseleave.
+                            className="kooka-glass absolute top-full left-0 mt-3 w-[23rem] rounded-2xl p-3 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-['']"
                           >
                             {item.children.map((child) => (
                               <li key={child.href}>
                                 <Link
                                   href={child.href}
                                   onClick={() => setOpenDropdown(null)}
-                                  className={cn(
-                                    "block rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-white/[0.06]",
-                                    isActive(child.href)
-                                      ? "text-kooka-amber"
-                                      : "text-kooka-white",
-                                  )}
+                                  className="group/item flex items-center gap-3 rounded-xl px-4 py-3 font-display text-[0.72rem] font-semibold tracking-[0.16em] text-kooka-white uppercase transition-colors duration-300 hover:bg-white/[0.06] hover:text-kooka-amber"
                                 >
-                                  <span className="block font-display text-[0.72rem] font-medium tracking-[0.16em] uppercase">
-                                    {child.label}
-                                  </span>
-                                  {child.description ? (
-                                    <span className="mt-1 block text-xs text-kooka-muted">
-                                      {child.description}
-                                    </span>
-                                  ) : null}
+                                  <span
+                                    aria-hidden
+                                    className="h-px w-0 bg-kooka-amber transition-all duration-300 group-hover/item:w-4"
+                                  />
+                                  {child.label}
                                 </Link>
                               </li>
                             ))}
@@ -194,9 +188,9 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: EASE_KOOKA }}
-            className="fixed inset-0 z-40 bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
           >
-            <div className="kooka-container flex h-full flex-col justify-between pt-28 pb-12">
+            <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-12">
               <nav aria-label="Mobile">
                 <ul className="flex flex-col">
                   {mainNav.map((item, index) => (

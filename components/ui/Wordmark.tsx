@@ -16,6 +16,9 @@ export function Wordmark({
         width={483}
         height={517}
         priority
+        // Local asset: the custom loader (lib/imageLoader.ts) passes it through
+        // untouched, so there is no width-derived srcset to generate.
+        unoptimized
         className={cn("w-auto", compact ? "h-8" : "h-10 lg:h-12")}
       />
       <span className="font-display leading-[1.05] font-bold tracking-[0.02em] uppercase">
