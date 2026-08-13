@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/sections/home/Hero";
 import { KookaExperience } from "@/components/sections/home/KookaExperience";
-import { SolutionsGrid } from "@/components/sections/home/SolutionsGrid";
+import { KookaSolutions } from "@/components/sections/home/KookaSolutions";
 import { HighlightedProjects } from "@/components/sections/home/HighlightedProjects";
 import { WhyChooseKooka } from "@/components/sections/home/WhyChooseKooka";
 import { TrustedPartners } from "@/components/sections/home/TrustedPartners";
@@ -20,7 +20,7 @@ export default function HomePage() {
     <>
       <Hero />
       <KookaExperience />
-      <SolutionsGrid />
+      <KookaSolutions />
       <HighlightedProjects />
       <WhyChooseKooka />
       <TrustedPartners />
