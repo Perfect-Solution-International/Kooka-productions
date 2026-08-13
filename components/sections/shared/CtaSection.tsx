@@ -15,7 +15,7 @@ type CtaSectionProps = {
 export function CtaSection({
   eyebrow = "Next Step",
   title = "Let's Bring Your Event to Life",
-  description = "Send us the date, the venue and the ambition. We will come back with a plan, a plot and an honest number.",
+  description = "Speak with our team to plan and deliver your next event with confidence.",
 }: CtaSectionProps) {
   return (
     <Section

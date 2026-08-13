@@ -20,8 +20,11 @@ export function Footer() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Wordmark className="text-lg" />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-kooka-mist">
-              {site.seoLine}. {site.description}
+            <p className="mt-6 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
+              {site.tagline}
+            </p>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-kooka-mist">
+              {site.seoLine}
             </p>
 
             <ul className="mt-8 flex gap-3">

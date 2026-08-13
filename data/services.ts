@@ -49,7 +49,7 @@ export const services: Service[] = [
   },
   {
     slug: "av-production",
-    title: "AV Production",
+    title: "Audio Visual Production",
     short: "Vision, audio, control",
     tagline: "Broadcast-grade signal flow, invisible in the room.",
     icon: "projector",
@@ -72,7 +72,7 @@ export const services: Service[] = [
   },
   {
     slug: "led-screens",
-    title: "LED Screens & Walls",
+    title: "LED Screens",
     short: "High-brightness canvases",
     tagline: "Seamless pixel canvases at any scale.",
     icon: "monitor",
@@ -164,7 +164,7 @@ export const services: Service[] = [
   },
   {
     slug: "live-streaming",
-    title: "Live Streaming",
+    title: "Live Streaming & Recording",
     short: "Hybrid & broadcast",
     tagline: "The room, extended to everyone who could not travel.",
     icon: "radio-tower",
@@ -187,7 +187,7 @@ export const services: Service[] = [
   },
   {
     slug: "technical-production",
-    title: "Technical Production",
+    title: "Technical Production Management",
     short: "Planning & control",
     tagline: "The documentation that makes show day boring.",
     icon: "settings-2",

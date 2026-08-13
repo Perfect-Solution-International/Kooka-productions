@@ -72,6 +72,34 @@ export const media = {
 
 export type MediaKey = keyof typeof media;
 
+/** Kooka's own stills served straight from `public/` — not Unsplash, so no `img()`. */
+export const localMedia = {
+  whyChooseBackdrop: "/Choose/BTC-747.jpg",
+} as const;
+
+/**
+ * Kooka's own event photography (public/exprience). The `.webp` files are
+ * 900px re-encodes of the supplied JPEGs, which run 380KB–1MB each; the
+ * originals stay in the folder as masters.
+ */
+export const experienceSlides = [
+  {
+    src: "/exprience/experience-1.webp",
+    title: "Live Concert Production",
+    caption: "Full-house theatre show — stage, lighting rig and front-of-house.",
+  },
+  {
+    src: "/exprience/experience-2.webp",
+    title: "Gala & Celebration",
+    caption: "Golden Jubilee gala — LED backdrop, beam work and live band.",
+  },
+  {
+    src: "/exprience/experience-3.webp",
+    title: "Touring & Stage Design",
+    caption: "Finale tour — projection canvas, pyro and full stage build.",
+  },
+] as const;
+
 /** Build a sized Unsplash URL. `next/image` still handles final optimization. */
 export function img(src: string, width = 1600, quality = 80) {
   return `${src}?auto=format&fit=crop&w=${width}&q=${quality}`;

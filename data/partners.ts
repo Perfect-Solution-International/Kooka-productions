@@ -11,48 +11,18 @@ export const partners = [
 ] as const;
 
 export type VenueTile = {
+  /** Label that fades in over the tile on hover. */
   name: string;
-  meta: string;
   image: string;
-  /** Mixed-size cinematic grid emphasis. */
-  size: "sm" | "md" | "lg";
+  /** Mixed-size cinematic grid emphasis — two tiles run large. */
+  size: "sm" | "lg";
 };
 
 export const venues: VenueTile[] = [
-  {
-    name: "Convention Centres",
-    meta: "Plenary & exhibition halls",
-    image: media.conferenceHall,
-    size: "lg",
-  },
-  {
-    name: "Arenas & Stadiums",
-    meta: "Large-format live",
-    image: media.arena,
-    size: "md",
-  },
-  {
-    name: "Heritage Ballrooms",
-    meta: "Luxury celebrations",
-    image: media.galaDinner,
-    size: "sm",
-  },
-  {
-    name: "Outdoor Festival Sites",
-    meta: "Multi-stage builds",
-    image: media.festival,
-    size: "md",
-  },
-  {
-    name: "Theatres & Auditoriums",
-    meta: "Fixed installations",
-    image: media.stageRig,
-    size: "sm",
-  },
-  {
-    name: "Winery & Estate Venues",
-    meta: "Regional Victoria",
-    image: media.weddingTable,
-    size: "md",
-  },
+  { name: "Corporate Event", image: media.conferenceHall, size: "lg" },
+  { name: "Festival Production", image: media.festival, size: "sm" },
+  { name: "Wedding Production", image: media.weddingTable, size: "sm" },
+  { name: "LED Screen Setup", image: media.ledWall, size: "lg" },
+  { name: "Lighting Design", image: media.lightBeams, size: "sm" },
+  { name: "Live Production", image: media.stageRig, size: "sm" },
 ];

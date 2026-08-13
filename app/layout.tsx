@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MotionProvider } from "@/components/providers/MotionProvider";
 import { site } from "@/data/site";
 
 const kookaDisplay = localFont({
@@ -28,6 +29,11 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  icons: {
+    icon: "/Logo-kooka.png",
+    shortcut: "/Logo-kooka.png",
+    apple: "/Logo-kooka.png",
+  },
   keywords: [
     "event production Melbourne",
     "AV hire Melbourne",
@@ -74,11 +80,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

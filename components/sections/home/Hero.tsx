@@ -9,12 +9,6 @@ import { img, media } from "@/data/media";
 import { site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 
-const stats = [
-  { value: "360°", label: "Full-circle production" },
-  { value: "12+", label: "Years on the floor" },
-  { value: "500+", label: "Events delivered" },
-];
-
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
@@ -23,9 +17,25 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const backdropY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const backdropScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // `useReducedMotion` resolves to null on the server and to the real
+  // preference on the client, so branching the `style` prop on it would
+  // hydrate mismatched markup. Flatten the output ranges instead — the element
+  // keeps the same shape either way and simply stops moving.
+  const backdropY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", reduceMotion ? "0%" : "18%"],
+  );
+  const backdropScale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [1, reduceMotion ? 1 : 1.12],
+  );
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    [1, reduceMotion ? 1 : 0],
+  );
 
   return (
     <section
@@ -34,7 +44,7 @@ export function Hero() {
     >
       {/* Cinematic backdrop */}
       <motion.div
-        style={reduceMotion ? undefined : { y: backdropY, scale: backdropScale }}
+        style={{ y: backdropY, scale: backdropScale }}
         className="absolute inset-0 -z-20"
       >
         <Image
@@ -63,26 +73,15 @@ export function Hero() {
       />
 
       <motion.div
-        style={reduceMotion ? undefined : { opacity: contentOpacity }}
+        style={{ opacity: contentOpacity }}
         className="kooka-container relative"
       >
         <motion.div
           initial="hidden"
           animate="show"
           variants={staggerContainer(0.12, 0.15)}
-          className="max-w-4xl"
+          className="mx-auto max-w-4xl text-center"
         >
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 16 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
-            }}
-            className="kooka-eyebrow mb-8 flex items-center gap-3"
-          >
-            <span className="h-px w-10 bg-kooka-amber/70" aria-hidden />
-            Melbourne · Australia-wide
-          </motion.p>
-
           <h1 className="kooka-display text-[clamp(2.75rem,9vw,7.5rem)]">
             {["Concept.", "Create.", "Captivate."].map((word, index) => (
               <span key={word} className="block overflow-hidden py-[0.06em]">
@@ -115,7 +114,7 @@ export function Hero() {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
             }}
-            className="mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg"
+            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg"
           >
             {site.description}
           </motion.p>
@@ -125,7 +124,7 @@ export function Hero() {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
             }}
-            className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <ButtonLink href="/showreel" size="lg">
               <Play className="h-4 w-4 fill-current" aria-hidden />
@@ -139,30 +138,19 @@ export function Hero() {
               />
             </ButtonLink>
           </motion.div>
-
-          <motion.dl
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
-            }}
-            className="mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-white/[0.08] pt-8"
-          >
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="sr-only">{stat.label}</dt>
-                <dd>
-                  <span className="kooka-display block text-3xl text-kooka-white sm:text-4xl">
-                    {stat.value}
-                  </span>
-                  <span className="mt-2 block text-xs leading-snug text-kooka-muted">
-                    {stat.label}
-                  </span>
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
         </motion.div>
       </motion.div>
+
+      {/* Side tagline — rotated rule down the left edge */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="absolute bottom-24 left-8 hidden origin-bottom-left -rotate-90 items-center gap-3 text-xs tracking-[0.28em] whitespace-nowrap text-kooka-muted uppercase lg:flex"
+      >
+        <span className="h-px w-10 bg-kooka-amber/70" aria-hidden />
+        {site.sideTagline}
+      </motion.p>
 
       <motion.a
         href="#kooka-experience"
