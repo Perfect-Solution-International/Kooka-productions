@@ -4,13 +4,30 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Icon, type IconKey } from "@/components/ui/Icon";
 import { valueProps } from "@/data/values";
-import { img, media } from "@/data/media";
+import { img, localMedia, media } from "@/data/media";
 import { fadeRight } from "@/lib/motion";
 
 export function WhyChooseKooka() {
   return (
-    <Section id="why-kooka" className="border-t border-white/[0.06]">
-      <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+    <Section
+      id="why-kooka"
+      full
+      className="overflow-hidden border-t border-white/[0.06]"
+    >
+      <Image
+        src={localMedia.whyChooseBackdrop}
+        alt=""
+        fill
+        quality={82}
+        sizes="100vw"
+        className="-z-20 object-cover object-center"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-linear-to-b from-kooka-void via-kooka-void/90 to-kooka-void"
+      />
+
+      <div className="kooka-container relative grid gap-16 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
           <SectionHeading
             eyebrow="The Difference"
