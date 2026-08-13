@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Kooka Productions — Design Tokens (Tailwind CSS v4, config-free)
+   ========================================================================== */
+
+@theme {
+  /* Core surfaces — ultra dark mode first */
+  --color-kooka-void: #050505;
+  --color-kooka-black: #0a0a0a;
+  --color-kooka-carbon: #101010;
+  --color-kooka-graphite: #161616;
+  --color-kooka-steel: #1f1f1f;
+  --color-kooka-ash: #2a2a2a;
+
+  /* Text */
+  --color-kooka-white: #f5f5f4;
+  --color-kooka-mist: #a3a3a3;
+  --color-kooka-muted: #737373;
+
+  /* Signature glow — amber / ember */
+  --color-kooka-amber: #ffb020;
+  --color-kooka-ember: #ff7a18;
+  --color-kooka-flare: #ffd479;
+  --color-kooka-amber-soft: #ffb02033;
+
+  /* Typography */
+  --font-display: var(--font-kooka-display), "Outfit", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-sans: var(--font-kooka-sans), "Inter", ui-sans-serif, system-ui,
+    sans-serif;
+
+  /* Motion */
+  --ease-kooka: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Keyframes */
+  --animate-ticker: ticker 40s linear infinite;
+  --animate-glow-pulse: glow-pulse 4s var(--ease-kooka) infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-sweep: sweep 3.5s var(--ease-kooka) infinite;
+
+  @keyframes ticker {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes sweep {
+    0% {
+      transform: translateX(-120%);
+    }
+    100% {
+      transform: translateX(220%);
+    }
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Clears the fixed header when jumping to #anchors */
+    scroll-padding-top: 7.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-kooka-black);
+    color: var(--color-kooka-white);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-kooka-amber);
+    color: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-kooka-black);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-kooka-steel);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-kooka-ash);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-kooka-amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Component classes
+   ========================================================================== */
+
+@layer components {
+  /* Cinematic display type — uppercase, tight tracking, compressed leading */
+  .kooka-display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  .kooka-eyebrow {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-kooka-amber);
+  }
+
+  /* Frosted panel used across cards, nav, and content blocks */
+  .kooka-glass {
+    background: color-mix(in oklab, var(--color-kooka-carbon) 72%, transparent);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgb(255 255 255 / 0.07);
+  }
+
+  /* Amber edge light that intensifies on hover */
+  .kooka-glow-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .kooka-glow-border::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--color-kooka-amber) 55%, transparent),
+      transparent 42%,
+      transparent 62%,
+      color-mix(in oklab, var(--color-kooka-ember) 35%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-kooka);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .kooka-glow-border:hover::after,
+  .kooka-glow-border:focus-within::after {
+    opacity: 1;
+  }
+
+  /* Warm ambient bloom placed behind hero and CTA blocks */
+  .kooka-bloom {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--color-kooka-ember) 45%, transparent) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Bottom-anchored scrim for image cards */
+  .kooka-scrim {
+    background: linear-gradient(
+      to top,
+      rgb(5 5 5 / 0.92) 0%,
+      rgb(5 5 5 / 0.65) 35%,
+      rgb(5 5 5 / 0.15) 65%,
+      transparent 100%
+    );
+  }
+
+  .kooka-hairline {
+    border-color: rgb(255 255 255 / 0.08);
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@layer utilities {
+  .kooka-container {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 84rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .kooka-container {
+      padding-inline: 2.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .kooka-container {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  .text-gradient-amber {
+    background: linear-gradient(
+      100deg,
+      var(--color-kooka-flare),
+      var(--color-kooka-amber) 45%,
+      var(--color-kooka-ember)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Edge fade for logo tickers and horizontal rails */
+  .mask-edges-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}

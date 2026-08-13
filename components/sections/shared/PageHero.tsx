@@ -1,0 +1,86 @@
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { maskUp } from "@/lib/motion";
+import { img } from "@/data/media";
+import { cn } from "@/lib/utils";
+
+type PageHeroProps = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  description?: string;
+  image: string;
+  children?: ReactNode;
+  className?: string;
+};
+
+export function PageHero({
+  eyebrow,
+  title,
+  subtitle,
+  description,
+  image,
+  children,
+  className,
+}: PageHeroProps) {
+  return (
+    <section
+      className={cn(
+        "relative isolate flex min-h-[68svh] items-end overflow-hidden pt-36 pb-16 sm:min-h-[74svh] sm:pb-20",
+        className,
+      )}
+    >
+      <Image
+        src={img(image, 2200, 82)}
+        alt=""
+        fill
+        priority
+        quality={90}
+        sizes="100vw"
+        className="-z-20 object-cover object-center"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45"
+      />
+      <div
+        aria-hidden
+        className="kooka-bloom bottom-0 -left-24 h-[26rem] w-[26rem] animate-glow-pulse"
+      />
+
+      <div className="kooka-container relative">
+        <RevealGroup className="max-w-4xl" stagger={0.1}>
+          <RevealItem as="p" className="kooka-eyebrow mb-7 flex items-center gap-3">
+            <span className="h-px w-10 bg-kooka-amber/70" aria-hidden />
+            {eyebrow}
+          </RevealItem>
+
+          <h1 className="kooka-display overflow-hidden text-[clamp(2.5rem,7.5vw,6rem)]">
+            <RevealItem as="span" variants={maskUp} className="block">
+              {title}
+            </RevealItem>
+          </h1>
+
+          <RevealItem
+            as="p"
+            className="mt-6 font-display text-lg font-medium tracking-[0.12em] text-kooka-flare uppercase sm:text-xl"
+          >
+            {subtitle}
+          </RevealItem>
+
+          {description ? (
+            <RevealItem
+              as="p"
+              className="mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg"
+            >
+              {description}
+            </RevealItem>
+          ) : null}
+        </RevealGroup>
+
+        {children ? <Reveal className="mt-10">{children}</Reveal> : null}
+      </div>
+    </section>
+  );
+}
