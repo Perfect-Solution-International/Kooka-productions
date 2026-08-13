@@ -10,15 +10,22 @@ import { cn } from "@/lib/utils";
 
 export function HighlightedProjects() {
   return (
-    <Section id="projects" bloom="center">
-      <SectionHeading
-        eyebrow="Selected Work"
-        title="Highlighted Projects"
-        description="A selection of recent productions showcasing our capabilities across different event environments."
-        align="center"
-      />
+    // `full` drops the container so the banners can run edge to edge; the
+    // heading and CTA get their gutter back individually.
+    <Section id="projects" bloom="center" full>
+      <div className="kooka-container relative">
+        <SectionHeading
+          eyebrow="Selected Work"
+          title="Highlighted Projects"
+          description="A selection of recent productions showcasing our capabilities across different event environments."
+          align="center"
+        />
+      </div>
 
-      <RevealGroup className="mt-16 flex flex-col gap-6 sm:gap-8" stagger={0.12}>
+      <RevealGroup
+        className="relative mt-16 flex flex-col gap-6 sm:gap-8"
+        stagger={0.12}
+      >
         {featuredProjects.map((project, index) => (
           <RevealItem key={project.title}>
             <Link
@@ -29,7 +36,7 @@ export function HighlightedProjects() {
                 src={project.image}
                 alt={project.title}
                 fill
-                sizes="(min-width: 1024px) 80vw, 100vw"
+                sizes="100vw"
                 // Local asset: the custom loader passes it through untouched,
                 // so there is no width-derived srcset to generate.
                 unoptimized
@@ -49,7 +56,7 @@ export function HighlightedProjects() {
                 className="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-kooka-void/90 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-100"
               />
 
-              <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5 sm:p-7">
+              <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5 sm:p-7 md:px-10 xl:px-14">
                 <span className="font-display text-[0.6rem] font-semibold tracking-[0.24em] text-kooka-white uppercase sm:text-[0.68rem]">
                   Project {String(index + 1).padStart(2, "0")}
                 </span>
@@ -58,7 +65,7 @@ export function HighlightedProjects() {
                 </span>
               </div>
 
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-5 sm:p-7">
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-5 sm:p-7 md:px-10 xl:px-14">
                 <div>
                   <h3 className="kooka-display text-2xl sm:text-4xl">
                     {project.title}
@@ -80,7 +87,7 @@ export function HighlightedProjects() {
         ))}
       </RevealGroup>
 
-      <Reveal className="mt-14 flex justify-center">
+      <Reveal className="kooka-container relative mt-14 flex justify-center">
         <ButtonLink href="/showreel" variant="secondary" size="lg">
           View Full Showreel
           <ArrowUpRight
