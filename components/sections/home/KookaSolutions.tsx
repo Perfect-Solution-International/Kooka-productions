@@ -1,12 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Plus } from "lucide-react";
+import { ArrowUpRight, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { fadeLeft } from "@/lib/motion";
+import { img } from "@/data/media";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
 import { EASE_KOOKA } from "@/lib/motion";
@@ -86,15 +88,14 @@ export function KookaSolutions() {
                     {service.title}
                   </span>
 
-                  <Plus
-                    className={cn(
-                      "h-5 w-5 shrink-0 transition-all duration-500",
-                      open
-                        ? "rotate-45 text-kooka-amber"
-                        : "text-kooka-muted group-hover:text-kooka-white",
-                    )}
-                    aria-hidden
-                  />
+                  {open ? (
+                    <Minus className="h-5 w-5 shrink-0 text-kooka-amber" aria-hidden />
+                  ) : (
+                    <Plus
+                      className="h-5 w-5 shrink-0 text-kooka-muted transition-colors duration-500 group-hover:text-kooka-white"
+                      aria-hidden
+                    />
+                  )}
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -107,21 +108,29 @@ export function KookaSolutions() {
                       transition={{ duration: 0.45, ease: EASE_KOOKA }}
                       className="overflow-hidden"
                     >
-                      <div className="pb-7 pl-12 sm:pl-14">
-                        <p className="max-w-xl text-sm leading-relaxed text-kooka-mist">
-                          {service.tagline}
-                        </p>
-                        <Link
-                          href={`/services#${service.slug}`}
-                          className="group/link mt-4 inline-flex items-center gap-2 font-display text-[0.62rem] tracking-[0.22em] text-kooka-amber uppercase"
-                        >
-                          Explore
+                      <Link
+                        href={`/services#${service.slug}`}
+                        className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9"
+                      >
+                        <Image
+                          src={img(service.image, 1400, 80)}
+                          alt={service.title}
+                          fill
+                          sizes="(min-width: 1024px) 55vw, 100vw"
+                          className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/panel:scale-[1.05]"
+                        />
+                        <div
+                          aria-hidden
+                          className="absolute inset-0 bg-linear-to-t from-kooka-void/80 via-transparent to-transparent"
+                        />
+                        <span className="absolute right-5 bottom-4 inline-flex items-center gap-2 font-display text-[0.62rem] font-semibold tracking-[0.22em] text-kooka-white uppercase transition-colors duration-500 group-hover/panel:text-kooka-amber">
+                          Learn More
                           <ArrowUpRight
-                            className="h-3.5 w-3.5 transition-transform duration-500 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
+                            className="h-3.5 w-3.5 transition-transform duration-500 group-hover/panel:translate-x-1 group-hover/panel:-translate-y-1"
                             aria-hidden
                           />
-                        </Link>
-                      </div>
+                        </span>
+                      </Link>
                     </motion.div>
                   ) : null}
                 </AnimatePresence>
