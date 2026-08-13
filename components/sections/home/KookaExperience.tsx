@@ -1,168 +1,49 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ArrowLeft, ArrowUpRight } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { img, media } from "@/data/media";
+import { experienceSlides, img } from "@/data/media";
 import { site } from "@/data/site";
 import { leadership } from "@/data/team";
-import { EASE_KOOKA } from "@/lib/motion";
-import { cn } from "@/lib/utils";
-
-const slides = [
-  {
-    title: "Corporate Stages",
-    caption: "Plenary staging, redundant vision and speaker management.",
-    image: media.conferenceStage,
-  },
-  {
-    title: "Immersive Projection",
-    caption: "Mapped surfaces, timecoded reveals and synchronised haze.",
-    image: media.projection,
-  },
-  {
-    title: "Live & Touring",
-    caption: "Truck-packed rigs that look identical in every city.",
-    image: media.touring,
-  },
-  {
-    title: "LED Canvases",
-    caption: "Seamless walls calibrated and driven with a backup path.",
-    image: media.ledWall,
-  },
-  {
-    title: "Luxury Celebrations",
-    caption: "Architectural warmth and audio you never notice working.",
-    image: media.weddingReception,
-  },
-];
-
-const AUTOPLAY_MS = 5200;
 
 export function KookaExperience() {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  const go = useCallback((next: number) => {
-    setIndex(((next % slides.length) + slides.length) % slides.length);
-  }, []);
-
-  useEffect(() => {
-    if (paused) return;
-    const timer = window.setTimeout(
-      () => go(index + 1),
-      AUTOPLAY_MS,
-    );
-    return () => window.clearTimeout(timer);
-  }, [index, paused, go]);
-
-  const active = slides[index];
-
   return (
     <Section id="kooka-experience" bloom="top">
       <SectionHeading
         eyebrow="What We Do"
         title="Kooka Experience"
         description={site.intro}
+        align="center"
       />
 
-      {/* Cinematic slider */}
-      <div
-        className="relative mt-14"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={() => setPaused(false)}
+      {/* Three-up event visuals — a snap rail on mobile, a fixed row above sm */}
+      <RevealGroup
+        className="no-scrollbar mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible lg:gap-8"
+        stagger={0.12}
       >
-        <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/[0.07] sm:aspect-16/9 lg:aspect-21/9">
-          <AnimatePresence initial={false} mode="sync">
-            <motion.div
-              key={active.title}
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.1, ease: EASE_KOOKA }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={img(active.image, 2000, 82)}
-                alt={active.title}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
+        {experienceSlides.map((slide) => (
+          <RevealItem
+            key={slide.src}
+            className="group relative aspect-3/4 w-[78%] shrink-0 snap-center overflow-hidden rounded-xl border border-white/[0.07] sm:w-auto"
+          >
+            <Image
+              src={slide.src}
+              alt={slide.title}
+              fill
+              sizes="(min-width: 640px) 33vw, 78vw"
+              // Local asset: the custom loader passes it through untouched, so
+              // there is no width-derived srcset to generate.
+              unoptimized
+              className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+            />
 
-          <div className="kooka-scrim pointer-events-none absolute inset-0" />
-
-          <div className="absolute inset-x-0 bottom-0 flex flex-col gap-6 p-6 sm:flex-row sm:items-end sm:justify-between sm:p-10 lg:p-14">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.title}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.6, ease: EASE_KOOKA }}
-                className="max-w-md"
-              >
-                <p className="kooka-display text-3xl sm:text-4xl lg:text-5xl">
-                  {active.title}
-                </p>
-                <p className="mt-3 text-sm text-kooka-mist sm:text-base">
-                  {active.caption}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => go(index - 1)}
-                aria-label="Previous slide"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/50 text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
-              >
-                <ArrowLeft className="h-4 w-4" aria-hidden />
-              </button>
-              <button
-                type="button"
-                onClick={() => go(index + 1)}
-                aria-label="Next slide"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/50 text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
-              >
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Progress rail */}
-        <div className="mt-6 flex gap-2">
-          {slides.map((slide, slideIndex) => (
-            <button
-              key={slide.title}
-              type="button"
-              onClick={() => setIndex(slideIndex)}
-              aria-label={`Show ${slide.title}`}
-              aria-current={slideIndex === index}
-              className="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10"
-            >
-              <span
-                className={cn(
-                  "absolute inset-y-0 left-0 rounded-full bg-kooka-amber transition-all duration-500",
-                  slideIndex === index ? "w-full" : "w-0 group-hover:w-1/3",
-                )}
-              />
-            </button>
-          ))}
-        </div>
-      </div>
+            <div className="kooka-scrim absolute inset-0 opacity-70 transition-opacity duration-700 group-hover:opacity-100" />
+          </RevealItem>
+        ))}
+      </RevealGroup>
 
       {/* Leadership preview */}
       <div className="mt-20">
