@@ -7,11 +7,10 @@ import { ArrowUpRight, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { fadeLeft } from "@/lib/motion";
+import { EASE_KOOKA, fadeLeft } from "@/lib/motion";
 import { img } from "@/data/media";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
-import { EASE_KOOKA } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export function KookaSolutions() {
