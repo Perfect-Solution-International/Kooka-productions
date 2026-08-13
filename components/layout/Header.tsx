@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, Phone, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { mainNav } from "@/data/navigation";
+import { mainNav, type NavItem } from "@/data/navigation";
 import { contact, site } from "@/data/site";
 import { EASE_KOOKA } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -30,8 +31,15 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    // Hash-only targets live on a page rather than owning a route.
+    const [path] = href.split("#");
+    if (!path || path === "/") return href === "/" && pathname === "/";
+    return pathname.startsWith(path);
+  };
+
+  const hasActiveChild = (item: NavItem) =>
+    item.children?.some((child) => isActive(child.href)) ?? false;
 
   return (
     <>
@@ -59,29 +67,92 @@ export function Header() {
 
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center gap-1">
-              {mainNav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                    className={cn(
-                      "relative rounded-full px-4 py-2 font-display text-[0.72rem] font-medium tracking-[0.16em] uppercase transition-colors duration-300",
-                      isActive(item.href)
-                        ? "text-kooka-amber"
-                        : "text-kooka-mist hover:text-kooka-white",
-                    )}
+              {mainNav.map((item) => {
+                const active = isActive(item.href) || hasActiveChild(item);
+                const open = openDropdown === item.href;
+
+                return (
+                  <li
+                    key={item.href}
+                    className="relative"
+                    onMouseEnter={() =>
+                      item.children ? setOpenDropdown(item.href) : undefined
+                    }
+                    onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    {item.label}
-                    {isActive(item.href) ? (
-                      <motion.span
-                        layoutId="nav-active"
-                        transition={{ duration: 0.5, ease: EASE_KOOKA }}
-                        className="absolute inset-x-3 -bottom-0.5 h-px bg-kooka-amber"
-                      />
+                    <Link
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      aria-expanded={item.children ? open : undefined}
+                      onFocus={() =>
+                        setOpenDropdown(item.children ? item.href : null)
+                      }
+                      className={cn(
+                        "relative flex items-center gap-1.5 rounded-full px-4 py-2 font-display text-[0.72rem] font-medium tracking-[0.16em] uppercase transition-colors duration-300",
+                        active
+                          ? "text-kooka-amber"
+                          : "text-kooka-mist hover:text-kooka-white",
+                      )}
+                    >
+                      {item.label}
+                      {item.children ? (
+                        <ChevronDown
+                          className={cn(
+                            "h-3.5 w-3.5 transition-transform duration-300",
+                            open && "rotate-180",
+                          )}
+                          aria-hidden
+                        />
+                      ) : null}
+                      {active ? (
+                        <motion.span
+                          layoutId="nav-active"
+                          transition={{ duration: 0.5, ease: EASE_KOOKA }}
+                          className="absolute inset-x-3 -bottom-0.5 h-px bg-kooka-amber"
+                        />
+                      ) : null}
+                    </Link>
+
+                    {item.children ? (
+                      <AnimatePresence>
+                        {open ? (
+                          <motion.ul
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.28, ease: EASE_KOOKA }}
+                            className="kooka-glass absolute top-full left-1/2 mt-3 w-72 -translate-x-1/2 overflow-hidden rounded-2xl p-2 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)]"
+                          >
+                            {item.children.map((child) => (
+                              <li key={child.href}>
+                                <Link
+                                  href={child.href}
+                                  onClick={() => setOpenDropdown(null)}
+                                  className={cn(
+                                    "block rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-white/[0.06]",
+                                    isActive(child.href)
+                                      ? "text-kooka-amber"
+                                      : "text-kooka-white",
+                                  )}
+                                >
+                                  <span className="block font-display text-[0.72rem] font-medium tracking-[0.16em] uppercase">
+                                    {child.label}
+                                  </span>
+                                  {child.description ? (
+                                    <span className="mt-1 block text-xs text-kooka-muted">
+                                      {child.description}
+                                    </span>
+                                  ) : null}
+                                </Link>
+                              </li>
+                            ))}
+                          </motion.ul>
+                        ) : null}
+                      </AnimatePresence>
                     ) : null}
-                  </Link>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -159,6 +230,27 @@ export function Header() {
                           </span>
                         ) : null}
                       </Link>
+
+                      {item.children ? (
+                        <ul className="mb-5 flex flex-col gap-2 border-l border-kooka-amber/30 pl-4">
+                          {item.children.map((child) => (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                onClick={() => setMenuOpen(false)}
+                                className={cn(
+                                  "block font-display text-[0.72rem] tracking-[0.16em] uppercase transition-colors duration-300",
+                                  isActive(child.href)
+                                    ? "text-kooka-amber"
+                                    : "text-kooka-mist hover:text-kooka-white",
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </motion.li>
                   ))}
                 </ul>

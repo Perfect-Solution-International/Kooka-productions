@@ -1,6 +1,22 @@
 import { cn } from "@/lib/utils";
 
-/** Text-set brand mark — swap for the supplied SVG logo when available. */
+/** Overlapping shard mark — swap for the supplied SVG logo when available. */
+function ShardMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 48 56"
+      fill="none"
+      aria-hidden
+      className={cn("h-11 w-auto", className)}
+    >
+      <path d="M4 4 L20 0 L20 30 L4 40 Z" fill="#3ec38a" />
+      <path d="M4 12 L26 4 L20 42 L4 48 Z" fill="#f2b322" />
+      <path d="M26 4 L44 14 L24 52 L14 44 Z" fill="#e8503a" opacity="0.95" />
+      <path d="M20 34 L34 30 L30 52 L16 52 Z" fill="#e6295b" />
+    </svg>
+  );
+}
+
 export function Wordmark({
   className,
   compact = false,
@@ -9,20 +25,12 @@ export function Wordmark({
   compact?: boolean;
 }) {
   return (
-    <span className={cn("flex items-center gap-2.5", className)}>
-      <span
-        aria-hidden
-        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-kooka-amber to-kooka-ember"
-      >
-        <span className="font-display text-lg leading-none font-bold text-kooka-black">
-          K
-        </span>
-        <span className="absolute inset-0 rounded-lg bg-kooka-amber/50 blur-md -z-10" />
-      </span>
-      <span className="font-display leading-none font-bold tracking-[-0.02em] uppercase">
-        <span className="text-kooka-white">Kooka</span>
+    <span className={cn("flex items-center gap-3", className)}>
+      <ShardMark className={compact ? "h-8" : undefined} />
+      <span className="font-display leading-[1.05] font-bold tracking-[0.02em] uppercase">
+        <span className="block text-kooka-white">Kooka</span>
         {compact ? null : (
-          <span className="ml-1.5 text-kooka-muted">Productions</span>
+          <span className="block text-kooka-white">Productions</span>
         )}
       </span>
     </span>
