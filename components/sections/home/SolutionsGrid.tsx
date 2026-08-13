@@ -6,6 +6,7 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { ButtonLink } from "@/components/ui/Button";
 import { services } from "@/data/services";
+import { site } from "@/data/site";
 
 export function SolutionsGrid() {
   return (
@@ -14,7 +15,7 @@ export function SolutionsGrid() {
         eyebrow="Capabilities"
         title="Kooka Solutions"
         tagline="Technical Artistry. Zero Compromise."
-        description="Nine disciplines that combine into a single production package — or plug into an existing team where you need the specialist depth."
+        description={site.intro}
         action={
           <ButtonLink href="/services" variant="secondary">
             All Solutions

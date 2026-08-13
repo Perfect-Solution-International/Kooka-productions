@@ -8,6 +8,11 @@ export const site = {
   seoLine: "Melbourne Event Production & AV Hire Specialists",
   description:
     "Melbourne-based 360° event production delivering elite AV, LED walls and immersive projection mapping for corporate events, international tours, weddings and luxury celebrations across Australia.",
+  /** Vertical rule alongside the hero. */
+  sideTagline: "Melbourne Event Production Specialists",
+  /** Shared intro for Kooka Experience and Kooka Solutions. */
+  intro:
+    "End-to-end production and technical solutions designed to deliver seamless, high-impact events.",
   locationBanner: "Based in Melbourne, delivering events across Australia.",
 } as const;
 

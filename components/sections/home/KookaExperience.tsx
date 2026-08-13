@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { img, media } from "@/data/media";
+import { site } from "@/data/site";
 import { leadership } from "@/data/team";
 import { EASE_KOOKA } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -68,19 +69,7 @@ export function KookaExperience() {
       <SectionHeading
         eyebrow="What We Do"
         title="Kooka Experience"
-        description="A production house that designs the show, engineers the systems and stands in the room while it runs. Five disciplines, one accountable crew."
-        action={
-          <Link
-            href="/showreel"
-            className="group inline-flex items-center gap-2 font-display text-xs tracking-[0.2em] text-kooka-amber uppercase"
-          >
-            View the showreel
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
-              aria-hidden
-            />
-          </Link>
-        }
+        description={site.intro}
       />
 
       {/* Cinematic slider */}

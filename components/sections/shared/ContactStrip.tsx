@@ -1,11 +1,10 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { contact, site } from "@/data/site";
 
 const channels = [
   { icon: Phone, label: contact.phone, href: contact.phoneHref },
   { icon: Mail, label: contact.email, href: contact.emailHref },
-  { icon: MapPin, label: contact.address, href: undefined },
 ];
 
 export function ContactStrip() {
@@ -28,31 +27,19 @@ export function ContactStrip() {
             </p>
           </Reveal>
 
-          <RevealGroup as="ul" className="grid gap-5 sm:grid-cols-3 lg:gap-8">
-            {channels.map(({ icon: ChannelIcon, label, href }) => {
-              const content = (
-                <>
+          <RevealGroup as="ul" className="grid gap-5 sm:grid-cols-2 lg:gap-8">
+            {channels.map(({ icon: ChannelIcon, label, href }) => (
+              <RevealItem as="li" key={label} className="group">
+                <a href={href} className="flex items-center gap-3">
                   <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-kooka-amber/30 bg-kooka-amber/10 text-kooka-amber">
                     <ChannelIcon className="h-4 w-4" aria-hidden />
                   </span>
                   <span className="text-sm leading-snug text-kooka-mist transition-colors duration-300 group-hover:text-kooka-white">
                     {label}
                   </span>
-                </>
-              );
-
-              return (
-                <RevealItem as="li" key={label} className="group">
-                  {href ? (
-                    <a href={href} className="flex items-center gap-3">
-                      {content}
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-3">{content}</div>
-                  )}
-                </RevealItem>
-              );
-            })}
+                </a>
+              </RevealItem>
+            ))}
           </RevealGroup>
         </div>
       </div>

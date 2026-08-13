@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { featuredProjects } from "@/data/projects";
@@ -16,16 +16,7 @@ export function HighlightedProjects() {
       <SectionHeading
         eyebrow="Selected Work"
         title="Highlighted Projects"
-        description="A sample of recent builds — the full archive lives in the showreel."
-        action={
-          <ButtonLink href="/showreel" variant="secondary">
-            Full Showreel
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
-              aria-hidden
-            />
-          </ButtonLink>
-        }
+        description="A selection of recent productions showcasing our capabilities across different event environments."
       />
 
       <RevealGroup className="mt-14 grid gap-6 lg:grid-cols-2" stagger={0.1}>
@@ -84,6 +75,16 @@ export function HighlightedProjects() {
           </RevealItem>
         ))}
       </RevealGroup>
+
+      <Reveal className="mt-14 flex justify-center">
+        <ButtonLink href="/showreel" variant="secondary" size="lg">
+          View Full Showreel
+          <ArrowUpRight
+            className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+            aria-hidden
+          />
+        </ButtonLink>
+      </Reveal>
     </Section>
   );
 }
