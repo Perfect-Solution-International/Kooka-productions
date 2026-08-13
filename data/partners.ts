@@ -3,24 +3,24 @@ export type ProducerPartner = {
   name: string;
   /** lucide glyph standing in until real logo files arrive. */
   glyph:
-    | "circle-dashed"
-    | "sparkle"
+    | "moon"
+    | "sun"
     | "box"
-    | "hexagon"
-    | "waves"
-    | "link"
-    | "shuffle";
+    | "circle-x"
+    | "layers"
+    | "circle-slash"
+    | "sparkle";
 };
 
 /** Worldwide producer partners shown as a static logo lockup. */
 export const producerPartners: ProducerPartner[] = [
-  { name: "Segment", glyph: "circle-dashed" },
-  { name: "luminous", glyph: "sparkle" },
+  { name: "Segment", glyph: "moon" },
+  { name: "luminous", glyph: "sun" },
   { name: "Lightbox", glyph: "box" },
-  { name: "Sphonic", glyph: "hexagon" },
-  { name: "Luminous", glyph: "waves" },
-  { name: "Interlock", glyph: "link" },
-  { name: "Nextmove", glyph: "shuffle" },
+  { name: "Sphonic", glyph: "circle-x" },
+  { name: "Luminous", glyph: "layers" },
+  { name: "Interlock", glyph: "circle-slash" },
+  { name: "Nextmove", glyph: "sparkle" },
 ];
 
 /** Name-only list, for the marquee treatment used on /about. */

@@ -1,25 +1,33 @@
 import {
   Box,
-  CircleDashed,
-  Hexagon,
-  Link2,
-  Shuffle,
+  CircleSlash,
+  CircleX,
+  Layers,
+  Moon,
   Sparkle,
-  Waves,
+  Sun,
   type LucideIcon,
 } from "lucide-react";
 import { producerPartners, type ProducerPartner } from "@/data/partners";
 import { cn } from "@/lib/utils";
 
 const glyphs: Record<ProducerPartner["glyph"], LucideIcon> = {
-  "circle-dashed": CircleDashed,
-  sparkle: Sparkle,
+  moon: Moon,
+  sun: Sun,
   box: Box,
-  hexagon: Hexagon,
-  waves: Waves,
-  link: Link2,
-  shuffle: Shuffle,
+  "circle-x": CircleX,
+  layers: Layers,
+  "circle-slash": CircleSlash,
+  sparkle: Sparkle,
 };
+
+/** Marks that read as solid shapes rather than hairline outlines. */
+const filled: ReadonlySet<ProducerPartner["glyph"]> = new Set([
+  "moon",
+  "box",
+  "layers",
+  "sparkle",
+]);
 
 /**
  * Static centred logo lockup — wraps to 4-then-3 at desktop width, the way
@@ -39,9 +47,16 @@ export function PartnerLockup({ className }: { readonly className?: string }) {
 
         return (
           <li key={partner.name}>
-            <span className="group inline-flex items-center gap-2.5 text-kooka-muted transition-colors duration-500 hover:text-kooka-white">
-              <Glyph className="h-4 w-4 shrink-0" aria-hidden />
-              <span className="text-sm font-medium tracking-[0.01em] whitespace-nowrap sm:text-base">
+            <span className="group inline-flex items-center gap-2.5 text-kooka-mist transition-colors duration-500 hover:text-kooka-white">
+              <Glyph
+                className={cn(
+                  "h-5 w-5 shrink-0 sm:h-[1.375rem] sm:w-[1.375rem]",
+                  filled.has(partner.glyph) && "fill-current",
+                )}
+                strokeWidth={2}
+                aria-hidden
+              />
+              <span className="text-base font-medium tracking-[0.01em] whitespace-nowrap sm:text-lg">
                 {partner.name}
               </span>
             </span>
