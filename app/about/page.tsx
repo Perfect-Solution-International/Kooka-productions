@@ -10,7 +10,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { LogoTicker } from "@/components/ui/LogoTicker";
 import { leadership } from "@/data/team";
-import { partners } from "@/data/partners";
+import { producerPartners } from "@/data/partners";
 import { img, media } from "@/data/media";
 import { fadeLeft, fadeRight } from "@/lib/motion";
 
@@ -205,7 +205,7 @@ export default function AboutPage() {
           <p className="kooka-eyebrow mb-8 text-center">
             Producer partners worldwide
           </p>
-          <LogoTicker items={partners} reverse />
+          <LogoTicker items={producerPartners} reverse />
         </Reveal>
       </Section>
 

@@ -1,33 +1,6 @@
-import {
-  Box,
-  CircleSlash,
-  CircleX,
-  Layers,
-  Moon,
-  Sparkle,
-  Sun,
-  type LucideIcon,
-} from "lucide-react";
 import { producerPartners, type ProducerPartner } from "@/data/partners";
+import { filledGlyphs, partnerGlyphs } from "@/lib/partnerGlyphs";
 import { cn } from "@/lib/utils";
-
-const glyphs: Record<ProducerPartner["glyph"], LucideIcon> = {
-  moon: Moon,
-  sun: Sun,
-  box: Box,
-  "circle-x": CircleX,
-  layers: Layers,
-  "circle-slash": CircleSlash,
-  sparkle: Sparkle,
-};
-
-/** Marks that read as solid shapes rather than hairline outlines. */
-const filled: ReadonlySet<ProducerPartner["glyph"]> = new Set([
-  "moon",
-  "box",
-  "layers",
-  "sparkle",
-]);
 
 type PartnerLockupProps = Readonly<{
   className?: string;
@@ -41,14 +14,14 @@ type PartnerLockupProps = Readonly<{
 }>;
 
 function PartnerMark({ partner }: { readonly partner: ProducerPartner }) {
-  const Glyph = glyphs[partner.glyph];
+  const Glyph = partnerGlyphs[partner.glyph];
 
   return (
     <span className="group inline-flex items-center gap-2.5 text-kooka-mist transition-colors duration-500 hover:text-kooka-white">
       <Glyph
         className={cn(
           "h-5 w-5 shrink-0 sm:h-[1.375rem] sm:w-[1.375rem]",
-          filled.has(partner.glyph) && "fill-current",
+          filledGlyphs.has(partner.glyph) && "fill-current",
         )}
         strokeWidth={2}
         aria-hidden
