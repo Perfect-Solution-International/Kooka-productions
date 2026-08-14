@@ -1,18 +1,60 @@
+import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { PartnerLockup } from "@/components/ui/PartnerLockup";
+import { LogoTicker } from "@/components/ui/LogoTicker";
+import { TextMarquee } from "@/components/ui/TextMarquee";
 import { Reveal } from "@/components/ui/Reveal";
+import { localMedia } from "@/data/media";
+import { partners } from "@/data/partners";
 
 export function TrustedPartners() {
   return (
-    <Section id="trusted" className="border-t border-white/[0.06]" bloom="bottom">
-      <Reveal>
-        {/* Same display scale as the "Why Choose Kooka" heading */}
-        <h2 className="kooka-display text-center text-[clamp(2.5rem,5vw,4.25rem)]">
-          Trusted By Worldwide
-          <span className="block">Producer Partner</span>
-        </h2>
+    <Section
+      id="trusted"
+      full
+      className="overflow-hidden border-t border-white/[0.06]"
+    >
+      <Image
+        src={localMedia.trustedBackdrop}
+        alt=""
+        fill
+        quality={82}
+        sizes="100vw"
+        priority
+        // Local asset: the custom loader passes it through untouched, so there
+        // is no width-derived srcset to generate.
+        unoptimized
+        className="-z-20 object-cover object-center"
+      />
 
-        <PartnerLockup className="mt-10" />
+      {/* The frame is bright and saturated, so the lockup needs a deep ground */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-kooka-void/80" />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-linear-to-b from-kooka-void via-kooka-void/60 to-kooka-void"
+      />
+
+      <div className="kooka-container relative">
+        <Reveal>
+          {/* Small, tracked, two-line label — the section's only heading */}
+          <h2 className="kooka-display text-center text-[clamp(2.5rem,5vw,4.25rem)]">
+            <span className="block">Trusted By Worldwide</span>
+            <span className="block">Producer Partner</span>
+          </h2>
+
+          <PartnerLockup className="mt-10" />
+        </Reveal>
+
+      </div>
+
+      {/* Subtext runs as its own rail, drifting against the logo strip below */}
+      <Reveal className="relative mt-20">
+        <TextMarquee text="Delivering production solutions across Melbourne’s leading venues, brands, and live event spaces." />
+      </Reveal>
+
+      {/* Full-bleed rail so the marquee runs past the container edges */}
+      <Reveal className="relative mt-12">
+        <LogoTicker items={partners} />
       </Reveal>
     </Section>
   );
