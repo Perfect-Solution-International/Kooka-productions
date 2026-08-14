@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/shared/PageHero";
 import { ServiceBlock } from "@/components/sections/services/ServiceBlock";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
+import { Section } from "@/components/ui/Section";
+import { RevealGroup } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
 import { media } from "@/data/media";
 
@@ -23,11 +25,17 @@ export default function ServicesPage() {
         image={media.ledWall}
       />
 
-      <div className="divide-y divide-white/[0.06]">
-        {services.map((service, index) => (
-          <ServiceBlock key={service.slug} service={service} index={index} />
-        ))}
-      </div>
+      <Section bloom="top">
+        <RevealGroup
+          as="ul"
+          stagger={0.07}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {services.map((service, index) => (
+            <ServiceBlock key={service.slug} service={service} index={index} />
+          ))}
+        </RevealGroup>
+      </Section>
 
       <CtaSection
         eyebrow="Get Started"
