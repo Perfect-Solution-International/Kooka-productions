@@ -56,6 +56,7 @@ function resolveIndex(
 export function ScrollProjectShowcase({
   projects,
   className,
+  heading,
 }: ScrollProjectShowcaseProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -152,6 +153,8 @@ export function ScrollProjectShowcase({
         style={{ height: viewportHeight > 0 ? viewportHeight : undefined }}
       >
         <div className="kooka-container w-full">
+          {heading ? <div className="mb-10 lg:mb-14">{heading}</div> : null}
+
           {/* Single cinematic plate; copy rides the scrim in the lower-left. */}
           <div className="relative aspect-4/5 w-full overflow-hidden sm:aspect-4/3 lg:aspect-16/9">
             <ProjectImage
