@@ -44,7 +44,7 @@ export function ProjectDetails({
     : { duration: 0.55, ease: EASE_KOOKA };
 
   return (
-    <div className="relative">
+    <div className="relative max-w-xl">
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={project.title}
@@ -63,11 +63,11 @@ export function ProjectDetails({
             </span>
           </p>
 
-          <h3 className="kooka-display mt-5 text-3xl sm:text-4xl lg:text-5xl">
+          <h3 className="kooka-display mt-3 text-2xl sm:mt-5 sm:text-4xl lg:text-5xl">
             {project.title}
           </h3>
 
-          <p className="mt-4 font-display text-[0.66rem] font-medium tracking-[0.24em] text-kooka-mist uppercase">
+          <p className="mt-3 font-display text-[0.58rem] font-medium tracking-[0.2em] text-kooka-mist uppercase sm:mt-4 sm:text-[0.66rem] sm:tracking-[0.24em]">
             {orPending(project.type)}
             <span className="mx-2.5 text-kooka-muted">·</span>
             {orPending(project.location)}
@@ -75,14 +75,14 @@ export function ProjectDetails({
             {orPending(project.year)}
           </p>
 
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-kooka-mist sm:text-base">
+          <p className="mt-4 max-w-md text-xs leading-relaxed text-kooka-mist sm:mt-6 sm:text-base">
             {orPending(project.summary)}
           </p>
 
           {project.href ? (
             <Link
               href={project.href}
-              className="group mt-8 inline-flex items-center gap-2.5 font-display text-[0.7rem] font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber"
+              className="group mt-5 inline-flex items-center gap-2.5 font-display text-[0.66rem] font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber sm:mt-8 sm:text-[0.7rem]"
             >
               <span>View Project</span>
               <span className="sr-only">: {project.title}</span>

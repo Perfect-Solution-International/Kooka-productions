@@ -10,18 +10,21 @@ export function HighlightedProjects() {
     <section id="projects" className="relative isolate pt-24 sm:pt-28 lg:pt-36">
       <div className="kooka-bloom top-1/3 left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 opacity-25" aria-hidden />
 
-      <div className="kooka-container relative">
-        <SectionHeading
-          eyebrow="Selected Work"
-          title="Highlighted Projects"
-          description="A selection of recent productions showcasing our capabilities across different event environments."
-          align="center"
-        />
-      </div>
-
+      {/*
+        The heading rides inside the pinned viewport so it stays on screen
+        while the projects advance.
+      */}
       <ScrollProjectShowcase
         projects={featuredProjects}
-        className="relative mt-16"
+        className="relative"
+        heading={
+          <SectionHeading
+            eyebrow="Selected Work"
+            title="Highlighted Projects"
+            description="A selection of recent productions showcasing our capabilities across different event environments."
+            align="center"
+          />
+        }
       />
 
       <Reveal className="kooka-container relative pb-24 flex justify-center sm:pb-28 lg:pb-36">

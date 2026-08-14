@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import type { Project } from "@/data/projects";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -12,6 +12,8 @@ import { ProjectProgress } from "./project-progress";
 type ScrollProjectShowcaseProps = {
   readonly projects: readonly Project[];
   readonly className?: string;
+  /** Section heading, pinned above the projects for the whole interaction. */
+  readonly heading?: ReactNode;
 };
 
 /**
@@ -56,9 +58,8 @@ export function ScrollProjectShowcase({
   className,
 }: ScrollProjectShowcaseProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [pinHeight, setPinHeight] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const reduced = useReducedMotion();
 
@@ -73,22 +74,20 @@ export function ScrollProjectShowcase({
   }, []);
 
   /*
-   * The track is sized from the pin's measured height rather than a CSS
-   * viewport unit. `dvh`/`svh` resolve against the visual viewport while
-   * scroll progress is computed from the layout viewport, and on mobile the
-   * two differ — sizing the track in viewport units then leaves the last
-   * project unreachable. Measuring keeps the two in agreement everywhere.
+   * The track is sized from `innerHeight`, which is the same viewport height
+   * `useScroll` resolves its `end end` offset against. Deriving it from a CSS
+   * viewport unit (or from the pin's own measured height) breaks on mobile,
+   * where `dvh`/`svh` follow the visual viewport while scroll progress is
+   * computed from the layout viewport — progress then saturates before the
+   * pin releases and the final project is never reached.
    */
   useEffect(() => {
-    const pin = pinRef.current;
-    if (!pin) return;
+    const sync = () => setViewportHeight(window.innerHeight);
 
-    const observer = new ResizeObserver(([entry]) => {
-      setPinHeight(entry.contentRect.height);
-    });
-    observer.observe(pin);
+    sync();
+    window.addEventListener("resize", sync);
 
-    return () => observer.disconnect();
+    return () => window.removeEventListener("resize", sync);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -122,18 +121,18 @@ export function ScrollProjectShowcase({
     <div
       ref={sectionRef}
       className={cn(
-        /* Height until the pin is measured, so the track is never zero-height. */
-        pinHeight === 0 && "min-h-dvh",
+        /* Height before measurement, so the track is never zero-height. */
+        viewportHeight === 0 && "min-h-dvh",
         className,
       )}
       /*
        * One pinned viewport, plus a slide of scroll travel per project.
        */
       style={
-        pinHeight > 0
+        viewportHeight > 0
           ? {
               minHeight:
-                pinHeight *
+                viewportHeight *
                 (1 +
                   projects.length *
                     (isDesktop ? SLIDE_RATIO_DESKTOP : SLIDE_RATIO_MOBILE)),
@@ -141,14 +140,27 @@ export function ScrollProjectShowcase({
           : undefined
       }
     >
+      {/*
+        The pin is sized from the same measured viewport height as the track,
+        so it releases exactly as scroll progress reaches 1.
+      */}
       <div
-        ref={pinRef}
-        className="sticky top-0 flex h-dvh items-center justify-center overflow-hidden py-14 sm:py-16 lg:py-0"
+        className={cn(
+          "sticky top-0 flex items-center justify-center overflow-hidden py-14 sm:py-16 lg:py-0",
+          viewportHeight === 0 && "h-dvh",
+        )}
+        style={{ height: viewportHeight > 0 ? viewportHeight : undefined }}
       >
         <div className="kooka-container w-full">
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-            {/* Content column — 40% of the editorial split. */}
-            <div className="order-2 lg:order-1">
+          {/* Single cinematic plate; copy rides the scrim in the lower-left. */}
+          <div className="relative aspect-4/5 w-full overflow-hidden sm:aspect-4/3 lg:aspect-16/9">
+            <ProjectImage
+              project={activeProject}
+              priority={activeIndex === 0}
+              reduced={reduced}
+            />
+
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-8 p-6 sm:p-10 lg:p-14">
               <ProjectDetails
                 project={activeProject}
                 index={activeIndex}
@@ -156,7 +168,7 @@ export function ScrollProjectShowcase({
                 reduced={reduced}
               />
 
-              <div className="mt-10 lg:hidden">
+              <div className="hidden h-40 shrink-0 pb-1 lg:block">
                 <ProjectProgress
                   titles={projects.map((project) => project.title)}
                   activeIndex={activeIndex}
@@ -164,26 +176,14 @@ export function ScrollProjectShowcase({
                 />
               </div>
             </div>
+          </div>
 
-            {/* Image column — 60%, the visual anchor. */}
-            <div className="order-1 flex items-center gap-8 lg:order-2">
-              <div className="relative aspect-4/5 w-full sm:aspect-4/3 lg:aspect-16/10">
-                <ProjectImage
-                  project={activeProject}
-                  index={activeIndex}
-                  priority={activeIndex === 0}
-                  reduced={reduced}
-                />
-              </div>
-
-              <div className="hidden self-stretch py-6 lg:flex">
-                <ProjectProgress
-                  titles={projects.map((project) => project.title)}
-                  activeIndex={activeIndex}
-                  progress={scrollYProgress}
-                />
-              </div>
-            </div>
+          <div className="mt-6 lg:hidden">
+            <ProjectProgress
+              titles={projects.map((project) => project.title)}
+              activeIndex={activeIndex}
+              progress={scrollYProgress}
+            />
           </div>
         </div>
 

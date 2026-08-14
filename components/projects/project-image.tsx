@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 type ProjectImageProps = {
   readonly project: Project;
-  readonly index: number;
   readonly priority: boolean;
   readonly reduced: boolean;
 };
@@ -20,7 +19,6 @@ type ProjectImageProps = {
  */
 export function ProjectImage({
   project,
-  index,
   priority,
   reduced,
 }: ProjectImageProps) {
@@ -78,22 +76,20 @@ export function ProjectImage({
         </motion.div>
       </AnimatePresence>
 
-      {/* Readability scrim — kept light so the photography stays visible. */}
+      {/*
+        Readability scrim for the overlaid copy — weighted to the lower-left
+        where the text sits, and kept off the upper frame so the photography
+        stays visible.
+      */}
+      <div aria-hidden className="kooka-scrim absolute inset-x-0 bottom-0 h-3/5" />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-kooka-void/70 to-transparent"
+        className="absolute inset-y-0 left-0 w-2/3 bg-linear-to-r from-kooka-void/75 via-kooka-void/25 to-transparent"
       />
       <div
         aria-hidden
         className="absolute inset-0 ring-1 ring-white/8 ring-inset"
       />
-
-      <span
-        aria-hidden
-        className="absolute top-5 left-5 font-display text-[0.6rem] font-semibold tracking-[0.24em] text-kooka-white/70 uppercase sm:top-7 sm:left-7 sm:text-[0.66rem]"
-      >
-        {String(index + 1).padStart(2, "0")}
-      </span>
     </div>
   );
 }
