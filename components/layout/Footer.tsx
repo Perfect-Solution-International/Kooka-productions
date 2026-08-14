@@ -29,22 +29,22 @@ export function Footer() {
   return (
     <footer className="relative isolate overflow-hidden border-t border-white/[0.07] bg-kooka-void">
       <div
-        className="kooka-bloom -top-52 left-1/4 h-[26rem] w-[26rem] opacity-25"
+        className="kooka-bloom -top-40 left-1/4 h-[20rem] w-[20rem] opacity-25"
         aria-hidden
       />
 
-      <div className="kooka-container relative py-20 lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-12">
+      <div className="kooka-container relative py-12 lg:py-14">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Wordmark className="text-lg" />
-            <p className="mt-6 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
+            <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
               {site.tagline}
             </p>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-kooka-mist">
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-kooka-mist">
               {site.seoLine}
             </p>
 
-            <ul className="mt-8 flex gap-3">
+            <ul className="mt-6 flex gap-2.5">
               {socials.map((social) => (
                 <li key={social.label}>
                   <a
@@ -52,7 +52,7 @@ export function Footer() {
                     target="_blank"
                     rel="noreferrer noopener"
                     aria-label={social.label}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-kooka-mist transition-all duration-500 hover:border-kooka-amber/60 hover:bg-kooka-amber/10 hover:text-kooka-amber"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-kooka-mist transition-all duration-500 hover:border-kooka-amber/60 hover:bg-kooka-amber/10 hover:text-kooka-amber"
                   >
                     <SocialIcon name={social.icon} className="h-4 w-4" />
                   </a>
@@ -62,8 +62,8 @@ export function Footer() {
           </div>
 
           <nav aria-label="Quick links" className="lg:col-span-2">
-            <h2 className="kooka-eyebrow mb-6">Explore</h2>
-            <ul className="space-y-3">
+            <h2 className="kooka-eyebrow mb-4">Explore</h2>
+            <ul className="space-y-2">
               {footerQuickLinks.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -78,8 +78,8 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Services" className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-6">Solutions</h2>
-            <ul className="space-y-3">
+            <h2 className="kooka-eyebrow mb-4">Solutions</h2>
+            <ul className="space-y-2">
               {footerServices.map((service) => (
                 <li key={service.slug}>
                   <Link
@@ -102,8 +102,8 @@ export function Footer() {
           </nav>
 
           <div className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-6">Contact</h2>
-            <ul className="space-y-4 text-sm">
+            <h2 className="kooka-eyebrow mb-4">Contact</h2>
+            <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href={contact.phoneHref}
@@ -122,7 +122,7 @@ export function Footer() {
                   className="group flex items-start gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
                 >
                   <Mail
-                    className="mt-0.5 h-4 w-3 shrink-0 text-kooka-amber"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
                     aria-hidden
                   />
                   {contact.email}
@@ -139,7 +139,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col border-t border-white/[0.07] pt-8 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
