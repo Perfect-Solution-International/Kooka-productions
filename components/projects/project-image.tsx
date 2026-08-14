@@ -65,7 +65,8 @@ export function ProjectImage({
             fill
             sizes="(min-width: 1024px) 60vw, 100vw"
             priority={priority}
-            loading={priority ? undefined : "lazy"}
+            loading={priority ? undefined : "eager"}
+            fetchPriority={priority ? undefined : "high"}
             /*
              * Local asset: the custom loader passes it through untouched, so
              * there is no width-derived srcset to generate.

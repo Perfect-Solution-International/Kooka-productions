@@ -5,12 +5,19 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type { Project } from "@/data/projects";
 import { EASE_KOOKA } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 type ProjectDetailsProps = {
   readonly project: Project;
   readonly index: number;
   readonly total: number;
   readonly reduced: boolean;
+  /**
+   * Set when the plate is too short to hold the copy at full size — on a short
+   * viewport the frame shrinks but the type does not, and the block overflows
+   * its own frame.
+   */
+  readonly compact?: boolean;
 };
 
 /** Placeholder for any field the data layer leaves unset. */
@@ -37,6 +44,7 @@ export function ProjectDetails({
   index,
   total,
   reduced,
+  compact = false,
 }: ProjectDetailsProps) {
   const variants = reduced ? reducedEnter : enter;
   const transition = reduced
@@ -63,11 +71,25 @@ export function ProjectDetails({
             </span>
           </p>
 
-          <h3 className="kooka-display mt-3 text-2xl sm:mt-5 sm:text-4xl lg:text-5xl">
+          <h3
+            className={cn(
+              "kooka-display",
+              compact
+                ? "mt-2 text-xl sm:text-2xl lg:text-3xl"
+                : "mt-3 text-2xl sm:mt-5 sm:text-4xl lg:text-5xl",
+            )}
+          >
             {project.title}
           </h3>
 
-          <p className="mt-3 font-display text-[0.58rem] font-medium tracking-[0.2em] text-kooka-mist uppercase sm:mt-4 sm:text-[0.66rem] sm:tracking-[0.24em]">
+          <p
+            className={cn(
+              "font-display font-medium tracking-[0.2em] text-kooka-mist uppercase",
+              compact
+                ? "mt-2 text-[0.55rem]"
+                : "mt-3 text-[0.58rem] sm:mt-4 sm:text-[0.66rem] sm:tracking-[0.24em]",
+            )}
+          >
             {orPending(project.type)}
             <span className="mx-2.5 text-kooka-muted">·</span>
             {orPending(project.location)}
@@ -75,14 +97,26 @@ export function ProjectDetails({
             {orPending(project.year)}
           </p>
 
-          <p className="mt-4 max-w-md text-xs leading-relaxed text-kooka-mist sm:mt-6 sm:text-base">
+          <p
+            className={cn(
+              "max-w-md leading-relaxed text-kooka-mist",
+              compact
+                ? "mt-2 text-[0.7rem]"
+                : "mt-4 text-xs sm:mt-6 sm:text-base",
+            )}
+          >
             {orPending(project.summary)}
           </p>
 
           {project.href ? (
             <Link
               href={project.href}
-              className="group mt-5 inline-flex items-center gap-2.5 font-display text-[0.66rem] font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber sm:mt-8 sm:text-[0.7rem]"
+              className={cn(
+                "group inline-flex items-center gap-2.5 font-display font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber",
+                compact
+                  ? "mt-3 text-[0.6rem]"
+                  : "mt-5 text-[0.66rem] sm:mt-8 sm:text-[0.7rem]",
+              )}
             >
               <span>View Project</span>
               <span className="sr-only">: {project.title}</span>

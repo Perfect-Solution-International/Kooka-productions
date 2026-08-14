@@ -23,6 +23,7 @@ export function HighlightedProjects() {
             title="Highlighted Projects"
             description="A selection of recent productions showcasing our capabilities across different event environments."
             align="center"
+            className="[&_h2]:text-3xl [&_h2]:sm:text-4xl [&_h2]:lg:text-5xl"
           />
         }
       />
