@@ -6,6 +6,23 @@ import { contact, site, socials } from "@/data/site";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
+/**
+ * The footer carries a curated subset of the solutions rather than the full
+ * index — the complete list lives on /services and in the header dropdown.
+ */
+const footerServiceSlugs = [
+  "event-production",
+  "av-production",
+  "led-screens",
+  "sound-systems",
+  "lighting-design",
+  "stage-design",
+];
+
+const footerServices = footerServiceSlugs.flatMap(
+  (slug) => services.find((service) => service.slug === slug) ?? [],
+);
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -63,7 +80,7 @@ export function Footer() {
           <nav aria-label="Services" className="lg:col-span-3">
             <h2 className="kooka-eyebrow mb-6">Solutions</h2>
             <ul className="space-y-3">
-              {services.map((service) => (
+              {footerServices.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`/services#${service.slug}`}
@@ -73,6 +90,14 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/services"
+                  className="text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare"
+                >
+                  All Solutions
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -97,7 +122,7 @@ export function Footer() {
                   className="group flex items-start gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
                 >
                   <Mail
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
+                    className="mt-0.5 h-4 w-3 shrink-0 text-kooka-amber"
                     aria-hidden
                   />
                   {contact.email}
@@ -114,7 +139,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/[0.07] pt-8 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col border-t border-white/[0.07] pt-8 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
