@@ -56,15 +56,6 @@ function resolveIndex(
 }
 
 /**
- * Vertical breathing room around the plate inside the pin. The heading is not
- * part of this budget — it scrolls away above the pin, so the plate has the
- * whole pinned viewport to work with.
- */
-const PIN_PADDING_DESKTOP = 80;
-const PIN_PADDING_MOBILE = 64;
-/** The horizontal progress rail that sits under the plate below `lg`. */
-const MOBILE_RAIL = 52;
-/**
  * Below this the overlay copy no longer fits the plate at full size, measured
  * against the tallest overlay in the set (two-line title plus two-line
  * summary).
@@ -72,39 +63,29 @@ const MOBILE_RAIL = 52;
 const COMPACT_PLATE_HEIGHT = 420;
 
 type PlateMetrics = {
-  readonly viewportHeight: number;
+  readonly containerWidth: number;
   readonly isDesktop: boolean;
   readonly isSmall: boolean;
 };
 
 /**
- * Caps the plate's width to `height * ratio`, where the height is the pinned
- * viewport minus its padding. The plate's aspect ratio is width-derived while
- * the pin's height is viewport-derived, so without this the plate overflows
- * the pin on short windows and its overlaid copy gets clipped.
+ * Whether the plate is short enough that the overlay copy needs its condensed
+ * treatment. The plate now spans the container, so its height comes from the
+ * container width and the aspect ratio — not from the leftover viewport.
  */
 function resolvePlate({
-  viewportHeight,
+  containerWidth,
   isDesktop,
   isSmall,
-}: PlateMetrics): { maxWidth: number; compact: boolean } {
-  if (viewportHeight <= 0) return { maxWidth: 0, compact: false };
-
-  const padding = isDesktop ? PIN_PADDING_DESKTOP : PIN_PADDING_MOBILE;
-  const rail = isDesktop ? 0 : MOBILE_RAIL;
-  const height = viewportHeight - padding - rail;
-
-  if (height <= 0) return { maxWidth: 0, compact: false };
+}: PlateMetrics): boolean {
+  if (containerWidth <= 0) return false;
 
   /* Matches the plate's `aspect-4/5 sm:aspect-4/3 lg:aspect-16/9`. */
   let ratio = 4 / 5;
   if (isDesktop) ratio = 16 / 9;
   else if (isSmall) ratio = 4 / 3;
 
-  return {
-    maxWidth: height * ratio,
-    compact: height < COMPACT_PLATE_HEIGHT,
-  };
+  return containerWidth / ratio < COMPACT_PLATE_HEIGHT;
 }
 
 export function ScrollProjectShowcase({
@@ -113,12 +94,30 @@ export function ScrollProjectShowcase({
   heading,
 }: ScrollProjectShowcaseProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
+  const plateRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isSmall, setIsSmall] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const reduced = useReducedMotion();
+
+  /*
+   * The plate spans the container, so its height follows this width. Measured
+   * so the overlay's compact mode reacts to the real box rather than a guess.
+   */
+  useEffect(() => {
+    const node = plateRef.current;
+    if (!node) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const desktop = window.matchMedia(DESKTOP_QUERY);
@@ -183,11 +182,7 @@ export function ScrollProjectShowcase({
 
   const activeProject = projects[activeIndex];
 
-  const { maxWidth: plateMaxWidth, compact: isCompactPlate } = resolvePlate({
-    viewportHeight,
-    isDesktop,
-    isSmall,
-  });
+  const isCompactPlate = resolvePlate({ containerWidth, isDesktop, isSmall });
 
   return (
     <div
@@ -219,7 +214,7 @@ export function ScrollProjectShowcase({
         width on short windows.
       */}
       {heading ? (
-        <div ref={headingRef} className="kooka-container pb-10 lg:pb-12">
+        <div className="kooka-container pb-10 lg:pb-12">
           {heading}
         </div>
       ) : null}
@@ -228,26 +223,24 @@ export function ScrollProjectShowcase({
         The pin is sized from the same measured viewport height as the track,
         so it releases exactly as scroll progress reaches 1.
       */}
+      {/*
+        `min-h` rather than a fixed `height`: the plate spans the full
+        container width, so on a short window it is taller than the viewport
+        and the pin has to grow with it instead of clipping it.
+      */}
       <div
         className={cn(
-          "sticky top-0 flex items-center justify-center overflow-hidden py-8 lg:py-10",
-          viewportHeight === 0 && "h-dvh",
+          "sticky top-0 flex items-center justify-center py-8 lg:py-10",
+          viewportHeight === 0 && "min-h-dvh",
         )}
-        style={{ height: viewportHeight > 0 ? viewportHeight : undefined }}
+        style={{ minHeight: viewportHeight > 0 ? viewportHeight : undefined }}
       >
-        <div className="kooka-container flex max-h-full w-full flex-col justify-center">
-          {/*
-            The plate's ratio is width-derived while the pin's height is
-            viewport-derived, so on a short or wide window the ratio alone
-            overflows the pin and `overflow-hidden` clips the overlaid copy.
-            This wrapper caps the plate's width to `plateHeight * ratio`, so
-            the plate shrinks to fit the pin while keeping its ratio intact.
-          */}
+        <div className="kooka-container flex w-full flex-col justify-center">
+          {/* Full container width, same as every other section on the page. */}
           <div
-            className="mx-auto w-full min-h-0"
-            style={plateMaxWidth > 0 ? { maxWidth: plateMaxWidth } : undefined}
+            ref={plateRef}
+            className="relative aspect-4/5 w-full overflow-hidden sm:aspect-4/3 lg:aspect-16/9"
           >
-          <div className="relative aspect-4/5 w-full overflow-hidden sm:aspect-4/3 lg:aspect-16/9">
             <ProjectImage
               project={activeProject}
               priority={activeIndex === 0}
@@ -276,7 +269,6 @@ export function ScrollProjectShowcase({
                 />
               </div>
             </div>
-          </div>
           </div>
 
           <div className="mt-6 shrink-0 lg:hidden">
