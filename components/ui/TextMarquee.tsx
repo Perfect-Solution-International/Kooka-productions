@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-type TextMarqueeProps = {
+type TextMarqueeProps = Readonly<{
   text: string;
   className?: string;
   /** Repeats per rail — more copies keep wide viewports filled. */
@@ -8,7 +8,7 @@ type TextMarqueeProps = {
   /** Seconds for one full loop. */
   duration?: number;
   reverse?: boolean;
-};
+}>;
 
 /**
  * Infinite horizontal text rail. The sequence is rendered twice and shifted
@@ -29,6 +29,7 @@ export function TextMarquee({
       <div
         className={cn(
           "flex w-max animate-ticker items-center",
+          "hover:[animation-play-state:paused]",
           reverse && "[animation-direction:reverse]",
         )}
         style={{ animationDuration: `${duration}s` }}

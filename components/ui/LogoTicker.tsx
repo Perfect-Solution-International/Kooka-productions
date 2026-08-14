@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
-type LogoTickerProps = {
+type LogoTickerProps = Readonly<{
   items: readonly string[];
   className?: string;
   /** Reverses direction so stacked rails drift against each other. */
   reverse?: boolean;
-};
+}>;
 
 /**
  * Infinite horizontal marquee. The list is rendered twice and translated by
@@ -19,6 +19,7 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
       <ul
         className={cn(
           "flex w-max animate-ticker items-center gap-14 pr-14 sm:gap-20 sm:pr-20",
+          "hover:[animation-play-state:paused]",
           reverse && "[animation-direction:reverse]",
         )}
       >

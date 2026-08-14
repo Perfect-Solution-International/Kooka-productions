@@ -137,6 +137,16 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+
+    /*
+     * The blanket rule above would fast-forward the ticker to its -50% end
+     * state, parking the rail half a list to the left. Hold it at the start
+     * instead.
+     */
+    .animate-ticker {
+      animation: none !important;
+      transform: translate3d(0, 0, 0);
+    }
   }
 }
 
