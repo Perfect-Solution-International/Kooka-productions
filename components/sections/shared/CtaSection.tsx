@@ -7,9 +7,9 @@ import { contact } from "@/data/site";
 import { img, media } from "@/data/media";
 
 type CtaSectionProps = {
-  title?: string;
-  description?: string;
-  eyebrow?: string;
+  readonly title?: string;
+  readonly description?: string;
+  readonly eyebrow?: string;
 };
 
 export function CtaSection({

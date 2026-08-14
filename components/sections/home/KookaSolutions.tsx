@@ -24,7 +24,7 @@ export function KookaSolutions() {
           <div className="lg:sticky lg:top-32">
             <p className="kooka-eyebrow mb-6 flex items-center gap-3">
               <span className="h-px w-8 bg-kooka-amber/70" aria-hidden />
-              Kooka Solutions
+              <span>Kooka Solutions</span>
             </p>
 
             <h2 className="kooka-display text-[clamp(2.5rem,5vw,4.5rem)]">
@@ -39,7 +39,7 @@ export function KookaSolutions() {
               href="/services"
               className="group mt-10 inline-flex items-center gap-3 border border-white/20 px-7 py-4 font-display text-[0.7rem] font-semibold tracking-[0.2em] text-kooka-white uppercase transition-all duration-500 hover:border-kooka-amber hover:bg-kooka-amber hover:text-kooka-black"
             >
-              More Services
+              <span>More Services</span>
               <ArrowUpRight
                 className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
                 aria-hidden
@@ -123,7 +123,7 @@ export function KookaSolutions() {
                           className="absolute inset-0 bg-linear-to-t from-kooka-void/80 via-transparent to-transparent"
                         />
                         <span className="absolute right-5 bottom-4 inline-flex items-center gap-2 font-display text-[0.62rem] font-semibold tracking-[0.22em] text-kooka-white uppercase transition-colors duration-500 group-hover/panel:text-kooka-amber">
-                          Learn More
+                          <span>Learn More</span>
                           <ArrowUpRight
                             className="h-3.5 w-3.5 transition-transform duration-500 group-hover/panel:translate-x-1 group-hover/panel:-translate-y-1"
                             aria-hidden

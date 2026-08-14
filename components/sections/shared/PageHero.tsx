@@ -6,13 +6,13 @@ import { img } from "@/data/media";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  description?: string;
-  image: string;
-  children?: ReactNode;
-  className?: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly subtitle: string;
+  readonly description?: string;
+  readonly image: string;
+  readonly children?: ReactNode;
+  readonly className?: string;
 };
 
 export function PageHero({

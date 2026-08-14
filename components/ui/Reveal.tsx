@@ -20,11 +20,11 @@ const motionTags = {
 type Tag = keyof typeof motionTags;
 
 type RevealProps = {
-  children: ReactNode;
-  className?: string;
-  variants?: Variants;
-  delay?: number;
-  as?: Tag;
+  readonly children: ReactNode;
+  readonly className?: string;
+  readonly variants?: Variants;
+  readonly delay?: number;
+  readonly as?: Tag;
 };
 
 /** Single element that fades up once it enters the viewport. */

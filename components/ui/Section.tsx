@@ -2,13 +2,13 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type SectionProps = {
-  id?: string;
-  children: ReactNode;
-  className?: string;
-  containerClassName?: string;
+  readonly id?: string;
+  readonly children: ReactNode;
+  readonly className?: string;
+  readonly containerClassName?: string;
   /** Renders a warm ambient bloom behind the section content. */
-  bloom?: "none" | "top" | "center" | "bottom";
-  full?: boolean;
+  readonly bloom?: "none" | "top" | "center" | "bottom";
+  readonly full?: boolean;
 };
 
 const bloomPosition: Record<string, string> = {

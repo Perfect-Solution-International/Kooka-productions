@@ -22,6 +22,3 @@ export const producerPartners: ProducerPartner[] = [
   { name: "Interlock", glyph: "circle-slash" },
   { name: "Nextmove", glyph: "sparkle" },
 ];
-
-/** Name-only list, for the marquee treatment used on /about. */
-export const partners = producerPartners.map((partner) => partner.name);

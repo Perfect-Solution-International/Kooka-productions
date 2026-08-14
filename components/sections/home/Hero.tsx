@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, MoveDown, Play } from "lucide-react";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { img, media } from "@/data/media";
 import { site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -17,10 +18,12 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // `useReducedMotion` resolves to null on the server and to the real
-  // preference on the client, so branching the `style` prop on it would
-  // hydrate mismatched markup. Flatten the output ranges instead — the element
-  // keeps the same shape either way and simply stops moving.
+  /*
+   * The preference is false during the server render and the hydration render,
+   * so branching the `style` prop on it would hydrate mismatched markup.
+   * Flatten the output ranges instead — the element keeps the same shape either
+   * way and simply stops moving.
+   */
   const backdropY = useTransform(
     scrollYProgress,
     [0, 1],

@@ -5,8 +5,8 @@ export type Project = {
   year: string;
   summary: string;
   image: string;
-  /** `object-position` override where the crop needs help. */
   focus?: string;
+  href?: string;
 };
 
 /**
@@ -49,6 +49,7 @@ export const featuredProjects: Project[] = [
     summary:
       "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
     image: "/Highlighted/project-4.webp",
-    focus: "object-[50%_35%]",
+    /* Near-square source: bias the crop low so the performer stays framed. */
+    focus: "object-[50%_60%]",
   },
 ];

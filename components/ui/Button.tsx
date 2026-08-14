@@ -24,10 +24,10 @@ const sizes: Record<Size, string> = {
 };
 
 type SharedProps = {
-  variant?: Variant;
-  size?: Size;
-  className?: string;
-  children: ReactNode;
+  readonly variant?: Variant;
+  readonly size?: Size;
+  readonly className?: string;
+  readonly children: ReactNode;
 };
 
 /** Sheen that sweeps across the button on hover. */
@@ -89,10 +89,12 @@ export function Button({
   size = "md",
   className,
   children,
+  type = "button",
   ...props
 }: SharedProps & ComponentPropsWithoutRef<"button">) {
   return (
     <button
+      type={type}
       className={cn(base, variants[variant], sizes[size], className)}
       {...props}
     >

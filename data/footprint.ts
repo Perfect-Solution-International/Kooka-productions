@@ -5,83 +5,77 @@ export type FootprintItem = {
   title: string;
   blurb: string;
   image: string;
-  /** Grid emphasis — `wide` and `tall` items break the rhythm of the layout. */
-  span?: "wide" | "tall" | "default";
 };
 
 export const footprint: FootprintItem[] = [
   {
     slug: "corporate-events",
-    title: "Corporate Events",
+    title: "Business & Corporate Events",
     blurb:
-      "Board dinners, staff kick-offs and national roadshows delivered with the discretion a corporate calendar demands.",
+      "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
     image: media.summit,
-    span: "wide",
   },
   {
     slug: "conferences",
-    title: "Conferences",
+    title: "Conferences & Meetings",
     blurb:
-      "Multi-day, multi-room plenary programs with redundant vision and speaker management that never stalls the agenda.",
+      "Seamless multi-room AV, presentation systems, and hybrid delivery for conferences and business events.",
     image: media.conferenceHall,
   },
   {
     slug: "product-launches",
-    title: "Product Launches",
+    title: "Product Launch Events",
     blurb:
-      "Reveal moments engineered to the second — projection mapping, timecoded lighting and a room that holds its breath.",
+      "High-impact production designed to showcase products through immersive visuals, staging, and lighting.",
     image: media.projection,
   },
   {
     slug: "brand-activations",
     title: "Brand Activations",
     blurb:
-      "Pop-ups, retail takeovers and experiential builds that put a brand into a physical space people want to photograph.",
+      "Interactive production environments that connect brands with audiences through engaging and memorable experiences.",
     image: media.runway,
-    span: "tall",
   },
   {
     slug: "gala-nights",
-    title: "Gala Nights",
+    title: "Gala & Awards Nights",
     blurb:
-      "Awards, fundraisers and black-tie dinners with architectural lighting, clean audio and a show that runs to time.",
+      "Elegant staging, lighting, and AV solutions tailored for formal events and award presentations.",
     image: media.galaDinner,
   },
   {
     slug: "live-touring",
-    title: "Live Touring",
+    title: "Live Shows & Touring",
     blurb:
-      "Repeatable, truck-packed production packages that load in fast and look identical in every city on the run.",
+      "Scalable production systems for live performances, touring shows, and entertainment-driven events.",
     image: media.touring,
   },
   {
     slug: "festivals",
-    title: "Festivals",
+    title: "Festivals & Outdoor Events",
     blurb:
-      "Multi-stage outdoor builds with weather-rated LED, distributed delay systems and crew who thrive on site logistics.",
+      "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
     image: media.festivalNight,
-    span: "wide",
   },
   {
     slug: "sporting-events",
     title: "Sporting Events",
     blurb:
-      "Big-screen replay, PA coverage across open bowls and presentation staging built for fast turnarounds.",
+      "Production solutions enhancing live sporting experiences with screens, audio, and broadcast integration.",
     image: media.stadiumNight,
   },
   {
     slug: "community-gatherings",
-    title: "Community Gatherings",
+    title: "Community & Public Events",
     blurb:
-      "Council events, cultural festivals and local celebrations scaled sensibly to the budget without cutting safety.",
+      "Flexible AV and production setups designed for diverse audiences and open public environments.",
     image: media.community,
   },
   {
     slug: "worship-events",
-    title: "Worship Events",
+    title: "Worship & Church Events",
     blurb:
-      "Services, conferences and installations for houses of worship, with systems in-house volunteers can confidently run.",
+      "Reliable AV, lighting, and streaming solutions for worship services and community engagement.",
     image: media.worship,
-    span: "tall",
   },
 ];
