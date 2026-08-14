@@ -5,8 +5,8 @@ export type Project = {
   year: string;
   summary: string;
   image: string;
-  /** `object-position` override where the crop needs help. */
   focus?: string;
+  href?: string;
 };
 
 /**
