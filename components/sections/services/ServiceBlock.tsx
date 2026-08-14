@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,13 +7,12 @@ import { img } from "@/data/media";
 import type { Service } from "@/data/services";
 import { cn } from "@/lib/utils";
 
-export function ServiceBlock({
-  service,
-  index,
-}: {
-  service: Service;
-  index: number;
-}) {
+type ServiceBlockProps = {
+  readonly service: Service;
+  readonly index: number;
+};
+
+export function ServiceBlock({ service, index }: ServiceBlockProps) {
   const flipped = index % 2 === 1;
 
   return (
@@ -35,45 +33,16 @@ export function ServiceBlock({
                 <Icon name={service.icon} className="h-5 w-5" />
               </span>
               <span className="font-display text-xs tracking-[0.24em] text-kooka-muted uppercase">
-                {String(index + 1).padStart(2, "0")} / {service.short}
+                {String(index + 1).padStart(2, "0")}
               </span>
             </div>
 
             <h2 className="kooka-display mt-8 text-4xl sm:text-5xl">
               {service.title}
             </h2>
-            <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
-              {service.tagline}
-            </p>
             <p className="mt-6 text-base leading-relaxed text-kooka-mist">
               {service.description}
             </p>
-
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {service.capabilities.map((capability) => (
-                <li
-                  key={capability}
-                  className="flex items-start gap-3 text-sm leading-snug text-kooka-mist"
-                >
-                  <Check
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
-                    aria-hidden
-                  />
-                  {capability}
-                </li>
-              ))}
-            </ul>
-
-            <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.07] sm:grid-cols-3">
-              {service.specs.map((spec) => (
-                <div key={spec.label} className="bg-kooka-carbon p-4">
-                  <dt className="font-display text-[0.6rem] tracking-[0.22em] text-kooka-muted uppercase">
-                    {spec.label}
-                  </dt>
-                  <dd className="mt-2 text-sm text-kooka-white">{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
           </GlassCard>
         </Reveal>
 

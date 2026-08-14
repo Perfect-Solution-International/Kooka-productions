@@ -24,7 +24,7 @@ export function KookaSolutions() {
           <div className="lg:sticky lg:top-32">
             <p className="kooka-eyebrow mb-6 flex items-center gap-3">
               <span className="h-px w-8 bg-kooka-amber/70" aria-hidden />
-              Kooka Solutions
+              <span>Kooka Solutions</span>
             </p>
 
             <h2 className="kooka-display text-[clamp(2.5rem,5vw,4.5rem)]">

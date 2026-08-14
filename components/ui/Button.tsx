@@ -89,10 +89,12 @@ export function Button({
   size = "md",
   className,
   children,
+  type = "button",
   ...props
 }: SharedProps & ComponentPropsWithoutRef<"button">) {
   return (
     <button
+      type={type}
       className={cn(base, variants[variant], sizes[size], className)}
       {...props}
     >
