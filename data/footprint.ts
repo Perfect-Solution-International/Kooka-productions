@@ -5,8 +5,6 @@ export type FootprintItem = {
   title: string;
   blurb: string;
   image: string;
-  /** Grid emphasis — `wide` and `tall` items break the rhythm of the layout. */
-  span?: "wide" | "tall" | "default";
 };
 
 export const footprint: FootprintItem[] = [
@@ -16,7 +14,6 @@ export const footprint: FootprintItem[] = [
     blurb:
       "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
     image: media.summit,
-    span: "wide",
   },
   {
     slug: "conferences",
@@ -38,7 +35,6 @@ export const footprint: FootprintItem[] = [
     blurb:
       "Interactive production environments that connect brands with audiences through engaging and memorable experiences.",
     image: media.runway,
-    span: "tall",
   },
   {
     slug: "gala-nights",
@@ -60,7 +56,6 @@ export const footprint: FootprintItem[] = [
     blurb:
       "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
     image: media.festivalNight,
-    span: "wide",
   },
   {
     slug: "sporting-events",
@@ -82,6 +77,5 @@ export const footprint: FootprintItem[] = [
     blurb:
       "Reliable AV, lighting, and streaming solutions for worship services and community engagement.",
     image: media.worship,
-    span: "tall",
   },
 ];
