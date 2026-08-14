@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { PartnerLockup } from "@/components/ui/PartnerLockup";
 import { LogoTicker } from "@/components/ui/LogoTicker";
-import { TextMarquee } from "@/components/ui/TextMarquee";
 import { Reveal } from "@/components/ui/Reveal";
 import { localMedia } from "@/data/media";
 import { partners } from "@/data/partners";
@@ -43,14 +42,13 @@ export function TrustedPartners() {
           </h2>
 
           <PartnerLockup className="mt-10" />
+
+          <p className="mx-auto mt-10 max-w-3xl text-center text-base leading-relaxed text-kooka-mist sm:text-lg">
+            Delivering production solutions across Melbourne’s leading venues,
+            brands, and live event spaces.
+          </p>
         </Reveal>
-
       </div>
-
-      {/* Subtext runs as its own rail, drifting against the logo strip below */}
-      <Reveal className="relative mt-20">
-        <TextMarquee text="Delivering production solutions across Melbourne’s leading venues, brands, and live event spaces." />
-      </Reveal>
 
       {/* Full-bleed rail so the marquee runs past the container edges */}
       <Reveal className="relative mt-12">
