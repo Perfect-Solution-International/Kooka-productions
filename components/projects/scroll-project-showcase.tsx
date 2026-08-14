@@ -56,13 +56,12 @@ function resolveIndex(
 }
 
 /**
- * Vertical padding on the pin: the top clears the fixed header, the bottom is
- * breathing room under the plate. The measured heading height already carries
- * the heading's own bottom margin, so no separate gap is subtracted here —
- * doing so would double-count it and shrink the plate.
+ * Vertical breathing room around the plate inside the pin. The heading is not
+ * part of this budget — it scrolls away above the pin, so the plate has the
+ * whole pinned viewport to work with.
  */
-const PIN_PADDING_DESKTOP = 128;
-const PIN_PADDING_MOBILE = 120;
+const PIN_PADDING_DESKTOP = 80;
+const PIN_PADDING_MOBILE = 64;
 /** The horizontal progress rail that sits under the plate below `lg`. */
 const MOBILE_RAIL = 52;
 /**
@@ -74,20 +73,18 @@ const COMPACT_PLATE_HEIGHT = 420;
 
 type PlateMetrics = {
   readonly viewportHeight: number;
-  readonly headingHeight: number;
   readonly isDesktop: boolean;
   readonly isSmall: boolean;
 };
 
 /**
- * Caps the plate's width to `height * ratio`, where the height is whatever the
- * pin has left after the heading. The plate's aspect ratio is width-derived
- * while the pin's height is viewport-derived, so without this the plate
- * overflows the pin on short windows and its overlaid copy gets clipped.
+ * Caps the plate's width to `height * ratio`, where the height is the pinned
+ * viewport minus its padding. The plate's aspect ratio is width-derived while
+ * the pin's height is viewport-derived, so without this the plate overflows
+ * the pin on short windows and its overlaid copy gets clipped.
  */
 function resolvePlate({
   viewportHeight,
-  headingHeight,
   isDesktop,
   isSmall,
 }: PlateMetrics): { maxWidth: number; compact: boolean } {
@@ -95,7 +92,7 @@ function resolvePlate({
 
   const padding = isDesktop ? PIN_PADDING_DESKTOP : PIN_PADDING_MOBILE;
   const rail = isDesktop ? 0 : MOBILE_RAIL;
-  const height = viewportHeight - headingHeight - padding - rail;
+  const height = viewportHeight - padding - rail;
 
   if (height <= 0) return { maxWidth: 0, compact: false };
 
@@ -121,26 +118,7 @@ export function ScrollProjectShowcase({
   const [viewportHeight, setViewportHeight] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isSmall, setIsSmall] = useState(false);
-  const [headingHeight, setHeadingHeight] = useState(0);
   const reduced = useReducedMotion();
-
-  /*
-   * The heading shares the pin's fixed height with the plate, so the plate can
-   * only have whatever it leaves behind. Measured rather than assumed, since
-   * the heading wraps to a different number of lines at each breakpoint.
-   */
-  useEffect(() => {
-    const node = headingRef.current;
-    if (!node) return;
-
-    const observer = new ResizeObserver(([entry]) => {
-      setHeadingHeight(entry.contentRect.height);
-    });
-
-    observer.observe(node);
-
-    return () => observer.disconnect();
-  }, [heading]);
 
   useEffect(() => {
     const desktop = window.matchMedia(DESKTOP_QUERY);
@@ -207,7 +185,6 @@ export function ScrollProjectShowcase({
 
   const { maxWidth: plateMaxWidth, compact: isCompactPlate } = resolvePlate({
     viewportHeight,
-    headingHeight,
     isDesktop,
     isSmall,
   });
@@ -236,34 +213,35 @@ export function ScrollProjectShowcase({
       }
     >
       {/*
+        The heading scrolls away above the pin rather than sitting inside it.
+        Sharing the pin's fixed height meant the plate could only use whatever
+        the heading left over, which shrank it to roughly half the container
+        width on short windows.
+      */}
+      {heading ? (
+        <div ref={headingRef} className="kooka-container pb-10 lg:pb-12">
+          {heading}
+        </div>
+      ) : null}
+
+      {/*
         The pin is sized from the same measured viewport height as the track,
         so it releases exactly as scroll progress reaches 1.
       */}
       <div
         className={cn(
-          /*
-            Extra top padding clears the fixed header, which overlays the pin
-            and would otherwise cut the top of the heading.
-          */
-          "sticky top-0 flex items-center justify-center overflow-hidden pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-24 lg:pb-8",
+          "sticky top-0 flex items-center justify-center overflow-hidden py-8 lg:py-10",
           viewportHeight === 0 && "h-dvh",
         )}
         style={{ height: viewportHeight > 0 ? viewportHeight : undefined }}
       >
         <div className="kooka-container flex max-h-full w-full flex-col justify-center">
-          {heading ? (
-            <div ref={headingRef} className="mb-6 shrink-0 lg:mb-7">
-              {heading}
-            </div>
-          ) : null}
-
           {/*
             The plate's ratio is width-derived while the pin's height is
             viewport-derived, so on a short or wide window the ratio alone
             overflows the pin and `overflow-hidden` clips the overlaid copy.
             This wrapper caps the plate's width to `plateHeight * ratio`, so
-            the plate shrinks to the height actually left after the heading
-            while keeping its aspect ratio intact.
+            the plate shrinks to fit the pin while keeping its ratio intact.
           */}
           <div
             className="mx-auto w-full min-h-0"

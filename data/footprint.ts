@@ -12,31 +12,31 @@ export type FootprintItem = {
 export const footprint: FootprintItem[] = [
   {
     slug: "corporate-events",
-    title: "Corporate Events",
+    title: "Business & Corporate Events",
     blurb:
-      "Board dinners, staff kick-offs and national roadshows delivered with the discretion a corporate calendar demands.",
+      "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
     image: media.summit,
     span: "wide",
   },
   {
     slug: "conferences",
-    title: "Conferences",
+    title: "Conferences & Meetings",
     blurb:
-      "Multi-day, multi-room plenary programs with redundant vision and speaker management that never stalls the agenda.",
+      "Seamless multi-room AV, presentation systems, and hybrid delivery for conferences and business events.",
     image: media.conferenceHall,
   },
   {
     slug: "product-launches",
-    title: "Product Launches",
+    title: "Product Launch Events",
     blurb:
-      "Reveal moments engineered to the second — projection mapping, timecoded lighting and a room that holds its breath.",
+      "High-impact production designed to showcase products through immersive visuals, staging, and lighting.",
     image: media.projection,
   },
   {
     slug: "brand-activations",
     title: "Brand Activations",
     blurb:
-      "Pop-ups, retail takeovers and experiential builds that put a brand into a physical space people want to photograph.",
+      "Interactive production environments that connect brands with audiences through engaging and memorable experiences.",
     image: media.runway,
     span: "tall",
   },
