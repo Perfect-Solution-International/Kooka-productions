@@ -42,23 +42,23 @@ export const footprint: FootprintItem[] = [
   },
   {
     slug: "gala-nights",
-    title: "Gala Nights",
+    title: "Gala & Awards Nights",
     blurb:
-      "Awards, fundraisers and black-tie dinners with architectural lighting, clean audio and a show that runs to time.",
+      "Elegant staging, lighting, and AV solutions tailored for formal events and award presentations.",
     image: media.galaDinner,
   },
   {
     slug: "live-touring",
-    title: "Live Touring",
+    title: "Live Shows & Touring",
     blurb:
-      "Repeatable, truck-packed production packages that load in fast and look identical in every city on the run.",
+      "Scalable production systems for live performances, touring shows, and entertainment-driven events.",
     image: media.touring,
   },
   {
     slug: "festivals",
-    title: "Festivals",
+    title: "Festivals & Outdoor Events",
     blurb:
-      "Multi-stage outdoor builds with weather-rated LED, distributed delay systems and crew who thrive on site logistics.",
+      "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
     image: media.festivalNight,
     span: "wide",
   },
@@ -66,21 +66,21 @@ export const footprint: FootprintItem[] = [
     slug: "sporting-events",
     title: "Sporting Events",
     blurb:
-      "Big-screen replay, PA coverage across open bowls and presentation staging built for fast turnarounds.",
+      "Production solutions enhancing live sporting experiences with screens, audio, and broadcast integration.",
     image: media.stadiumNight,
   },
   {
     slug: "community-gatherings",
-    title: "Community Gatherings",
+    title: "Community & Public Events",
     blurb:
-      "Council events, cultural festivals and local celebrations scaled sensibly to the budget without cutting safety.",
+      "Flexible AV and production setups designed for diverse audiences and open public environments.",
     image: media.community,
   },
   {
     slug: "worship-events",
-    title: "Worship Events",
+    title: "Worship & Church Events",
     blurb:
-      "Services, conferences and installations for houses of worship, with systems in-house volunteers can confidently run.",
+      "Reliable AV, lighting, and streaming solutions for worship services and community engagement.",
     image: media.worship,
     span: "tall",
   },

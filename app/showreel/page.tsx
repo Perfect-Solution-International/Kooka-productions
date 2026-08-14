@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { FootprintShowcase } from "@/components/sections/showreel/FootprintShowcase";
+import { FootprintGrid } from "@/components/sections/footprint/FootprintGrid";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { Section } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { maskUp } from "@/lib/motion";
+
+const tagline = "Events, Environments & Experiences We Deliver";
 
 const intro =
   "From corporate stages to large-scale public events, we deliver tailored production solutions across diverse environments and audiences.";
@@ -39,7 +41,10 @@ export default function ShowreelPage() {
             </h1>
 
             <Reveal className="lg:col-span-5 lg:pb-4">
-              <p className="max-w-md text-sm leading-relaxed text-kooka-mist sm:text-base lg:ml-auto lg:text-right">
+              <p className="font-display text-[0.68rem] tracking-[0.22em] text-kooka-amber uppercase lg:text-right">
+                {tagline}
+              </p>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-kooka-mist sm:text-base lg:ml-auto lg:text-right">
                 {intro}
               </p>
             </Reveal>
@@ -48,7 +53,7 @@ export default function ShowreelPage() {
       </section>
 
       <Section className="pt-0">
-        <FootprintShowcase />
+        <FootprintGrid />
       </Section>
 
       <CtaSection
