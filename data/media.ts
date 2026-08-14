@@ -75,6 +75,8 @@ export type MediaKey = keyof typeof media;
 /** Kooka's own stills served straight from `public/` — not Unsplash, so no `img()`. */
 export const localMedia = {
   whyChooseBackdrop: "/Choose/BTC-747.jpg",
+  /** Folder name carries spaces and an ampersand — both must be encoded. */
+  trustedBackdrop: "/Venues%20%26%20Events/venue.jpg",
 } as const;
 
 /**

@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
     // `/_next/image`, which timed out under a page's worth of parallel images.
     loader: "custom",
     loaderFile: "./lib/imageLoader.ts",
-    // Next 16 defaults to [75] only; the hero art is served sharper.
-    qualities: [75, 90],
+    // Next 16 defaults to [75] only; hero art and backdrop art use sharper values.
+    qualities: [75, 82, 90],
   },
 };
 

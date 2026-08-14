@@ -1,28 +1,27 @@
-import { media } from "./media";
-
-/** Worldwide producer partners shown in the infinite logo ticker. */
-export const partners = [
-  "Segment",
-  "Luminous",
-  "Lightbox",
-  "Sphonic",
-  "Interlock",
-  "Nextmove",
-] as const;
-
-export type VenueTile = {
-  /** Label that fades in over the tile on hover. */
+export type ProducerPartner = {
+  /** Set as supplied — casing is part of each mark. */
   name: string;
-  image: string;
-  /** Mixed-size cinematic grid emphasis — two tiles run large. */
-  size: "sm" | "lg";
+  /** lucide glyph standing in until real logo files arrive. */
+  glyph:
+    | "moon"
+    | "sun"
+    | "box"
+    | "circle-x"
+    | "layers"
+    | "circle-slash"
+    | "sparkle";
 };
 
-export const venues: VenueTile[] = [
-  { name: "Corporate Event", image: media.conferenceHall, size: "lg" },
-  { name: "Festival Production", image: media.festival, size: "sm" },
-  { name: "Wedding Production", image: media.weddingTable, size: "sm" },
-  { name: "LED Screen Setup", image: media.ledWall, size: "lg" },
-  { name: "Lighting Design", image: media.lightBeams, size: "sm" },
-  { name: "Live Production", image: media.stageRig, size: "sm" },
+/** Worldwide producer partners shown as a static logo lockup. */
+export const producerPartners: ProducerPartner[] = [
+  { name: "Segment", glyph: "moon" },
+  { name: "luminous", glyph: "sun" },
+  { name: "Lightbox", glyph: "box" },
+  { name: "Sphonic", glyph: "circle-x" },
+  { name: "Luminous", glyph: "layers" },
+  { name: "Interlock", glyph: "circle-slash" },
+  { name: "Nextmove", glyph: "sparkle" },
 ];
+
+/** Name-only list, for the marquee treatment used on /about. */
+export const partners = producerPartners.map((partner) => partner.name);
