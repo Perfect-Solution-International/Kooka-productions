@@ -4,19 +4,19 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useSpring,
 } from "framer-motion";
 import type { PointerEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 type TiltCardProps = {
-  children: ReactNode;
-  className?: string;
+  readonly children: ReactNode;
+  readonly className?: string;
   /** Maximum rotation in degrees on each axis. */
-  intensity?: number;
+  readonly intensity?: number;
   /** Adds a light source that follows the cursor across the surface. */
-  glare?: boolean;
+  readonly glare?: boolean;
 };
 
 const spring = { stiffness: 220, damping: 22, mass: 0.6 };

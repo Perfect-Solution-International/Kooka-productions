@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type GlassCardProps = {
-  children: ReactNode;
-  className?: string;
+  readonly children: ReactNode;
+  readonly className?: string;
   /** Adds the amber edge light that lifts on hover. */
-  glow?: boolean;
-  as?: "div" | "article" | "li";
+  readonly glow?: boolean;
+  readonly as?: "div" | "article" | "li";
 };
 
 export function GlassCard({

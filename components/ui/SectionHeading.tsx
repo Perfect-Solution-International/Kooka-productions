@@ -4,13 +4,13 @@ import { Reveal, RevealGroup, RevealItem } from "./Reveal";
 import { fadeUp } from "@/lib/motion";
 
 type SectionHeadingProps = {
-  eyebrow?: string;
-  title: ReactNode;
-  tagline?: string;
-  description?: string;
-  align?: "left" | "center";
-  className?: string;
-  action?: ReactNode;
+  readonly eyebrow?: string;
+  readonly title: ReactNode;
+  readonly tagline?: string;
+  readonly description?: string;
+  readonly align?: "left" | "center";
+  readonly className?: string;
+  readonly action?: ReactNode;
 };
 
 export function SectionHeading({

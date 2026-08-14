@@ -41,7 +41,7 @@ export function TrustedPartners() {
             <span className="block">Producer Partner</span>
           </h2>
 
-          <PartnerLockup className="mt-10" />
+          <PartnerLockup marquee className="mt-10" />
 
           <p className="mx-auto mt-10 max-w-3xl text-center text-base leading-relaxed text-kooka-mist sm:text-lg">
             Delivering production solutions across Melbourne’s leading venues,
