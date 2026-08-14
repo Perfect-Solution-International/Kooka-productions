@@ -33,7 +33,7 @@ export function WhyChooseKooka() {
 
       <div className="kooka-container relative grid gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal variants={fadeLeft} className="lg:col-span-5">
-          <h2 className="kooka-display text-[clamp(2.5rem,5vw,4.25rem)]">
+          <h2 className="kooka-display text-[clamp(1.875rem,6vw,4.25rem)]">
             Why Choose Kooka
           </h2>
         </Reveal>

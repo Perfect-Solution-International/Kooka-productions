@@ -33,7 +33,8 @@ export function PortfolioGrid() {
   return (
     <div id="portfolio" className="scroll-mt-32">
       {/* Filter pills */}
-      <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
+      {/* Bleeds to the container gutter so the rail scrolls edge to edge. */}
+      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
         {showreelCategories.map((category) => (
           <button
             key={category}
@@ -41,7 +42,7 @@ export function PortfolioGrid() {
             onClick={() => setActive(category)}
             aria-pressed={active === category}
             className={cn(
-              "relative shrink-0 rounded-full border px-5 py-2.5 font-display text-[0.66rem] tracking-[0.18em] uppercase transition-colors duration-500",
+              "relative inline-flex min-h-11 shrink-0 items-center rounded-full border px-5 font-display text-[0.66rem] tracking-[0.18em] uppercase transition-colors duration-500",
               active === category
                 ? "border-kooka-amber/60 text-kooka-amber"
                 : "border-white/10 bg-white/[0.03] text-kooka-mist hover:border-white/25 hover:text-kooka-white",
@@ -102,7 +103,7 @@ export function PortfolioGrid() {
                   {item.category}
                 </p>
                 <h3 className="kooka-display mt-2 text-2xl">{item.title}</h3>
-                <p className="mt-2 text-xs text-kooka-mist opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <p className="kooka-hover-reveal mt-2 text-xs text-kooka-mist">
                   {item.meta}
                 </p>
               </div>

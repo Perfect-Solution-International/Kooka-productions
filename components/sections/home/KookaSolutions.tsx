@@ -27,7 +27,7 @@ export function KookaSolutions() {
               <span>Kooka Solutions</span>
             </p>
 
-            <h2 className="kooka-display text-[clamp(2.5rem,5vw,4.5rem)]">
+            <h2 className="kooka-display text-[clamp(1.875rem,6vw,4.5rem)]">
               Technical Artistry. Zero Compromise.
             </h2>
 

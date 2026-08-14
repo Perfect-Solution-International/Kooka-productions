@@ -215,17 +215,62 @@
     opacity: 1;
   }
 
-  /* Warm ambient bloom placed behind hero and CTA blocks */
+  /*
+   * Warm ambient bloom placed behind hero and CTA blocks.
+   *
+   * The blur radius is the expensive part: a 120px radius over a half-viewport
+   * circle is a repaint a mid-range phone cannot afford, so mobile gets a
+   * tighter one and only tablet and up pay for the full spread.
+   */
   .kooka-bloom {
     position: absolute;
     border-radius: 9999px;
-    filter: blur(120px);
+    filter: blur(64px);
     pointer-events: none;
     background: radial-gradient(
       circle,
       color-mix(in oklab, var(--color-kooka-ember) 45%, transparent) 0%,
       transparent 70%
     );
+  }
+  @media (min-width: 768px) {
+    .kooka-bloom {
+      filter: blur(120px);
+    }
+  }
+
+  /*
+   * Detail that fades in under the cursor on pointer devices. Touch has no
+   * hover state, so the same copy is simply always visible there — nothing
+   * meaningful is allowed to hide behind a hover the device cannot produce.
+   */
+  .kooka-hover-reveal {
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-kooka);
+  }
+  .group:hover .kooka-hover-reveal,
+  .group:focus-within .kooka-hover-reveal {
+    opacity: 1;
+  }
+
+  /* Hairline rule that draws itself in on hover. */
+  .kooka-hover-rule {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-kooka);
+  }
+  .group:hover .kooka-hover-rule,
+  .group:focus-within .kooka-hover-rule {
+    transform: scaleX(1);
+  }
+
+  @media (hover: none) {
+    .kooka-hover-reveal {
+      opacity: 1;
+    }
+    .kooka-hover-rule {
+      transform: scaleX(1);
+    }
   }
 
   /* Bottom-anchored scrim for image cards */
@@ -249,20 +294,34 @@
    ========================================================================== */
 
 @layer utilities {
+  /*
+   * Mobile-first gutters. 320px devices get the narrowest inset so display
+   * type keeps its measure; the `env()` term only contributes in landscape on
+   * notched hardware, where the physical cutout eats into the line box.
+   */
   .kooka-container {
     width: 100%;
     margin-inline: auto;
     max-width: 76rem;
-    padding-inline: 1.25rem;
+    padding-inline: max(1rem, env(safe-area-inset-left))
+      max(1rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 480px) {
+    .kooka-container {
+      padding-inline: max(1.25rem, env(safe-area-inset-left))
+        max(1.25rem, env(safe-area-inset-right));
+    }
   }
   @media (min-width: 768px) {
     .kooka-container {
-      padding-inline: 2.5rem;
+      padding-inline: max(2.5rem, env(safe-area-inset-left))
+        max(2.5rem, env(safe-area-inset-right));
     }
   }
   @media (min-width: 1280px) {
     .kooka-container {
-      padding-inline: 3.5rem;
+      padding-inline: max(3.5rem, env(safe-area-inset-left))
+        max(3.5rem, env(safe-area-inset-right));
     }
   }
 

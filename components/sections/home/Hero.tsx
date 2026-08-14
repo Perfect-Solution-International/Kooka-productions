@@ -8,31 +8,37 @@ import { ButtonLink } from "@/components/ui/Button";
 import { img, media } from "@/data/media";
 import { site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
+import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
+  const touch = useMediaQuery(TOUCH_QUERY);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
   /*
-   * The preference is false during the server render and the hydration render,
-   * so branching the `style` prop on it would hydrate mismatched markup.
-   * Flatten the output ranges instead — the element keeps the same shape either
-   * way and simply stops moving.
+   * Neither preference is known during the server render or the hydration
+   * render, so branching the `style` prop on them would hydrate mismatched
+   * markup. Flatten the output ranges instead — the element keeps the same
+   * shape either way and simply moves less, or not at all.
+   *
+   * Touch gets a shallower drift and no scale: scaling a full-bleed backdrop
+   * repaints the largest layer on the page on every scroll frame, which is the
+   * single most expensive thing this section can do on a phone.
    */
   const backdropY = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0%", reduceMotion ? "0%" : "18%"],
+    ["0%", reduceMotion ? "0%" : (touch ? "8%" : "18%")],
   );
   const backdropScale = useTransform(
     scrollYProgress,
     [0, 1],
-    [1, reduceMotion ? 1 : 1.12],
+    [1, reduceMotion || touch ? 1 : 1.12],
   );
   const contentOpacity = useTransform(
     scrollYProgress,
@@ -72,7 +78,7 @@ export function Hero() {
       />
       <div
         aria-hidden
-        className="kooka-bloom top-1/4 -left-32 h-[34rem] w-[34rem] animate-glow-pulse"
+        className="kooka-bloom top-1/4 -left-24 h-[18rem] w-[18rem] animate-glow-pulse sm:-left-32 sm:h-[34rem] sm:w-[34rem]"
       />
 
       <motion.div
@@ -85,7 +91,11 @@ export function Hero() {
           variants={staggerContainer(0.12, 0.15)}
           className="mx-auto max-w-4xl text-center"
         >
-          <h1 className="kooka-display text-[clamp(2.75rem,9vw,7.5rem)]">
+          {/*
+            The floor is set by the longest line, `Captivate.`, against the
+            320px gutter box — anything taller than this overhangs it.
+          */}
+          <h1 className="kooka-display text-[clamp(2.25rem,10.5vw,7.5rem)]">
             {["Concept.", "Create.", "Captivate."].map((word, index) => (
               <span key={word} className="block overflow-hidden py-[0.06em]">
                 <motion.span
@@ -107,7 +117,7 @@ export function Hero() {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
             }}
-            className="mt-8 font-display text-lg font-medium tracking-[0.12em] text-kooka-flare uppercase sm:text-xl"
+            className="mt-7 font-display text-sm font-medium tracking-[0.1em] text-kooka-flare uppercase sm:mt-8 sm:text-lg sm:tracking-[0.12em] lg:text-xl"
           >
             {site.supportLine}
           </motion.p>
@@ -127,13 +137,18 @@ export function Hero() {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_KOOKA } },
             }}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4"
           >
-            <ButtonLink href="/showreel" size="lg">
+            <ButtonLink href="/showreel" size="lg" className="w-full sm:w-auto">
               <Play className="h-4 w-4 fill-current" aria-hidden />
               The Reel
             </ButtonLink>
-            <ButtonLink href="/showreel#portfolio" variant="secondary" size="lg">
+            <ButtonLink
+              href="/showreel#portfolio"
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               Portfolio
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1"

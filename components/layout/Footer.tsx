@@ -34,8 +34,12 @@ export function Footer() {
       />
 
       <div className="kooka-container relative py-12 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-4">
+        {/*
+          Stacked on a phone, then the two short link columns pair off before
+          the full twelve-column rail takes over.
+        */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-4">
             <Wordmark className="text-lg" />
             <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
               {site.tagline}
@@ -52,7 +56,7 @@ export function Footer() {
                     target="_blank"
                     rel="noreferrer noopener"
                     aria-label={social.label}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-kooka-mist transition-all duration-500 hover:border-kooka-amber/60 hover:bg-kooka-amber/10 hover:text-kooka-amber"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-kooka-mist transition-all duration-500 hover:border-kooka-amber/60 hover:bg-kooka-amber/10 hover:text-kooka-amber"
                   >
                     <SocialIcon name={social.icon} className="h-4 w-4" />
                   </a>
@@ -61,14 +65,18 @@ export function Footer() {
             </ul>
           </div>
 
+          {/*
+            Rows are full-height tap targets on touch and collapse back to a
+            tight list once a pointer is driving.
+          */}
           <nav aria-label="Quick links" className="lg:col-span-2">
-            <h2 className="kooka-eyebrow mb-4">Explore</h2>
-            <ul className="space-y-2">
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
+            <ul className="lg:space-y-2">
               {footerQuickLinks.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber"
+                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
                   >
                     {item.label}
                   </Link>
@@ -78,13 +86,13 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Services" className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-4">Solutions</h2>
-            <ul className="space-y-2">
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
+            <ul className="lg:space-y-2">
               {footerServices.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`/services#${service.slug}`}
-                    className="text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber"
+                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
                   >
                     {service.title}
                   </Link>
@@ -93,7 +101,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/services"
-                  className="text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare"
+                  className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
                 >
                   All Solutions
                 </Link>
@@ -101,16 +109,16 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-4">Contact</h2>
-            <ul className="space-y-3 text-sm">
+          <div className="sm:col-span-2 lg:col-span-3">
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
+            <ul className="space-y-1 text-sm lg:space-y-3">
               <li>
                 <a
                   href={contact.phoneHref}
-                  className="group flex items-start gap-3 text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
+                  className="group flex min-h-11 items-center gap-3 text-kooka-mist transition-colors duration-300 hover:text-kooka-white lg:min-h-0 lg:items-start"
                 >
                   <Phone
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
+                    className="h-4 w-4 shrink-0 text-kooka-amber lg:mt-0.5"
                     aria-hidden
                   />
                   {contact.phone}
@@ -119,10 +127,10 @@ export function Footer() {
               <li>
                 <a
                   href={contact.emailHref}
-                  className="group flex items-start gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
+                  className="group flex min-h-11 items-center gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white lg:min-h-0 lg:items-start"
                 >
                   <Mail
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
+                    className="h-4 w-4 shrink-0 text-kooka-amber lg:mt-0.5"
                     aria-hidden
                   />
                   {contact.email}

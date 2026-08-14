@@ -64,7 +64,7 @@ export default function WhereWeWorkPage() {
           {regions.map((region) => (
             <RevealItem
               key={region.city}
-              className="group flex items-center gap-4 bg-kooka-black p-7 transition-colors duration-500 hover:bg-kooka-carbon"
+              className="group flex items-center gap-4 bg-kooka-black p-5 transition-colors duration-500 hover:bg-kooka-carbon sm:p-7"
             >
               <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-amber transition-all duration-500 group-hover:border-kooka-amber/50 group-hover:bg-kooka-amber/10">
                 <MapPin className="h-4 w-4" aria-hidden />

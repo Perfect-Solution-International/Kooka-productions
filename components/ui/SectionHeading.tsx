@@ -39,14 +39,15 @@ export function SectionHeading({
         {eyebrow ? (
           <RevealItem
             as="p"
-            className={cn("kooka-eyebrow mb-5 flex items-center gap-3", centered && "justify-center")}
+            className={cn("kooka-eyebrow mb-4 flex items-center gap-3 sm:mb-5", centered && "justify-center")}
           >
-            <span className="h-px w-8 bg-kooka-amber/70" aria-hidden />
+            <span className="h-px w-6 shrink-0 bg-kooka-amber/70 sm:w-8" aria-hidden />
             {eyebrow}
           </RevealItem>
         ) : null}
 
-        <RevealItem as="h2" className="kooka-display text-4xl sm:text-5xl lg:text-6xl">
+        {/* Scales continuously rather than stepping, so no width is left short. */}
+        <RevealItem as="h2" className="kooka-display text-[clamp(1.875rem,7vw,3.75rem)]">
           {title}
         </RevealItem>
 

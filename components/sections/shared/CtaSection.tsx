@@ -38,16 +38,16 @@ export function CtaSection({
           />
           <div
             aria-hidden
-            className="kooka-bloom -top-24 right-0 h-[28rem] w-[28rem] animate-glow-pulse"
+            className="kooka-bloom -top-16 right-0 h-[16rem] w-[16rem] animate-glow-pulse sm:-top-24 sm:h-[28rem] sm:w-[28rem]"
           />
 
-          <RevealGroup className="relative px-7 py-16 sm:px-14 sm:py-20 lg:px-20 lg:py-24">
+          <RevealGroup className="relative px-5 py-12 sm:px-14 sm:py-20 lg:px-20 lg:py-24">
             <RevealItem as="p" className="kooka-eyebrow mb-6">
               {eyebrow}
             </RevealItem>
             <RevealItem
               as="h2"
-              className="kooka-display max-w-3xl text-4xl sm:text-5xl lg:text-6xl"
+              className="kooka-display max-w-3xl text-[clamp(1.875rem,7vw,3.75rem)]"
             >
               {title}
             </RevealItem>
@@ -58,12 +58,21 @@ export function CtaSection({
               {description}
             </RevealItem>
 
-            <RevealItem className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <ButtonLink href={contact.quoteHref} size="lg">
+            <RevealItem className="mt-9 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4">
+              <ButtonLink
+                href={contact.quoteHref}
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 <Mail className="h-4 w-4" aria-hidden />
                 Get a Quote
               </ButtonLink>
-              <ButtonLink href={contact.contactHref} variant="secondary" size="lg">
+              <ButtonLink
+                href={contact.contactHref}
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 Contact Us
                 <ArrowUpRight
                   className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"

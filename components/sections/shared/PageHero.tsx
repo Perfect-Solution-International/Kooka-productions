@@ -27,7 +27,7 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative isolate flex min-h-[68svh] items-end overflow-hidden pt-36 pb-16 sm:min-h-[74svh] sm:pb-20",
+        "relative isolate flex min-h-[68svh] items-end overflow-hidden pt-32 pb-14 sm:min-h-[74svh] sm:pt-36 sm:pb-20",
         className,
       )}
     >
@@ -46,17 +46,17 @@ export function PageHero({
       />
       <div
         aria-hidden
-        className="kooka-bloom bottom-0 -left-24 h-[26rem] w-[26rem] animate-glow-pulse"
+        className="kooka-bloom bottom-0 -left-16 h-[16rem] w-[16rem] animate-glow-pulse sm:-left-24 sm:h-[26rem] sm:w-[26rem]"
       />
 
       <div className="kooka-container relative">
         <RevealGroup className="max-w-4xl" stagger={0.1}>
-          <RevealItem as="p" className="kooka-eyebrow mb-7 flex items-center gap-3">
-            <span className="h-px w-10 bg-kooka-amber/70" aria-hidden />
+          <RevealItem as="p" className="kooka-eyebrow mb-5 flex items-center gap-3 sm:mb-7">
+            <span className="h-px w-6 shrink-0 bg-kooka-amber/70 sm:w-10" aria-hidden />
             {eyebrow}
           </RevealItem>
 
-          <h1 className="kooka-display overflow-hidden text-[clamp(2.5rem,7.5vw,6rem)]">
+          <h1 className="kooka-display overflow-hidden text-[clamp(2rem,8.5vw,6rem)]">
             <RevealItem as="span" variants={maskUp} className="block">
               {title}
             </RevealItem>
@@ -64,7 +64,7 @@ export function PageHero({
 
           <RevealItem
             as="p"
-            className="mt-6 font-display text-lg font-medium tracking-[0.12em] text-kooka-flare uppercase sm:text-xl"
+            className="mt-5 font-display text-sm font-medium tracking-[0.1em] text-kooka-flare uppercase sm:mt-6 sm:text-lg sm:tracking-[0.12em] lg:text-xl"
           >
             {subtitle}
           </RevealItem>

@@ -60,6 +60,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  /*
+   * Lets the fixed header and the mobile sheet run under the notch while the
+   * `env(safe-area-inset-*)` terms in `globals.css` keep the content clear of
+   * it. Pinch zoom stays enabled — capping it fails WCAG 1.4.4.
+   */
+  viewportFit: "cover",
   themeColor: "#0a0a0a",
   colorScheme: "dark",
 };

@@ -18,7 +18,11 @@ export function TrustedPartners() {
         fill
         quality={82}
         sizes="100vw"
-        priority
+        /*
+         * Six sections below the fold. Preloading it competed with the hero for
+         * the first connections on a phone, which is exactly the wrong trade.
+         */
+        loading="lazy"
         // Local asset: the custom loader passes it through untouched, so there
         // is no width-derived srcset to generate.
         unoptimized
@@ -35,7 +39,7 @@ export function TrustedPartners() {
       <div className="kooka-container relative">
         <Reveal>
           {/* Small, tracked, two-line label — the section's only heading */}
-          <h2 className="kooka-display text-center text-[clamp(2.5rem,5vw,4.25rem)]">
+          <h2 className="kooka-display text-center text-[clamp(1.875rem,6vw,4.25rem)]">
             <span className="block">Trusted By Worldwide</span>
             <span className="block">Producer Partner</span>
           </h2>
