@@ -35,7 +35,7 @@ export default function ShowreelPage() {
                   Kooka
                 </RevealItem>
                 <RevealItem as="span" variants={maskUp} className="block">
-                  Footprint.
+                  Footprint
                 </RevealItem>
               </RevealGroup>
             </h1>
