@@ -20,7 +20,13 @@ export function Header() {
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 24);
+    /*
+     * Fires on every scroll frame. Comparing first keeps the state write — and
+     * the render pass React schedules around it — to the two frames that
+     * actually cross the threshold.
+     */
+    const next = latest > 24;
+    setScrolled((current) => (current === next ? current : next));
   });
 
   // Lock background scroll while the sheet is open.
@@ -60,7 +66,8 @@ export function Header() {
           <Link
             href="/"
             aria-label={`${site.name} — home`}
-            className="shrink-0 transition-opacity duration-300 hover:opacity-80"
+            /* `min-h` keeps the mark a full-size target next to the menu. */
+            className="flex min-h-11 shrink-0 items-center transition-opacity duration-300 hover:opacity-80"
           >
             <Wordmark className="text-base lg:text-lg" />
           </Link>
@@ -169,7 +176,7 @@ export function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber lg:hidden"
+            className="-mr-1 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber lg:hidden"
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden />
@@ -190,7 +197,8 @@ export function Header() {
             transition={{ duration: 0.35, ease: EASE_KOOKA }}
             className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
           >
-            <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-12">
+            {/* The sheet runs under the home indicator, so the pad clears it. */}
+            <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-[max(3rem,calc(env(safe-area-inset-bottom)+1.5rem))]">
               <nav aria-label="Mobile">
                 <ul className="flex flex-col">
                   {mainNav.map((item, index) => (
@@ -215,7 +223,7 @@ export function Header() {
                             : "text-kooka-white",
                         )}
                       >
-                        <span className="kooka-display text-3xl">
+                        <span className="kooka-display text-[clamp(1.75rem,8vw,2.25rem)]">
                           {item.label}
                         </span>
                         {item.description ? (
@@ -226,14 +234,15 @@ export function Header() {
                       </Link>
 
                       {item.children ? (
-                        <ul className="mb-5 flex flex-col gap-2 border-l border-kooka-amber/30 pl-4">
+                        <ul className="mb-5 flex flex-col border-l border-kooka-amber/30 pl-4">
                           {item.children.map((child) => (
                             <li key={child.href}>
                               <Link
                                 href={child.href}
                                 onClick={() => setMenuOpen(false)}
+                                /* 44px minimum, so the row is a real target. */
                                 className={cn(
-                                  "block font-display text-[0.72rem] tracking-[0.16em] uppercase transition-colors duration-300",
+                                  "flex min-h-11 items-center font-display text-[0.72rem] tracking-[0.16em] uppercase transition-colors duration-300",
                                   isActive(child.href)
                                     ? "text-kooka-amber"
                                     : "text-kooka-mist hover:text-kooka-white",
@@ -263,7 +272,7 @@ export function Header() {
                 </ButtonLink>
                 <a
                   href={contact.phoneHref}
-                  className="inline-flex items-center justify-center gap-2 text-sm text-kooka-mist"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 text-sm text-kooka-mist"
                 >
                   <Phone className="h-4 w-4 text-kooka-amber" aria-hidden />
                   {contact.phone}

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { SceneCanvas } from "@/components/3d/SceneCanvas";
 import { site } from "@/data/site";
 
 const kookaDisplay = localFont({
@@ -60,6 +61,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  /*
+   * Lets the fixed header and the mobile sheet run under the notch while the
+   * `env(safe-area-inset-*)` terms in `globals.css` keep the content clear of
+   * it. Pinch zoom stays enabled — capping it fails WCAG 1.4.4.
+   */
+  viewportFit: "cover",
   themeColor: "#0a0a0a",
   colorScheme: "dark",
 };
@@ -81,8 +90,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <MotionProvider>
+          {/*
+            The WebGL surface is the page's backdrop, so it sits at the bottom
+            of the stack and every band of content is composited over it. Client
+            component: it renders nothing until it has probed the device.
+          */}
+          <SceneCanvas />
+
           <Header />
-          <main id="main" className="flex-1">
+          <main id="main" className="relative z-10 flex-1">
             {children}
           </main>
           <Footer />

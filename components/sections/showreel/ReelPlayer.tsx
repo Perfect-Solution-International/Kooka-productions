@@ -184,7 +184,7 @@ export function ReelPlayer() {
               onChange={seek}
               aria-label="Seek"
               disabled={sourceMissing || duration === 0}
-              className="absolute inset-x-0 -top-2 h-5 w-full cursor-pointer opacity-0"
+              className="absolute inset-x-0 -top-5 h-11 w-full cursor-pointer opacity-0"
             />
           </div>
 
@@ -194,7 +194,7 @@ export function ReelPlayer() {
                 type="button"
                 onClick={togglePlay}
                 aria-label={playing ? "Pause" : "Play"}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
               >
                 {playing ? (
                   <Pause className="h-4 w-4" aria-hidden />
@@ -206,7 +206,7 @@ export function ReelPlayer() {
                 type="button"
                 onClick={restart}
                 aria-label="Restart"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
               >
                 <RotateCcw className="h-4 w-4" aria-hidden />
               </button>
@@ -214,7 +214,7 @@ export function ReelPlayer() {
                 type="button"
                 onClick={toggleMute}
                 aria-label={muted ? "Unmute" : "Mute"}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
               >
                 {muted ? (
                   <VolumeX className="h-4 w-4" aria-hidden />
@@ -231,7 +231,7 @@ export function ReelPlayer() {
               type="button"
               onClick={goFullscreen}
               aria-label="Fullscreen"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-kooka-white transition-colors duration-300 hover:border-kooka-amber/60 hover:text-kooka-amber"
             >
               <Maximize2 className="h-4 w-4" aria-hidden />
             </button>

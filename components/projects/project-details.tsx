@@ -112,7 +112,8 @@ export function ProjectDetails({
             <Link
               href={project.href}
               className={cn(
-                "group inline-flex items-center gap-2.5 font-display font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber",
+                /* Full-height row on touch, tight inline link on a pointer. */
+                "group inline-flex min-h-11 items-center gap-2.5 font-display font-semibold tracking-[0.2em] text-kooka-white uppercase transition-colors duration-500 hover:text-kooka-amber lg:min-h-0",
                 compact
                   ? "mt-3 text-[0.6rem]"
                   : "mt-5 text-[0.66rem] sm:mt-8 sm:text-[0.7rem]",

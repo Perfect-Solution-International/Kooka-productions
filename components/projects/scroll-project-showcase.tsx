@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import type { Project } from "@/data/projects";
+import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
 import { ProjectDetails } from "./project-details";
@@ -101,6 +102,7 @@ export function ScrollProjectShowcase({
   const [isSmall, setIsSmall] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
   const reduced = useReducedMotion();
+  const touch = useMediaQuery(TOUCH_QUERY);
 
   /*
    * The plate spans the container, so its height follows this width. Measured
@@ -146,14 +148,31 @@ export function ScrollProjectShowcase({
    * computed from the layout viewport — progress then saturates before the
    * pin releases and the final project is never reached.
    */
+  /*
+   * A mobile browser collapses and restores its URL bar as you scroll, and each
+   * pass fires `resize` with a new `innerHeight`. Re-sizing the track from that
+   * relayouts the pin under a finger that is mid-drag. The width is what
+   * actually changes on a rotation, so that is what the resync is keyed to;
+   * anything with a fine pointer keeps following the height directly, because
+   * there a resize is a real window resize.
+   */
   useEffect(() => {
+    let lastWidth = window.innerWidth;
+
     const sync = () => setViewportHeight(window.innerHeight);
 
-    sync();
-    window.addEventListener("resize", sync);
+    const onResize = () => {
+      const widthChanged = window.innerWidth !== lastWidth;
+      lastWidth = window.innerWidth;
 
-    return () => window.removeEventListener("resize", sync);
-  }, []);
+      if (!touch || widthChanged) sync();
+    };
+
+    sync();
+    window.addEventListener("resize", onResize);
+
+    return () => window.removeEventListener("resize", onResize);
+  }, [touch]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -244,7 +263,7 @@ export function ScrollProjectShowcase({
             <ProjectImage
               project={activeProject}
               priority={activeIndex === 0}
-              reduced={reduced}
+              simplified={reduced || touch}
             />
 
             {/*

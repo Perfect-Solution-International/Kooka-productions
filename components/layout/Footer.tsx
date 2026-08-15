@@ -6,28 +6,49 @@ import { contact, site, socials } from "@/data/site";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
+/**
+ * The footer carries a curated subset of the solutions rather than the full
+ * index — the complete list lives on /services and in the header dropdown.
+ */
+const footerServiceSlugs = [
+  "event-production",
+  "av-production",
+  "led-screens",
+  "sound-systems",
+  "lighting-design",
+  "stage-design",
+];
+
+const footerServices = footerServiceSlugs.flatMap(
+  (slug) => services.find((service) => service.slug === slug) ?? [],
+);
+
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-white/[0.07] bg-kooka-void">
       <div
-        className="kooka-bloom -top-52 left-1/4 h-[26rem] w-[26rem] opacity-25"
+        className="kooka-bloom -top-40 left-1/4 h-[20rem] w-[20rem] opacity-25"
         aria-hidden
       />
 
-      <div className="kooka-container relative py-20 lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+      <div className="kooka-container relative py-12 lg:py-14">
+        {/*
+          Stacked on a phone, then the two short link columns pair off before
+          the full twelve-column rail takes over.
+        */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-4">
             <Wordmark className="text-lg" />
-            <p className="mt-6 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
+            <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
               {site.tagline}
             </p>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-kooka-mist">
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-kooka-mist">
               {site.seoLine}
             </p>
 
-            <ul className="mt-8 flex gap-3">
+            <ul className="mt-6 flex gap-2.5">
               {socials.map((social) => (
                 <li key={social.label}>
                   <a
@@ -44,14 +65,18 @@ export function Footer() {
             </ul>
           </div>
 
+          {/*
+            Rows are full-height tap targets on touch and collapse back to a
+            tight list once a pointer is driving.
+          */}
           <nav aria-label="Quick links" className="lg:col-span-2">
-            <h2 className="kooka-eyebrow mb-6">Explore</h2>
-            <ul className="space-y-3">
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
+            <ul className="lg:space-y-2">
               {footerQuickLinks.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber"
+                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
                   >
                     {item.label}
                   </Link>
@@ -61,31 +86,39 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Services" className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-6">Solutions</h2>
-            <ul className="space-y-3">
-              {services.map((service) => (
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
+            <ul className="lg:space-y-2">
+              {footerServices.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`/services#${service.slug}`}
-                    className="text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber"
+                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
                   >
                     {service.title}
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/services"
+                  className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
+                >
+                  All Solutions
+                </Link>
+              </li>
             </ul>
           </nav>
 
-          <div className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-6">Contact</h2>
-            <ul className="space-y-4 text-sm">
+          <div className="sm:col-span-2 lg:col-span-3">
+            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
+            <ul className="space-y-1 text-sm lg:space-y-3">
               <li>
                 <a
                   href={contact.phoneHref}
-                  className="group flex items-start gap-3 text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
+                  className="group flex min-h-11 items-center gap-3 text-kooka-mist transition-colors duration-300 hover:text-kooka-white lg:min-h-0 lg:items-start"
                 >
                   <Phone
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
+                    className="h-4 w-4 shrink-0 text-kooka-amber lg:mt-0.5"
                     aria-hidden
                   />
                   {contact.phone}
@@ -94,10 +127,10 @@ export function Footer() {
               <li>
                 <a
                   href={contact.emailHref}
-                  className="group flex items-start gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
+                  className="group flex min-h-11 items-center gap-3 break-all text-kooka-mist transition-colors duration-300 hover:text-kooka-white lg:min-h-0 lg:items-start"
                 >
                   <Mail
-                    className="mt-0.5 h-4 w-4 shrink-0 text-kooka-amber"
+                    className="h-4 w-4 shrink-0 text-kooka-amber lg:mt-0.5"
                     aria-hidden
                   />
                   {contact.email}
@@ -114,7 +147,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/[0.07] pt-8 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>

@@ -11,10 +11,17 @@ type SectionProps = {
   readonly full?: boolean;
 };
 
+/*
+ * The bloom is sized under the viewport on phones. A 32rem circle centred on a
+ * 320px screen hangs 96px past each edge, and the section has no clip of its
+ * own — only `body { overflow-x: hidden }` was hiding the resulting scroll.
+ */
 const bloomPosition: Record<string, string> = {
-  top: "-top-40 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 opacity-40",
-  center: "top-1/2 left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 opacity-30",
-  bottom: "-bottom-40 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 opacity-40",
+  top: "-top-28 left-1/2 h-[18rem] w-[18rem] -translate-x-1/2 opacity-40 sm:-top-40 sm:h-[32rem] sm:w-[32rem]",
+  center:
+    "top-1/2 left-1/2 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 opacity-30 sm:h-[38rem] sm:w-[38rem]",
+  bottom:
+    "-bottom-28 left-1/2 h-[18rem] w-[18rem] -translate-x-1/2 opacity-40 sm:-bottom-40 sm:h-[32rem] sm:w-[32rem]",
 };
 
 export function Section({
@@ -28,7 +35,10 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn("relative isolate py-24 sm:py-28 lg:py-36", className)}
+      className={cn(
+        "relative isolate py-16 sm:py-24 md:py-28 lg:py-36",
+        className,
+      )}
     >
       {bloom !== "none" ? (
         <div className={cn("kooka-bloom", bloomPosition[bloom])} aria-hidden />

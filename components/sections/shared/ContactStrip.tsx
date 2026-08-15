@@ -30,7 +30,7 @@ export function ContactStrip() {
           <RevealGroup as="ul" className="grid gap-5 sm:grid-cols-2 lg:gap-8">
             {channels.map(({ icon: ChannelIcon, label, href }) => (
               <RevealItem as="li" key={label} className="group">
-                <a href={href} className="flex items-center gap-3">
+                <a href={href} className="flex min-h-11 items-center gap-3">
                   <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-kooka-amber/30 bg-kooka-amber/10 text-kooka-amber">
                     <ChannelIcon className="h-4 w-4" aria-hidden />
                   </span>

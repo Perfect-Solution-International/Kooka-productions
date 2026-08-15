@@ -8,8 +8,21 @@ export const transitionSoft: Transition = {
   ease: EASE_KOOKA,
 };
 
-/** Standard scroll-reveal trigger, shared by every section. */
-export const viewportOnce = { once: true, amount: 0.25 } as const;
+/**
+ * Standard scroll-reveal trigger, shared by every section.
+ *
+ * Deliberately not a fraction of the element. A `RevealGroup` wrapping a long
+ * grid is several viewports tall, so asking for a quarter of it to be on screen
+ * asks for something a phone can never satisfy — the group stays at its hidden
+ * variant and takes every child down with it. Keying off the leading edge and
+ * pulling the trigger line up from the bottom instead behaves the same for a
+ * single heading and for a ten-tile grid.
+ */
+export const viewportOnce = {
+  once: true,
+  amount: "some",
+  margin: "0px 0px -12% 0px",
+} as const;
 
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32 },

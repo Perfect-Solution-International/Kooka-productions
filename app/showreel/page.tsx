@@ -24,7 +24,7 @@ export default function ShowreelPage() {
       <section className="relative isolate overflow-hidden pt-36 pb-16 sm:pt-40 sm:pb-20">
         <div
           aria-hidden
-          className="kooka-bloom -top-32 left-1/4 h-[32rem] w-[32rem] opacity-30"
+          className="kooka-bloom -top-24 left-1/4 h-[18rem] w-[18rem] opacity-30 sm:-top-32 sm:h-[32rem] sm:w-[32rem]"
         />
 
         <div className="kooka-container">

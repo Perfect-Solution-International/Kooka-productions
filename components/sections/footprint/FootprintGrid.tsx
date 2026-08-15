@@ -15,10 +15,16 @@ const WIDE_PER_CYCLE = 2;
 
 const isWide = (index: number) => index % CYCLE < WIDE_PER_CYCLE;
 
+/*
+ * The caption is laid over a fixed-ratio box that clips, so the phone ratio has
+ * to be the tall one — a 16/10 tile at 320px is shorter than its own copy and
+ * eats the last lines. The editorial wide/narrow rhythm only starts once there
+ * is width to carry it.
+ */
 const tileClasses = (index: number) =>
   isWide(index)
-    ? "lg:col-span-6 aspect-16/10"
-    : "lg:col-span-4 aspect-4/3 lg:aspect-square";
+    ? "aspect-4/5 sm:aspect-4/3 lg:col-span-6 lg:aspect-16/10"
+    : "aspect-4/5 sm:aspect-4/3 lg:col-span-4 lg:aspect-square";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
@@ -40,7 +46,11 @@ export function FootprintGrid() {
             src={img(item.image, isWide(index) ? 1600 : 1000, 80)}
             alt=""
             fill
-            sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
+            sizes={
+              isWide(index)
+                ? "(min-width: 640px) 50vw, 100vw"
+                : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            }
             className="-z-10 object-cover transition-transform duration-[1400ms] ease-kooka group-hover:scale-[1.04]"
           />
 
@@ -54,12 +64,12 @@ export function FootprintGrid() {
           {/* Running index anchors the tile opposite the caption */}
           <span
             aria-hidden
-            className="absolute top-7 right-7 font-display text-[0.6rem] tracking-[0.28em] text-kooka-muted tabular-nums transition-colors duration-500 group-hover:text-kooka-amber lg:top-9 lg:right-9"
+            className="absolute top-5 right-5 font-display text-[0.6rem] tracking-[0.28em] text-kooka-muted tabular-nums transition-colors duration-500 group-hover:text-kooka-amber sm:top-7 sm:right-7 lg:top-9 lg:right-9"
           >
             {indexLabel(index)}
           </span>
 
-          <div className="relative p-7 sm:p-8 lg:p-10">
+          <div className="relative p-5 sm:p-7 md:p-8 lg:p-10">
             <h3
               className={cn(
                 "kooka-display transition-colors duration-500 group-hover:text-kooka-flare",
@@ -73,7 +83,7 @@ export function FootprintGrid() {
 
             <span
               aria-hidden
-              className="mt-4 block h-px w-10 origin-left scale-x-0 bg-kooka-amber/60 transition-transform duration-700 ease-kooka group-hover:scale-x-100"
+              className="kooka-hover-rule mt-4 block h-px w-10 bg-kooka-amber/60"
             />
 
             <p
@@ -87,7 +97,7 @@ export function FootprintGrid() {
               {item.blurb}
             </p>
 
-            <span className="mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            <span className="kooka-hover-reveal mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase">
               Kooka delivers here
               <ArrowUpRight className="h-3 w-3" aria-hidden />
             </span>

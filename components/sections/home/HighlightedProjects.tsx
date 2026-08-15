@@ -7,8 +7,14 @@ import { featuredProjects } from "@/data/projects";
 
 export function HighlightedProjects() {
   return (
-    <section id="projects" className="relative isolate pt-24 sm:pt-28 lg:pt-36">
-      <div className="kooka-bloom top-1/3 left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 opacity-25" aria-hidden />
+    <section
+      id="projects"
+      className="relative isolate pt-16 sm:pt-24 md:pt-28 lg:pt-36"
+    >
+      <div
+        className="kooka-bloom top-1/3 left-1/2 h-[20rem] w-[20rem] -translate-x-1/2 opacity-25 sm:h-[38rem] sm:w-[38rem]"
+        aria-hidden
+      />
 
       {/*
         The heading rides inside the pinned viewport so it stays on screen
@@ -28,8 +34,13 @@ export function HighlightedProjects() {
         }
       />
 
-      <Reveal className="kooka-container relative pb-24 flex justify-center sm:pb-28 lg:pb-36">
-        <ButtonLink href="/showreel" variant="secondary" size="lg">
+      <Reveal className="kooka-container relative flex justify-center pb-16 sm:pb-24 md:pb-28 lg:pb-36">
+        <ButtonLink
+          href="/showreel"
+          variant="secondary"
+          size="lg"
+          className="w-full sm:w-auto"
+        >
           View Full Showreel
           <ArrowUpRight
             className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"

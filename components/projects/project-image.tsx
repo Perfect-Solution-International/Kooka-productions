@@ -9,7 +9,13 @@ import { cn } from "@/lib/utils";
 type ProjectImageProps = {
   readonly project: Project;
   readonly priority: boolean;
-  readonly reduced: boolean;
+  /**
+   * Cross-fades instead of clipping and scaling. Set for the reduced-motion
+   * preference, and for touch devices — animating `clip-path` and `scale` on a
+   * full-width photographic layer is the heaviest paint in the section, and it
+   * lands on exactly the hardware least able to absorb it.
+   */
+  readonly simplified: boolean;
 };
 
 /**
@@ -20,7 +26,7 @@ type ProjectImageProps = {
 export function ProjectImage({
   project,
   priority,
-  reduced,
+  simplified,
 }: ProjectImageProps) {
   return (
     <div className="absolute inset-0 overflow-hidden bg-kooka-void">
@@ -29,7 +35,7 @@ export function ProjectImage({
           key={project.image}
           className="absolute inset-0 will-change-[opacity,transform]"
           initial={
-            reduced
+            simplified
               ? { opacity: 0 }
               : {
                   opacity: 0,
@@ -39,7 +45,7 @@ export function ProjectImage({
                 }
           }
           animate={
-            reduced
+            simplified
               ? { opacity: 1 }
               : {
                   opacity: 1,
@@ -49,12 +55,12 @@ export function ProjectImage({
                 }
           }
           exit={
-            reduced
+            simplified
               ? { opacity: 0 }
               : { opacity: 0, scale: 1.04, y: -14 }
           }
           transition={
-            reduced
+            simplified
               ? { duration: 0.18, ease: "linear" }
               : { duration: 0.85, ease: EASE_KOOKA }
           }
