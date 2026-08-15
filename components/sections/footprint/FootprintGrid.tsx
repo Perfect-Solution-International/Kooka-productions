@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { footprint } from "@/data/footprint";
-import { img } from "@/data/media";
+import { img, isRemoteImage } from "@/data/media";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,7 +34,10 @@ export function FootprintGrid() {
       className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5"
       stagger={0.07}
     >
-      {footprint.map((item, index) => (
+      {footprint.map((item, index) => {
+        const remote = isRemoteImage(item.image);
+
+        return (
         <RevealItem
           key={item.slug}
           className={cn(
@@ -43,9 +46,10 @@ export function FootprintGrid() {
           )}
         >
           <Image
-            src={img(item.image, isWide(index) ? 1600 : 1000, 80)}
+            src={remote ? img(item.image, isWide(index) ? 1600 : 1000, 80) : item.image}
             alt=""
             fill
+            unoptimized={!remote}
             sizes={
               isWide(index)
                 ? "(min-width: 640px) 50vw, 100vw"
@@ -103,7 +107,8 @@ export function FootprintGrid() {
             </span>
           </div>
         </RevealItem>
-      ))}
+        );
+      })}
     </RevealGroup>
   );
 }

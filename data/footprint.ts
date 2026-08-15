@@ -1,4 +1,3 @@
-import { media } from "./media";
 
 export type FootprintItem = {
   slug: string;
@@ -9,73 +8,31 @@ export type FootprintItem = {
 
 export const footprint: FootprintItem[] = [
   {
-    slug: "corporate-events",
-    title: "Business & Corporate Events",
+    slug: "live-in-concert",
+    title: "Live In Concert",
     blurb:
-      "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
-    image: media.summit,
+      "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
+    image: "/Highlighted/project-1.webp",
   },
   {
-    slug: "conferences",
-    title: "Conferences & Meetings",
+    slug: "golden-jubilee-dance-of-the-lions",
+    title: "Golden Jubilee — Dance of the Lions",
     blurb:
-      "Seamless multi-room AV, presentation systems, and hybrid delivery for conferences and business events.",
-    image: media.conferenceHall,
+      "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
+    image: "/Highlighted/project-2.webp",
   },
   {
-    slug: "product-launches",
-    title: "Product Launch Events",
+    slug: "a-night-in-rio-dinner-dance",
+    title: "A Night In Rio — Annual Dinner Dance",
     blurb:
-      "High-impact production designed to showcase products through immersive visuals, staging, and lighting.",
-    image: media.projection,
+      "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
+    image: "/Highlighted/project-3.webp",
   },
   {
-    slug: "brand-activations",
-    title: "Brand Activations",
+    slug: "the-finale-tour",
+    title: "The Finale Tour",
     blurb:
-      "Interactive production environments that connect brands with audiences through engaging and memorable experiences.",
-    image: media.runway,
-  },
-  {
-    slug: "gala-nights",
-    title: "Gala & Awards Nights",
-    blurb:
-      "Elegant staging, lighting, and AV solutions tailored for formal events and award presentations.",
-    image: media.galaDinner,
-  },
-  {
-    slug: "live-touring",
-    title: "Live Shows & Touring",
-    blurb:
-      "Scalable production systems for live performances, touring shows, and entertainment-driven events.",
-    image: media.touring,
-  },
-  {
-    slug: "festivals",
-    title: "Festivals & Outdoor Events",
-    blurb:
-      "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
-    image: media.festivalNight,
-  },
-  {
-    slug: "sporting-events",
-    title: "Sporting Events",
-    blurb:
-      "Production solutions enhancing live sporting experiences with screens, audio, and broadcast integration.",
-    image: media.stadiumNight,
-  },
-  {
-    slug: "community-gatherings",
-    title: "Community & Public Events",
-    blurb:
-      "Flexible AV and production setups designed for diverse audiences and open public environments.",
-    image: media.community,
-  },
-  {
-    slug: "worship-events",
-    title: "Worship & Church Events",
-    blurb:
-      "Reliable AV, lighting, and streaming solutions for worship services and community engagement.",
-    image: media.worship,
+      "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
+    image: "/Highlighted/project-4.webp",
   },
 ];

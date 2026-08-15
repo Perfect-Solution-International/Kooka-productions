@@ -108,6 +108,17 @@ export function img(src: string, width = 1600, quality = 80) {
 }
 
 /**
+ * Whether a source is CDN art rather than a file under `public/`.
+ *
+ * Only remote art can be resized, so a local path must skip `img()` and be
+ * rendered `unoptimized` — `lib/imageLoader.ts` passes it through untouched,
+ * and Next warns when a loader ignores the width it was handed.
+ */
+export function isRemoteImage(src: string): boolean {
+  return src.startsWith("http");
+}
+
+/**
  * Showreel video slot. Drop the master file at `public/media/showreel.mp4`;
  * the player falls back to its poster frame until it exists.
  */
