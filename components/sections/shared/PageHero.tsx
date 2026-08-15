@@ -50,8 +50,12 @@ export function PageHero({
       />
 
       <div className="kooka-container relative">
-        <RevealGroup className="max-w-4xl" stagger={0.1}>
-          <RevealItem as="p" className="kooka-eyebrow mb-5 flex items-center gap-3 sm:mb-7">
+        {/* Phones read the hero as a centred block; the rail returns at md. */}
+        <RevealGroup className="max-w-4xl text-center md:text-left" stagger={0.1}>
+          <RevealItem
+            as="p"
+            className="kooka-eyebrow mb-5 flex items-center justify-center gap-3 sm:mb-7 md:justify-start"
+          >
             <span className="h-px w-6 shrink-0 bg-kooka-amber/70 sm:w-10" aria-hidden />
             {eyebrow}
           </RevealItem>
@@ -72,14 +76,16 @@ export function PageHero({
           {description ? (
             <RevealItem
               as="p"
-              className="mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg"
+              className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg md:mx-0"
             >
               {description}
             </RevealItem>
           ) : null}
         </RevealGroup>
 
-        {children ? <Reveal className="mt-10">{children}</Reveal> : null}
+        {children ? (
+          <Reveal className="mt-10 text-center md:text-left">{children}</Reveal>
+        ) : null}
       </div>
     </section>
   );

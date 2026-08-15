@@ -12,11 +12,19 @@ import { cn } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
 
+/* Hash-only targets live on a page rather than owning a route. */
+const matchesPath = (href: string, pathname: string) => {
+  const [path] = href.split("#");
+  if (!path || path === "/") return href === "/" && pathname === "/";
+  return pathname.startsWith(path);
+};
+
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -37,12 +45,23 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const isActive = (href: string) => {
-    // Hash-only targets live on a page rather than owning a route.
-    const [path] = href.split("#");
-    if (!path || path === "/") return href === "/" && pathname === "/";
-    return pathname.startsWith(path);
+  /*
+   * The nine service links do not fit under the five top-level rows on a
+   * phone, so the sheet keeps them collapsed and opens only the group the
+   * current route sits in.
+   */
+  const routeGroup =
+    mainNav.find((item) =>
+      item.children?.some((child) => matchesPath(child.href, pathname)),
+    )?.href ?? null;
+
+  const toggleMenu = () => {
+    const next = !menuOpen;
+    setMenuOpen(next);
+    if (next) setOpenGroup(routeGroup);
   };
+
+  const isActive = (href: string) => matchesPath(href, pathname);
 
   const hasActiveChild = (item: NavItem) =>
     item.children?.some((child) => isActive(child.href)) ?? false;
@@ -172,7 +191,7 @@ export function Header() {
 
           <button
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={toggleMenu}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -201,61 +220,102 @@ export function Header() {
             <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-[max(3rem,calc(env(safe-area-inset-bottom)+1.5rem))]">
               <nav aria-label="Mobile">
                 <ul className="flex flex-col">
-                  {mainNav.map((item, index) => (
-                    <motion.li
-                      key={item.href}
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: 0.06 * index,
-                        duration: 0.5,
-                        ease: EASE_KOOKA,
-                      }}
-                      className="border-b border-white/[0.07]"
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                        className={cn(
-                          "flex flex-col gap-1 py-5",
-                          isActive(item.href)
-                            ? "text-kooka-amber"
-                            : "text-kooka-white",
-                        )}
-                      >
-                        <span className="kooka-display text-[clamp(1.75rem,8vw,2.25rem)]">
-                          {item.label}
-                        </span>
-                        {item.description ? (
-                          <span className="text-sm text-kooka-muted">
-                            {item.description}
-                          </span>
-                        ) : null}
-                      </Link>
+                  {mainNav.map((item, index) => {
+                    const groupOpen = openGroup === item.href;
+                    const groupId = `mobile-group-${index}`;
 
-                      {item.children ? (
-                        <ul className="mb-5 flex flex-col border-l border-kooka-amber/30 pl-4">
-                          {item.children.map((child) => (
-                            <li key={child.href}>
-                              <Link
-                                href={child.href}
-                                onClick={() => setMenuOpen(false)}
-                                /* 44px minimum, so the row is a real target. */
+                    return (
+                      <motion.li
+                        key={item.href}
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: 0.06 * index,
+                          duration: 0.5,
+                          ease: EASE_KOOKA,
+                        }}
+                        className="border-b border-white/[0.07]"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Link
+                            href={item.href}
+                            onClick={() => setMenuOpen(false)}
+                            className={cn(
+                              "flex flex-1 flex-col gap-1 py-5",
+                              isActive(item.href)
+                                ? "text-kooka-amber"
+                                : "text-kooka-white",
+                            )}
+                          >
+                            <span className="kooka-display text-[clamp(1.75rem,8vw,2.25rem)]">
+                              {item.label}
+                            </span>
+                            {item.description ? (
+                              <span className="text-sm text-kooka-muted">
+                                {item.description}
+                              </span>
+                            ) : null}
+                          </Link>
+
+                          {item.children ? (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setOpenGroup(groupOpen ? null : item.href)
+                              }
+                              aria-expanded={groupOpen}
+                              aria-controls={groupId}
+                              aria-label={`${groupOpen ? "Hide" : "Show"} ${item.label} links`}
+                              className="-mr-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-mist transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber"
+                            >
+                              <ChevronDown
                                 className={cn(
-                                  "flex min-h-11 items-center font-display text-[0.72rem] tracking-[0.16em] uppercase transition-colors duration-300",
-                                  isActive(child.href)
-                                    ? "text-kooka-amber"
-                                    : "text-kooka-mist hover:text-kooka-white",
+                                  "h-4 w-4 transition-transform duration-300",
+                                  groupOpen && "rotate-180",
                                 )}
+                                aria-hidden
+                              />
+                            </button>
+                          ) : null}
+                        </div>
+
+                        {item.children ? (
+                          <AnimatePresence initial={false}>
+                            {groupOpen ? (
+                              <motion.div
+                                id={groupId}
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.4, ease: EASE_KOOKA }}
+                                className="overflow-hidden"
                               >
-                                {child.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </motion.li>
-                  ))}
+                                <ul className="mb-5 flex flex-col border-l border-kooka-amber/30 pl-4">
+                                  {item.children.map((child) => (
+                                    <li key={child.href}>
+                                      <Link
+                                        href={child.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        /* 44px minimum, so the row is a real target. */
+                                        className={cn(
+                                          "flex min-h-11 items-center font-display text-[0.72rem] tracking-[0.16em] uppercase transition-colors duration-300",
+                                          isActive(child.href)
+                                            ? "text-kooka-amber"
+                                            : "text-kooka-mist hover:text-kooka-white",
+                                        )}
+                                      >
+                                        {child.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </motion.div>
+                            ) : null}
+                          </AnimatePresence>
+                        ) : null}
+                      </motion.li>
+                    );
+                  })}
                 </ul>
               </nav>
 

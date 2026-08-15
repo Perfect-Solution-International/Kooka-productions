@@ -27,8 +27,9 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 md:flex-row md:items-end md:justify-between",
-        centered && "md:flex-col md:items-center",
+        /* Phones read the heading as a centred block; the rail returns at md. */
+        "flex flex-col items-center gap-8 text-center md:flex-row md:items-end md:justify-between md:text-left",
+        centered && "md:flex-col md:items-center md:text-center",
         className,
       )}
     >
@@ -39,7 +40,10 @@ export function SectionHeading({
         {eyebrow ? (
           <RevealItem
             as="p"
-            className={cn("kooka-eyebrow mb-4 flex items-center gap-3 sm:mb-5", centered && "justify-center")}
+            className={cn(
+              "kooka-eyebrow mb-4 flex items-center justify-center gap-3 sm:mb-5 md:justify-start",
+              centered && "md:justify-center",
+            )}
           >
             <span className="h-px w-6 shrink-0 bg-kooka-amber/70 sm:w-8" aria-hidden />
             {eyebrow}

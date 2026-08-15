@@ -20,7 +20,8 @@ export function ContactStrip() {
 
       <div className="kooka-container relative py-14 lg:py-16">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-          <Reveal className="max-w-xl">
+          {/* Phones read the block as centred type; the rail returns at md. */}
+          <Reveal className="mx-auto max-w-xl text-center md:mx-0 md:text-left">
             <p className="kooka-eyebrow mb-4">Kooka HQ</p>
             <p className="kooka-display text-2xl sm:text-3xl lg:text-4xl">
               {site.locationBanner}
