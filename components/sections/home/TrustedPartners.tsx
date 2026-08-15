@@ -10,6 +10,7 @@ export function TrustedPartners() {
     <Section
       id="trusted"
       full
+      density="tight"
       className="overflow-hidden border-t border-white/[0.06]"
     >
       <Image

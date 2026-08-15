@@ -10,16 +10,20 @@ type CtaSectionProps = {
   readonly title?: string;
   readonly description?: string;
   readonly eyebrow?: string;
+  /** Forwarded to `Section`, so the home page can run the tighter rhythm. */
+  readonly density?: "default" | "tight";
 };
 
 export function CtaSection({
   eyebrow = "Next Step",
   title = "Let's Bring Your Event to Life",
   description = "Speak with our team to plan and deliver your next event with confidence.",
+  density = "default",
 }: CtaSectionProps) {
   return (
     <Section
       id="get-a-quote"
+      density={density}
       className="border-t border-white/[0.06]"
       containerClassName="relative"
     >

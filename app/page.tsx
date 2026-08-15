@@ -24,7 +24,7 @@ export default function HomePage() {
       <HighlightedProjects />
       <WhyChooseKooka />
       <TrustedPartners />
-      <CtaSection />
+      <CtaSection density="tight" />
       <ContactStrip />
     </>
   );

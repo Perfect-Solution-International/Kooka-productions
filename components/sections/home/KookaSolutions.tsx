@@ -17,7 +17,11 @@ export function KookaSolutions() {
   const [openSlug, setOpenSlug] = useState<string | null>(services[0].slug);
 
   return (
-    <Section id="solutions" className="border-t border-white/[0.06]">
+    <Section
+      id="solutions"
+      density="tight"
+      className="border-t border-white/[0.06]"
+    >
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
         {/* Left rail — headline, intro, CTA */}
         <Reveal variants={fadeLeft} className="lg:col-span-5">
