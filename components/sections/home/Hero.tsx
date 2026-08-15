@@ -51,10 +51,14 @@ export function Hero() {
       ref={ref}
       className="relative isolate flex min-h-[100svh] items-end overflow-hidden pt-32 pb-16 sm:pb-20"
     >
-      {/* Cinematic backdrop */}
+      {/*
+        Cinematic backdrop. Held back to a haze so the WebGL rig behind the
+        document reads through it — the photograph is still the ground the
+        scene sits on, it is no longer the whole of it.
+      */}
       <motion.div
         style={{ y: backdropY, scale: backdropScale }}
-        className="absolute inset-0 -z-20"
+        className="absolute inset-0 -z-20 opacity-35"
       >
         <Image
           src={img(media.heroStage, 2400, 85)}
@@ -70,11 +74,11 @@ export function Hero() {
       {/* Gradient scrims — keeps the headline legible over any frame */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void via-kooka-void/70 to-kooka-void/40"
+        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void/85 via-kooka-void/45 to-kooka-void/15"
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/90 via-transparent to-kooka-void/60"
+        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/70 via-transparent to-kooka-void/45"
       />
       <div
         aria-hidden

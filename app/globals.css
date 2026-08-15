@@ -287,6 +287,21 @@
   .kooka-hairline {
     border-color: rgb(255 255 255 / 0.08);
   }
+
+  /*
+   * Sits over the WebGL surface. The scene is composed so the rig reads in the
+   * upper middle of the frame; this holds the edges and the lower band back so
+   * body copy laid over it keeps its contrast, and grounds the bottom into the
+   * same void the page uses.
+   */
+  .kooka-scene-veil {
+    background: radial-gradient(
+      ellipse 125% 78% at 50% 30%,
+      transparent 0%,
+      rgb(5 5 5 / 0.32) 58%,
+      rgb(5 5 5 / 0.74) 100%
+    );
+  }
 }
 
 /* ==========================================================================

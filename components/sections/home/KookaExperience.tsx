@@ -30,8 +30,19 @@ export function KookaExperience() {
               alt={slide.title}
               fill
               sizes="(min-width: 640px) 33vw, 78vw"
-              // Local asset: the custom loader passes it through untouched, so
-              // there is no width-derived srcset to generate.
+              /*
+               * These plates are the largest paint on the page once the hero
+               * scrolls off, so they keep being reported as LCP. Eager loading
+               * starts the fetch with the document instead of one frame after
+               * they intersect; the low fetch priority keeps them behind the
+               * hero, which is the real above-the-fold LCP candidate.
+               */
+              loading="eager"
+              fetchPriority="low"
+              /*
+               * Local asset: the custom loader passes it through untouched, so
+               * there is no width-derived srcset to generate.
+               */
               unoptimized
               className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             />
