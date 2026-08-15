@@ -210,9 +210,8 @@ export function ScrollProjectShowcase({
         so it releases exactly as scroll progress reaches 1.
       */}
       {/*
-        `min-h` rather than a fixed `height`: the plate spans the full
-        container width, so on a short window it is taller than the viewport
-        and the pin has to grow with it instead of clipping it.
+        `min-h` rather than a fixed `height`, so the pin can still grow past
+        the viewport if the plate ever asks for it.
       */}
       <div
         className={cn(
