@@ -28,7 +28,7 @@ export default function ShowreelPage() {
         image={media.stadiumNight}
       />
 
-      <Section bloom="top">
+      <Section bloom="top" density="tight">
         <FootprintGrid />
       </Section>
 
