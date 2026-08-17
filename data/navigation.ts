@@ -16,12 +16,12 @@ export const mainNav: NavItem[] = [
     description: "Selected work in motion",
   },
   {
-    label: "What We Do",
-    href: "/services",
+    label: "Solutions",
+    href: "/solutions",
     description: "Technical artistry, zero compromise",
     children: services.map((service) => ({
       label: service.title,
-      href: `/services#${service.slug}`,
+      href: `/solutions#${service.slug}`,
     })),
   },
   {
@@ -35,7 +35,7 @@ export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "DNA", href: "/dna" },
   { label: "Projects", href: "/showreel" },
-  { label: "Kooka Solutions", href: "/services" },
-  { label: "Kooka Footprint", href: "/solutions" },
+  { label: "Kooka Solutions", href: "/solutions" },
+  { label: "Kooka Footprint", href: "/footprint" },
   // { label: "Admin Panel", href: "/admin" },
 ];

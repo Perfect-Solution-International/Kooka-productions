@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Kooka Footprint",
   description:
     "Events, environments and experiences Kooka Productions delivers — corporate events, conferences, product launches, brand activations, gala nights, live touring, festivals, sporting events, community gatherings and worship events.",
-  alternates: { canonical: "/solutions" },
+  alternates: { canonical: "/footprint" },
 };
 
 const regions = [
