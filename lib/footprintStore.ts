@@ -4,14 +4,22 @@ import path from "node:path";
 export type FootprintItem = {
   slug: string;
   title: string;
+  type: string;
+  location: string;
+  year: string;
   blurb: string;
   image: string;
+  href?: string;
 };
 
 export type FootprintInput = {
   title: string;
+  type: string;
+  location: string;
+  year: string;
   blurb: string;
   image: string;
+  href?: string;
 };
 
 const dataFile = path.join(process.cwd(), "data", "content", "footprint.json");
@@ -52,12 +60,24 @@ function uniqueSlug(base: string, existing: FootprintItem[], skipSlug?: string):
 export function parseFootprintInput(body: unknown): FootprintInput | null {
   if (typeof body !== "object" || body === null) return null;
 
-  const { title, blurb, image } = body as Record<string, unknown>;
+  const { title, type, location, year, blurb, image, href } = body as Record<string, unknown>;
   if (typeof title !== "string" || !title.trim()) return null;
+  if (typeof type !== "string" || !type.trim()) return null;
+  if (typeof location !== "string" || !location.trim()) return null;
+  if (typeof year !== "string" || !year.trim()) return null;
   if (typeof blurb !== "string" || !blurb.trim()) return null;
   if (typeof image !== "string" || !image.trim()) return null;
+  if (href !== undefined && typeof href !== "string") return null;
 
-  return { title: title.trim(), blurb: blurb.trim(), image: image.trim() };
+  return {
+    title: title.trim(),
+    type: type.trim(),
+    location: location.trim(),
+    year: year.trim(),
+    blurb: blurb.trim(),
+    image: image.trim(),
+    ...(href?.trim() ? { href: href.trim() } : {}),
+  };
 }
 
 export function listFootprint(): FootprintItem[] {

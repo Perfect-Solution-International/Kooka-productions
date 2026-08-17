@@ -1,13 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { getFootprint } from "@/data/footprint";
+import { getFootprint, type FootprintItem } from "@/data/footprint";
 import { img, isRemoteImage } from "@/data/media";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
 export function FootprintGrid() {
   const footprint = getFootprint();
+  const total = indexLabel(footprint.length);
 
   return (
     <RevealGroup
@@ -45,15 +47,21 @@ export function FootprintGrid() {
             />
 
             {/* Running index anchors the tile opposite the caption */}
-            <span
+            <p
               aria-hidden
-              className="absolute top-5 right-5 font-display text-[0.6rem] tracking-[0.28em] text-kooka-muted tabular-nums transition-colors duration-500 group-hover:text-kooka-amber sm:top-7 sm:right-7 lg:top-9 lg:right-9"
+              className="absolute top-5 right-5 font-display text-[0.6rem] font-semibold tracking-[0.28em] tabular-nums transition-colors duration-500 sm:top-7 sm:right-7 lg:top-9 lg:right-9"
             >
-              {indexLabel(index)}
-            </span>
+              <span className="text-kooka-amber group-hover:text-kooka-flare">
+                {indexLabel(index)}
+              </span>
+              <span className="mx-1.5 text-kooka-muted">/</span>
+              <span className="text-kooka-muted">{total}</span>
+            </p>
 
             <div className="relative p-5 sm:p-7 md:p-8 lg:p-10">
-              <h3 className="kooka-display text-2xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-3xl lg:text-[2.4rem]">
+              <FootprintMeta item={item} />
+
+              <h3 className="kooka-display mt-2 text-2xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-3xl lg:text-[2.4rem]">
                 {item.title}
               </h3>
 
@@ -66,14 +74,45 @@ export function FootprintGrid() {
                 {item.blurb}
               </p>
 
-              <span className="kooka-hover-reveal mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase">
-                Kooka delivers here
-                <ArrowUpRight className="h-3 w-3" aria-hidden />
-              </span>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className="kooka-hover-reveal group/link mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase"
+                >
+                  View Project
+                  <ArrowUpRight
+                    className="h-3 w-3 transition-transform duration-500 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
+                    aria-hidden
+                  />
+                </Link>
+              ) : (
+                <span className="kooka-hover-reveal mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase">
+                  Kooka delivers here
+                  <ArrowUpRight className="h-3 w-3" aria-hidden />
+                </span>
+              )}
             </div>
           </RevealItem>
         );
       })}
     </RevealGroup>
+  );
+}
+
+function FootprintMeta({ item }: { readonly item: FootprintItem }) {
+  const parts = [item.type, item.location, item.year].filter(
+    (part) => part.trim().length > 0,
+  );
+  if (parts.length === 0) return null;
+
+  return (
+    <p className="font-display text-[0.58rem] font-medium tracking-[0.2em] text-kooka-mist uppercase sm:text-[0.66rem] sm:tracking-[0.24em]">
+      {parts.map((part, index) => (
+        <span key={part}>
+          {index > 0 ? <span className="mx-2.5 text-kooka-muted">·</span> : null}
+          {part}
+        </span>
+      ))}
+    </p>
   );
 }

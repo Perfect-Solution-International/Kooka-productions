@@ -2,30 +2,45 @@
   {
     "slug": "live-in-concert",
     "title": "Live In Concert",
+    "type": "Live Concert",
+    "location": "Melbourne",
+    "year": "2025",
     "blurb": "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
     "image": "/Highlighted/project-1.webp"
   },
   {
     "slug": "golden-jubilee-dance-of-the-lions",
     "title": "Golden Jubilee — Dance of the Lions",
+    "type": "Gala Night",
+    "location": "Trinity College Kandy OBA, Melbourne",
+    "year": "2026",
     "blurb": "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
     "image": "/Highlighted/project-2.webp"
   },
   {
     "slug": "a-night-in-rio-dinner-dance",
     "title": "A Night In Rio — Annual Dinner Dance",
+    "type": "Dinner Dance",
+    "location": "St. Peter's College OBSC, Melbourne",
+    "year": "2026",
     "blurb": "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
     "image": "/Highlighted/project-3.webp"
   },
   {
     "slug": "the-finale-tour",
     "title": "The Finale Tour",
+    "type": "Live Touring",
+    "location": "Australia",
+    "year": "2025",
     "blurb": "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
     "image": "/Highlighted/project-4.webp"
   },
   {
     "slug": "sdrg",
     "title": "sdrg",
+    "type": "Event",
+    "location": "sdfg",
+    "year": "2026",
     "blurb": "sdfg",
     "image": "sdfg"
   }

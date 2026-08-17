@@ -10,11 +10,23 @@ type ProjectsManagerProps = {
 
 type FormState = {
   title: string;
+  type: string;
+  location: string;
+  year: string;
   blurb: string;
   image: string;
+  href: string;
 };
 
-const emptyForm: FormState = { title: "", blurb: "", image: "" };
+const emptyForm: FormState = {
+  title: "",
+  type: "",
+  location: "",
+  year: "",
+  blurb: "",
+  image: "",
+  href: "",
+};
 
 export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const router = useRouter();
@@ -26,7 +38,15 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
   function startEdit(item: FootprintItem) {
     setEditingSlug(item.slug);
-    setForm({ title: item.title, blurb: item.blurb, image: item.image });
+    setForm({
+      title: item.title,
+      type: item.type,
+      location: item.location,
+      year: item.year,
+      blurb: item.blurb,
+      image: item.image,
+      href: item.href ?? "",
+    });
     setError(null);
   }
 
@@ -135,6 +155,49 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                 required
               />
             </label>
+
+            <label className="text-sm text-kooka-mist">
+              Type{" "}
+              <input
+                value={form.type}
+                onChange={(event) => setForm((prev) => ({ ...prev, type: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="Live Concert"
+                required
+              />
+            </label>
+
+            <label className="text-sm text-kooka-mist">
+              Location{" "}
+              <input
+                value={form.location}
+                onChange={(event) => setForm((prev) => ({ ...prev, location: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="Melbourne"
+                required
+              />
+            </label>
+
+            <label className="text-sm text-kooka-mist">
+              Year{" "}
+              <input
+                value={form.year}
+                onChange={(event) => setForm((prev) => ({ ...prev, year: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="2026"
+                required
+              />
+            </label>
+
+            <label className="text-sm text-kooka-mist">
+              Link (optional){" "}
+              <input
+                value={form.href}
+                onChange={(event) => setForm((prev) => ({ ...prev, href: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="/showreel/live-in-concert"
+              />
+            </label>
           </div>
 
           <label className="block text-sm text-kooka-mist">
@@ -178,6 +241,9 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             >
               <div>
                 <p className="font-display text-sm text-kooka-white">{item.title}</p>
+                <p className="mt-1 text-[0.7rem] text-kooka-mist/70">
+                  {item.type} · {item.location} · {item.year}
+                </p>
                 <p className="mt-1 max-w-md text-xs text-kooka-mist">{item.blurb}</p>
                 <p className="mt-1 text-[0.7rem] text-kooka-mist/70">{item.image}</p>
               </div>
