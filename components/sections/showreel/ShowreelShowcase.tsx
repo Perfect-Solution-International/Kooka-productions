@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { getFootprint } from "@/data/footprint";
+import { getShowreel } from "@/data/showreel";
 import { img, isRemoteImage } from "@/data/media";
 
 /**
@@ -8,15 +8,15 @@ import { img, isRemoteImage } from "@/data/media";
  * the image alone and the caption sits under it, flush right, so the column
  * edge reads as a single line down the page.
  */
-export function FootprintShowcase() {
-  const footprint = getFootprint();
+export function ShowreelShowcase() {
+  const showreel = getShowreel();
 
   return (
     <RevealGroup
       className="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:gap-x-10 lg:gap-y-20"
       stagger={0.09}
     >
-      {footprint.map((item) => (
+      {showreel.map((item) => (
         <RevealItem key={item.slug} className="group">
           <div className="relative aspect-4/3 overflow-hidden rounded-xl border border-white/[0.07]">
             <Image

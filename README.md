@@ -6,9 +6,9 @@ Marketing website and lightweight admin CMS for **Kooka Productions**, a Melbour
 
 ## Overview
 
-The site presents Kooka Productions' services (event production, AV hire, LED walls, projection mapping, live streaming), showcases past work ("Kooka Footprint" / project showreel), and introduces the team and partners. It also ships a minimal password-protected admin panel for managing the portfolio ("Footprint") entries — add, edit, delete projects and upload their images — without needing a database.
+The site presents Kooka Productions' services (event production, AV hire, LED walls, projection mapping, live streaming), showcases past work ("Kooka Showreel"), and introduces the team and partners. It also ships a minimal password-protected admin panel for managing the portfolio ("Showreel") entries — add, edit, delete projects and upload their images — without needing a database.
 
-- **What it does:** Public marketing site (home, dna, solutions, showreel, footprint) + an internal `/admin` CRUD tool for portfolio items.
+- **What it does:** Public marketing site (home, dna, solutions, showreel) + an internal `/admin` CRUD tool for portfolio items.
 - **Who it's for:** Kooka Productions' marketing team/site owner (admin panel) and prospective clients browsing the public site.
 - **Main objectives:** Fast, visually striking (WebGL hero, glassmorphism UI, motion) marketing presence with zero external backend dependency — content lives in versioned TypeScript/JSON files, not a database.
 
@@ -16,7 +16,7 @@ The site presents Kooka Productions' services (event production, AV hire, LED wa
 
 ### Public Site
 - Animated Three.js/WebGL hero scene with device-tier-aware quality scaling
-- Responsive marketing pages: Home, DNA, Solutions, Showreel, Footprint
+- Responsive marketing pages: Home, DNA, Solutions, Showreel
 - Reveal/scroll animations via Framer Motion
 - Reduced-motion support (`prefers-reduced-motion` aware hooks)
 - Custom Unsplash-backed image loader (bypasses `/_next/image` for external photography)
@@ -27,7 +27,7 @@ The site presents Kooka Productions' services (event production, AV hire, LED wa
 ### Admin Panel (`/admin`)
 - Single shared-password authentication (HMAC-signed, timing-safe, cookie-based session)
 - Session cookie valid 12 hours, `httpOnly` + `secure` (in production) + `SameSite=Lax`
-- CRUD for "Footprint" (portfolio) items — title, type, location, year, blurb, image, optional link
+- CRUD for "Showreel" (portfolio) items — title, type, location, year, blurb, image, optional link
 - Image upload (JPEG/PNG/WebP/GIF/SVG, 5MB max) saved to `public/Project/`
 - Auto-generated, collision-safe slugs used as record IDs
 - Auto-redirect: `/admin` → `/admin/projects` (if authenticated) or `/admin/login`
@@ -41,7 +41,7 @@ The site presents Kooka Productions' services (event production, AV hire, LED wa
 | Styling | Tailwind CSS v4 (`@theme` design tokens, config-free) |
 | Animation | Framer Motion |
 | Backend | Next.js Route Handlers (API routes) |
-| Data Storage | Flat file (`data/content/footprint.json`) via Node `fs` — no database |
+| Data Storage | Flat file (`data/content/showreel.json`) via Node `fs` — no database |
 | Authentication | Custom HMAC session cookie (no external auth provider) |
 | Icons | lucide-react |
 | Build Tools | Next.js CLI, PostCSS (`@tailwindcss/postcss`) |
@@ -60,7 +60,7 @@ Next.js **App Router** project, effectively a **layered/feature-folder** structu
 
 **Data flow (public pages):** page (`app/**/page.tsx`) imports typed content from `data/*.ts` → passes it to presentational components in `components/sections/**` → rendered server-side by default (Server Components), with `"use client"` opted in only where interactivity/animation/hooks are needed.
 
-**Data flow (admin CMS):** `app/admin/**/page.tsx` (Server Component) checks the session cookie via `lib/adminAuth.ts` → reads `data/content/footprint.json` through `lib/footprintStore.ts` → hydrates the `ProjectsManager` client component → mutations go through `app/api/admin/**` Route Handlers, which re-validate the session, then read/write the JSON file (and write uploaded images straight to `public/Project/`).
+**Data flow (admin CMS):** `app/admin/**/page.tsx` (Server Component) checks the session cookie via `lib/adminAuth.ts` → reads `data/content/showreel.json` through `lib/showreelStore.ts` → hydrates the `ProjectsManager` client component → mutations go through `app/api/admin/**` Route Handlers, which re-validate the session, then read/write the JSON file (and write uploaded images straight to `public/Project/`).
 
 ## Folder Structure
 
@@ -70,7 +70,6 @@ kooka/
 │   ├── dna/                    # /dna
 │   ├── solutions/               # /solutions (Kooka Solutions)
 │   ├── showreel/                # /showreel (portfolio/showreel page)
-│   ├── footprint/                # /footprint (Kooka Footprint)
 │   ├── admin/                   # /admin, /admin/login, /admin/projects (CMS)
 │   ├── api/admin/                # Route handlers: login, logout, projects CRUD, upload
 │   ├── fonts/                    # Self-hosted variable fonts (Inter, Outfit)
@@ -85,11 +84,11 @@ kooka/
 │   ├── layout/                   # Header, SiteHeader, Footer
 │   ├── projects/                 # Project detail/showcase components
 │   ├── providers/                # MotionProvider (Framer Motion context)
-│   ├── sections/                 # Page sections grouped by page (home/, services/, showreel/, shared/, footprint/)
+│   ├── sections/                 # Page sections grouped by page (home/, services/, showreel/, shared/)
 │   └── ui/                       # Reusable primitives (Button, GlassCard, Icon, Reveal, Section, ...)
 ├── data/                         # Static/typed content (services, projects, team, nav, site info, media map)
-│   └── content/footprint.json    # Mutable data file backing the admin CMS
-├── lib/                          # adminAuth, footprintStore, imageLoader, motion helpers, hooks
+│   └── content/showreel.json     # Mutable data file backing the admin CMS
+├── lib/                          # adminAuth, showreelStore, imageLoader, motion helpers, hooks
 ├── public/                       # Static assets: images, logo, fonts source media
 │   ├── Project/                  # Destination for admin-uploaded images
 │   └── media/                    # Showreel video slot (see public/media/README.md)
@@ -103,7 +102,7 @@ kooka/
 
 **Not implemented.** There is no relational/NoSQL database. The only persisted, mutable content is a single JSON file:
 
-- **`data/content/footprint.json`** — array of portfolio ("Footprint") records, each shaped as:
+- **`data/content/showreel.json`** — array of portfolio ("Showreel") records, each shaped as:
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -116,7 +115,7 @@ kooka/
 | `image` | `string` | Required — path to an uploaded or static image |
 | `href` | `string` | Optional external/detail link |
 
-Reads/writes go through `lib/footprintStore.ts` using Node's `fs` module directly — no ORM, no migrations. All other site content (services, team, partners, projects, values, navigation) is hardcoded as typed TypeScript modules in `data/`.
+Reads/writes go through `lib/showreelStore.ts` using Node's `fs` module directly — no ORM, no migrations. All other site content (services, team, partners, projects, values, navigation) is hardcoded as typed TypeScript modules in `data/`.
 
 ## API Documentation
 
@@ -126,10 +125,10 @@ All endpoints below live under `app/api/admin/`. Every endpoint except login req
 |--------|----------|--------------|-----------------|
 | POST | `/api/admin/login` | Verify admin password, issue signed session cookie | None (public) |
 | POST | `/api/admin/logout` | Clear the session cookie | Session cookie |
-| GET | `/api/admin/projects` | List all footprint/portfolio items | Session cookie |
-| POST | `/api/admin/projects` | Create a footprint item | Session cookie |
-| PUT | `/api/admin/projects/[id]` | Update a footprint item by slug | Session cookie |
-| DELETE | `/api/admin/projects/[id]` | Delete a footprint item by slug | Session cookie |
+| GET | `/api/admin/projects` | List all showreel/portfolio items | Session cookie |
+| POST | `/api/admin/projects` | Create a showreel item | Session cookie |
+| PUT | `/api/admin/projects/[id]` | Update a showreel item by slug | Session cookie |
+| DELETE | `/api/admin/projects/[id]` | Delete a showreel item by slug | Session cookie |
 | POST | `/api/admin/upload` | Upload an image (≤5MB, jpg/png/webp/gif/svg) to `public/Project/` | Session cookie |
 
 ## Installation
@@ -148,7 +147,7 @@ All endpoints below live under `app/api/admin/`. Every endpoint except login req
    ADMIN_PASSWORD=your-admin-password
    ```
 4. Database migrations — **not applicable** (no database)
-5. Seed database — **not applicable**; portfolio content lives in `data/content/footprint.json` and can be edited directly or via `/admin` after step 6
+5. Seed database — **not applicable**; portfolio content lives in `data/content/showreel.json` and can be edited directly or via `/admin` after step 6
 6. Start the app
    ```bash
    npm run dev
@@ -196,14 +195,14 @@ There is a single, shared admin credential — no user accounts, roles, or regis
 
 ## Error Handling
 
-- **Validation:** API route handlers manually validate request bodies (e.g. `parseFootprintInput` in `lib/footprintStore.ts` checks required string fields and trims input) before touching the data store.
+- **Validation:** API route handlers manually validate request bodies (e.g. `parseShowreelInput` in `lib/showreelStore.ts` checks required string fields and trims input) before touching the data store.
 - **Exception handling:** JSON body parsing is wrapped in `.catch(() => null)` to avoid throwing on malformed payloads; handlers then return a structured `400`/`401` JSON error instead of crashing.
 - **HTTP status codes used:**
   - `200` — successful GET/logout
   - `201` — successful create/upload
   - `400` — invalid/missing input, unsupported file type, oversized file
   - `401` — missing/invalid session or wrong password
-  - `404` — footprint item not found (update/delete)
+  - `404` — showreel item not found (update/delete)
 
 ## Performance Optimizations
 

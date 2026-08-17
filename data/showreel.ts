@@ -1,12 +1,12 @@
-import { listFootprint, type FootprintItem } from "@/lib/footprintStore";
+import { listShowreel, type ShowreelItem } from "@/lib/showreelStore";
 
-export type { FootprintItem };
+export type { ShowreelItem };
 
 /*
  * Reads the JSON store fresh on every call — pages that render this must opt
  * into dynamic rendering (`export const dynamic = "force-dynamic"`) so admin
  * edits show up without a rebuild.
  */
-export function getFootprint(): FootprintItem[] {
-  return listFootprint();
+export function getShowreel(): ShowreelItem[] {
+  return listShowreel();
 }

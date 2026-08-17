@@ -2,21 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { getFootprint, type FootprintItem } from "@/data/footprint";
+import { getShowreel, type ShowreelItem } from "@/data/showreel";
 import { img, isRemoteImage } from "@/data/media";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
-export function FootprintGrid() {
-  const footprint = getFootprint();
-  const total = indexLabel(footprint.length);
+export function ShowreelGrid() {
+  const showreel = getShowreel();
+  const total = indexLabel(showreel.length);
 
   return (
     <RevealGroup
       className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-5"
       stagger={0.07}
     >
-      {footprint.map((item, index) => {
+      {showreel.map((item, index) => {
         const remote = isRemoteImage(item.image);
 
         /*
@@ -59,7 +59,7 @@ export function FootprintGrid() {
             </p>
 
             <div className="relative p-5 sm:p-7 md:p-8 lg:p-10">
-              <FootprintMeta item={item} />
+              <ShowreelMeta item={item} />
 
               <h3 className="kooka-display mt-2 text-xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-2xl lg:text-[2rem]">
                 {item.title}
@@ -99,7 +99,7 @@ export function FootprintGrid() {
   );
 }
 
-function FootprintMeta({ item }: { readonly item: FootprintItem }) {
+function ShowreelMeta({ item }: { readonly item: ShowreelItem }) {
   const parts = [item.type, item.location, item.year].filter(
     (part) => part.trim().length > 0,
   );

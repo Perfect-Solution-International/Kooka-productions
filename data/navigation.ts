@@ -11,7 +11,7 @@ export const mainNav: NavItem[] = [
   { label: "Home", href: "/", description: "Concept. Create. Captivate." },
   { label: "DNA", href: "/dna", description: "The Kooka DNA" },
   {
-    label: "Projects",
+    label: "Showreel",
     href: "/showreel",
     description: "Selected work in motion",
   },
@@ -34,8 +34,7 @@ export const mainNav: NavItem[] = [
 export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "DNA", href: "/dna" },
-  { label: "Projects", href: "/showreel" },
+  { label: "Showreel", href: "/showreel" },
   { label: "Kooka Solutions", href: "/solutions" },
-  { label: "Kooka Footprint", href: "/footprint" },
   // { label: "Admin Panel", href: "/admin" },
 ];

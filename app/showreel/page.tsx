@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/shared/PageHero";
-import { FootprintGrid } from "@/components/sections/footprint/FootprintGrid";
+import { ShowreelGrid } from "@/components/sections/showreel/ShowreelGrid";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { Section } from "@/components/ui/Section";
@@ -12,13 +12,13 @@ const intro =
   "From corporate stages to large-scale public events, we deliver tailored production solutions across diverse environments and audiences.";
 
 export const metadata: Metadata = {
-  title: "Kooka Footprint",
+  title: "Kooka Showreel",
   description: intro,
   alternates: { canonical: "/showreel" },
 };
 
 /*
- * Footprint tiles are edited from the admin panel, so this page reads the
+ * Showreel tiles are edited from the admin panel, so this page reads the
  * store on every request instead of the static rendering Next would default
  * to — otherwise a save wouldn't appear until the next build.
  */
@@ -28,15 +28,15 @@ export default function ShowreelPage() {
   return (
     <>
       <PageHero
-        eyebrow="Kooka Footprint"
-        title="Kooka Footprint"
+        eyebrow="Kooka Showreel"
+        title="Kooka Showreel"
         subtitle={tagline}
         description={intro}
         image={media.stadiumNight}
       />
 
       <Section bloom="top" density="tight">
-        <FootprintGrid />
+        <ShowreelGrid />
       </Section>
 
       <CtaSection
