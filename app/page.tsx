@@ -5,6 +5,7 @@ import { KookaSolutions } from "@/components/sections/home/KookaSolutions";
 import { HighlightedProjects } from "@/components/sections/home/HighlightedProjects";
 import { WhyChooseKooka } from "@/components/sections/home/WhyChooseKooka";
 import { TrustedPartners } from "@/components/sections/home/TrustedPartners";
+import { PartnerMarquee } from "@/components/sections/home/PartnerMarquee";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { site } from "@/data/site";
@@ -26,6 +27,7 @@ export default function HomePage() {
       <TrustedPartners />
       <CtaSection density="tight" />
       <ContactStrip />
+      <PartnerMarquee />
     </>
   );
 }
