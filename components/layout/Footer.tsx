@@ -8,7 +8,7 @@ import { SocialIcon } from "@/components/ui/SocialIcon";
 
 /**
  * The footer carries a curated subset of the solutions rather than the full
- * index — the complete list lives on /services and in the header dropdown.
+ * index — the complete list lives on /solutions and in the header dropdown.
  */
 const footerServiceSlugs = [
   "event-production",
@@ -93,7 +93,7 @@ export function Footer() {
                 {footerServices.map((service) => (
                   <li key={service.slug}>
                     <Link
-                      href={`/services#${service.slug}`}
+                      href={`/solutions#${service.slug}`}
                       className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
                     >
                       {service.title}
@@ -102,7 +102,7 @@ export function Footer() {
                 ))}
                 <li>
                   <Link
-                    href="/services"
+                    href="/solutions"
                     className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
                   >
                     All Solutions

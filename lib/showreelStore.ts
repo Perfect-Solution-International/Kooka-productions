@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export type FootprintItem = {
+export type ShowreelItem = {
   slug: string;
   title: string;
   type: string;
@@ -12,7 +12,7 @@ export type FootprintItem = {
   href?: string;
 };
 
-export type FootprintInput = {
+export type ShowreelInput = {
   title: string;
   type: string;
   location: string;
@@ -22,14 +22,14 @@ export type FootprintInput = {
   href?: string;
 };
 
-const dataFile = path.join(process.cwd(), "data", "content", "footprint.json");
+const dataFile = path.join(process.cwd(), "data", "content", "showreel.json");
 
-function readAll(): FootprintItem[] {
+function readAll(): ShowreelItem[] {
   const raw = fs.readFileSync(dataFile, "utf-8");
-  return JSON.parse(raw) as FootprintItem[];
+  return JSON.parse(raw) as ShowreelItem[];
 }
 
-function writeAll(items: FootprintItem[]): void {
+function writeAll(items: ShowreelItem[]): void {
   fs.writeFileSync(dataFile, `${JSON.stringify(items, null, 2)}\n`, "utf-8");
 }
 
@@ -46,7 +46,7 @@ function slugify(title: string): string {
  * against its own prior slug when editing) must resolve to a fresh slug
  * rather than silently merging two projects.
  */
-function uniqueSlug(base: string, existing: FootprintItem[], skipSlug?: string): string {
+function uniqueSlug(base: string, existing: ShowreelItem[], skipSlug?: string): string {
   const root = base || "project";
   let slug = root;
   let attempt = 2;
@@ -57,7 +57,7 @@ function uniqueSlug(base: string, existing: FootprintItem[], skipSlug?: string):
   return slug;
 }
 
-export function parseFootprintInput(body: unknown): FootprintInput | null {
+export function parseShowreelInput(body: unknown): ShowreelInput | null {
   if (typeof body !== "object" || body === null) return null;
 
   const { title, type, location, year, blurb, image, href } = body as Record<string, unknown>;
@@ -80,23 +80,23 @@ export function parseFootprintInput(body: unknown): FootprintInput | null {
   };
 }
 
-export function listFootprint(): FootprintItem[] {
+export function listShowreel(): ShowreelItem[] {
   return readAll();
 }
 
-export function createFootprint(input: FootprintInput): FootprintItem {
+export function createShowreel(input: ShowreelInput): ShowreelItem {
   const items = readAll();
-  const item: FootprintItem = { slug: uniqueSlug(slugify(input.title), items), ...input };
+  const item: ShowreelItem = { slug: uniqueSlug(slugify(input.title), items), ...input };
   writeAll([...items, item]);
   return item;
 }
 
-export function updateFootprint(slug: string, input: FootprintInput): FootprintItem | null {
+export function updateShowreel(slug: string, input: ShowreelInput): ShowreelItem | null {
   const items = readAll();
   const index = items.findIndex((item) => item.slug === slug);
   if (index === -1) return null;
 
-  const updated: FootprintItem = {
+  const updated: ShowreelItem = {
     slug: uniqueSlug(slugify(input.title), items, slug),
     ...input,
   };
@@ -105,7 +105,7 @@ export function updateFootprint(slug: string, input: FootprintInput): FootprintI
   return updated;
 }
 
-export function deleteFootprint(slug: string): boolean {
+export function deleteShowreel(slug: string): boolean {
   const items = readAll();
   const next = items.filter((item) => item.slug !== slug);
   if (next.length === items.length) return false;

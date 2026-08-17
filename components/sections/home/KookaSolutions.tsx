@@ -41,7 +41,7 @@ export function KookaSolutions() {
             </p>
 
             <Link
-              href="/services"
+              href="/solutions"
               className="group mt-10 inline-flex items-center gap-3 border border-white/20 px-7 py-4 font-display text-[0.7rem] font-semibold tracking-[0.2em] text-kooka-white uppercase transition-all duration-500 hover:border-kooka-amber hover:bg-kooka-amber hover:text-kooka-black"
             >
               <span>More Services</span>
@@ -113,7 +113,7 @@ export function KookaSolutions() {
                       className="overflow-hidden"
                     >
                       <Link
-                        href={`/services#${service.slug}`}
+                        href={`/solutions#${service.slug}`}
                         className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9"
                       >
                         <Image

@@ -2,10 +2,10 @@
 
 import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
-import type { FootprintItem } from "@/lib/footprintStore";
+import type { ShowreelItem } from "@/lib/showreelStore";
 
 type ProjectsManagerProps = {
-  readonly initialItems: FootprintItem[];
+  readonly initialItems: ShowreelItem[];
 };
 
 type FormState = {
@@ -53,14 +53,14 @@ function ImageFieldStatus({
 
 export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const router = useRouter();
-  const [items, setItems] = useState<FootprintItem[]>(initialItems);
+  const [items, setItems] = useState<ShowreelItem[]>(initialItems);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  function startEdit(item: FootprintItem) {
+  function startEdit(item: ShowreelItem) {
     setEditingSlug(item.slug);
     setForm({
       title: item.title,
@@ -113,7 +113,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     }
 
     const body: unknown = await response.json();
-    const item = (body as { item: FootprintItem }).item;
+    const item = (body as { item: ShowreelItem }).item;
     setItems((prev) =>
       editingSlug
         ? prev.map((existing) => (existing.slug === editingSlug ? item : existing))

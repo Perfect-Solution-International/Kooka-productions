@@ -11,10 +11,10 @@ export const metadata: Metadata = {
   title: "Kooka Solutions",
   description:
     "End-to-end production, AV, LED, lighting and technical systems designed to deliver seamless, high-impact event experiences across corporate, live and large-scale environments.",
-  alternates: { canonical: "/services" },
+  alternates: { canonical: "/solutions" },
 };
 
-export default function ServicesPage() {
+export default function SolutionsPage() {
   return (
     <>
       <PageHero

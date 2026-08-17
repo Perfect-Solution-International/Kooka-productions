@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
-import { createFootprint, listFootprint, parseFootprintInput } from "@/lib/footprintStore";
+import { createShowreel, listShowreel, parseShowreelInput } from "@/lib/showreelStore";
 
 export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json({ items: listFootprint() });
+  return NextResponse.json({ items: listShowreel() });
 }
 
 export async function POST(request: Request) {
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  const input = parseFootprintInput(body);
+  const input = parseShowreelInput(body);
   if (!input) {
     return NextResponse.json(
       { error: "Title, blurb and image are required." },
@@ -23,6 +23,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const item = createFootprint(input);
+  const item = createShowreel(input);
   return NextResponse.json({ item }, { status: 201 });
 }

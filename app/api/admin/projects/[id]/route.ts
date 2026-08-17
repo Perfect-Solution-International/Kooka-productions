@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
-import { deleteFootprint, parseFootprintInput, updateFootprint } from "@/lib/footprintStore";
+import { deleteShowreel, parseShowreelInput, updateShowreel } from "@/lib/showreelStore";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -11,7 +11,7 @@ export async function PUT(request: Request, { params }: RouteContext) {
 
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const input = parseFootprintInput(body);
+  const input = parseShowreelInput(body);
   if (!input) {
     return NextResponse.json(
       { error: "Title, blurb and image are required." },
@@ -19,7 +19,7 @@ export async function PUT(request: Request, { params }: RouteContext) {
     );
   }
 
-  const item = updateFootprint(decodeURIComponent(id), input);
+  const item = updateShowreel(decodeURIComponent(id), input);
   if (!item) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -32,7 +32,7 @@ export async function DELETE(_request: Request, { params }: RouteContext) {
   }
 
   const { id } = await params;
-  const removed = deleteFootprint(decodeURIComponent(id));
+  const removed = deleteShowreel(decodeURIComponent(id));
   if (!removed) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

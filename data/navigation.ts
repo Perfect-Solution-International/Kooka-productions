@@ -1,4 +1,5 @@
 import { services } from "./services";
+import { footprintCategories } from "./footprint";
 
 export type NavItem = {
   label: string;
@@ -9,21 +10,28 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/", description: "Concept. Create. Captivate." },
-  { label: "About Us", href: "/about", description: "The Kooka DNA" },
+  { label: "DNA", href: "/dna", description: "The Kooka DNA" },
   {
-    label: "Projects",
+    label: "Showreel",
     href: "/showreel",
     description: "Selected work in motion",
   },
   {
-    label: "What We Do",
-    href: "/services",
+    label: "Solutions",
+    href: "/solutions",
     description: "Technical artistry, zero compromise",
-    // One source of truth: the dropdown mirrors the nine service blocks and
-    // jumps straight to each anchor on /services.
     children: services.map((service) => ({
       label: service.title,
-      href: `/services#${service.slug}`,
+      href: `/solutions#${service.slug}`,
+    })),
+  },
+  {
+    label: "Footprint",
+    href: "/footprint",
+    description: "Events, environments & experiences we deliver",
+    children: footprintCategories.map((category) => ({
+      label: category.title,
+      href: `/footprint#${category.slug}`,
     })),
   },
   {
@@ -35,9 +43,9 @@ export const mainNav: NavItem[] = [
 
 export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Projects", href: "/showreel" },
-  { label: "Kooka Solutions", href: "/services" },
-  { label: "Kooka Footprint", href: "/where-we-work" },
+  { label: "DNA", href: "/dna" },
+  { label: "Showreel", href: "/showreel" },
+  { label: "Kooka Solutions", href: "/solutions" },
+  { label: "Kooka Footprint", href: "/footprint" },
   // { label: "Admin Panel", href: "/admin" },
 ];
