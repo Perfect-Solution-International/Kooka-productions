@@ -41,22 +41,13 @@ export type SocialLink = {
 export const socials: SocialLink[] = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/kookaproductions",
+    href: "https://www.instagram.com/kookaproductions?igsh=MXJqbXRqb3N2bjZhYw%3D%3D",
     icon: "instagram",
   },
   {
     label: "Facebook",
-    href: "https://www.facebook.com/kookaproductions",
+    href: "https://www.facebook.com/share/1BiW1WEvLe/",
     icon: "facebook",
   },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/kookaproductions",
-    icon: "linkedin",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@kookaproductions",
-    icon: "youtube",
-  },
+  
 ];
