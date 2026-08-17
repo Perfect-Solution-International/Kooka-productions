@@ -12,8 +12,9 @@ const intro =
   "From corporate stages to large-scale public events, we deliver tailored production solutions across diverse environments and audiences.";
 
 export const metadata: Metadata = {
-  title: "Kooka Showreel",
-  description: intro,
+  title: "Event Production Showreel Melbourne",
+  description:
+    "Explore selected event production, AV, staging, lighting and live experience projects delivered by Kooka Productions.",
   alternates: { canonical: "/showreel" },
 };
 

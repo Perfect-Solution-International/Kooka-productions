@@ -8,9 +8,9 @@ import { services } from "@/data/services";
 import { media } from "@/data/media";
 
 export const metadata: Metadata = {
-  title: "Kooka Solutions",
+  title: "Event Production & AV Solutions Melbourne",
   description:
-    "End-to-end production, AV, LED, lighting and technical systems designed to deliver seamless, high-impact event experiences across corporate, live and large-scale environments.",
+    "Explore event production, AV hire, LED screens, sound, lighting, staging and live streaming solutions from our Melbourne production team.",
   alternates: { canonical: "/solutions" },
 };
 

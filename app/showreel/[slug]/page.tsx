@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getShowreelItem, type ShowreelItem } from "@/data/showreel";
 import { img, isRemoteImage } from "@/data/media";
+import { site } from "@/data/site";
 
 type ShowreelDetailProps = {
   readonly params: Promise<{ slug: string }>;
@@ -23,10 +25,27 @@ export async function generateMetadata({
   const item = getShowreelItem(slug);
   if (!item) return { title: "Project Not Found" };
 
+  const imageUrl = item.image.startsWith("http")
+    ? item.image
+    : new URL(item.image, "https://www.kookaproductions.com.au").href;
+
   return {
     title: item.title,
     description: item.blurb,
     alternates: { canonical: `/showreel/${item.slug}` },
+    openGraph: {
+      type: "article",
+      title: item.title,
+      description: item.blurb,
+      url: `/showreel/${item.slug}`,
+      images: [{ url: imageUrl, alt: item.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: item.title,
+      description: item.blurb,
+      images: [imageUrl],
+    },
   };
 }
 
@@ -46,6 +65,10 @@ export default async function ShowreelDetailPage({
     { term: "Location", value: item.location },
     { term: "Year", value: item.year },
   ].filter((field) => field.value.trim().length > 0);
+  const projectUrl = `${site.url}/showreel/${item.slug}`;
+  const projectImages = [item.image, ...gallery].map((source) =>
+    new URL(source, site.url).href,
+  );
 
   /*
    * Pinned to a single viewport — the site header and footer are suppressed for
@@ -53,7 +76,45 @@ export default async function ShowreelDetailPage({
    * itself, so long copy stays reachable without the page growing past the fold.
    */
   return (
-    <div className="flex h-[100svh] flex-col overflow-hidden px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 lg:px-12 lg:py-8">
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "CreativeWork",
+              "@id": `${projectUrl}/#project`,
+              name: item.title,
+              description: item.blurb,
+              url: projectUrl,
+              image: projectImages,
+              dateCreated: item.year,
+              locationCreated: item.location,
+              creator: { "@id": `${site.url}/#organization` },
+              genre: item.type,
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Showreel",
+                  item: `${site.url}/showreel`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: item.title,
+                  item: projectUrl,
+                },
+              ],
+            },
+          ],
+        }}
+      />
+      <article className="flex h-[100svh] flex-col overflow-hidden px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 lg:px-12 lg:py-8">
       <Link
         href="/showreel"
         className="group/back inline-flex min-h-11 shrink-0 items-center gap-2.5 self-start font-display text-[0.6rem] font-semibold tracking-[0.24em] text-kooka-mist uppercase transition-colors duration-500 hover:text-kooka-amber"
@@ -152,7 +213,8 @@ export default async function ShowreelDetailPage({
           ) : null}
         </div>
       </div>
-    </div>
+      </article>
+    </>
   );
 }
 

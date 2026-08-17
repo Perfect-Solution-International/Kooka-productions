@@ -22,7 +22,7 @@ export const mainNav: NavItem[] = [
     description: "Technical artistry, zero compromise",
     children: services.map((service) => ({
       label: service.title,
-      href: `/solutions#${service.slug}`,
+      href: `/solutions/${service.slug}`,
     })),
   },
   {

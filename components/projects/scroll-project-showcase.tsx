@@ -238,7 +238,7 @@ export function ScrollProjectShowcase({
           >
             <ProjectImage
               project={activeProject}
-              priority={activeIndex === 0}
+              priority={false}
               simplified={reduced || touch}
             />
 

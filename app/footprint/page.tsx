@@ -11,8 +11,9 @@ const intro =
   "From corporate stages to large-scale public events, we deliver tailored production solutions across diverse environments and audiences.";
 
 export const metadata: Metadata = {
-  title: "Kooka Footprint",
-  description: intro,
+  title: "Events We Produce Across Melbourne & Australia",
+  description:
+    "Corporate events, conferences, launches, festivals, touring shows and public events produced across Melbourne and Australia.",
   alternates: { canonical: "/footprint" },
 };
 
