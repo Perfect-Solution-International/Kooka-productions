@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { ShowreelDetailDialog } from "@/components/sections/showreel/ShowreelDetailDialog";
 import { getShowreel, type ShowreelItem } from "@/data/showreel";
 import { img, isRemoteImage } from "@/data/media";
 
@@ -58,7 +59,10 @@ export function ShowreelGrid() {
               <span className="text-kooka-muted">{total}</span>
             </p>
 
-            <div className="relative p-5 sm:p-7 md:p-8 lg:p-10">
+            <ShowreelDetailDialog item={item} index={index} total={total} />
+
+            {/* Right padding keeps the copy clear of the detail trigger */}
+            <div className="relative p-5 pr-20 sm:p-7 sm:pr-24 md:p-8 md:pr-24 lg:p-10 lg:pr-28">
               <ShowreelMeta item={item} />
 
               <h3 className="kooka-display mt-2 text-xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-2xl lg:text-[2rem]">
