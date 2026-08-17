@@ -2,13 +2,14 @@
 
 import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
-import type { ShowreelItem } from "@/lib/showreelStore";
+import type { ShowreelItem } from "@/services/showreel.service";
 
 type ProjectsManagerProps = {
   readonly initialItems: ShowreelItem[];
 };
 
 type FormState = {
+  slug: string;
   title: string;
   type: string;
   location: string;
@@ -16,9 +17,12 @@ type FormState = {
   blurb: string;
   image: string;
   href: string;
+  /** One image path per line. */
+  gallery: string;
 };
 
 const emptyForm: FormState = {
+  slug: "",
   title: "",
   type: "",
   location: "",
@@ -26,7 +30,15 @@ const emptyForm: FormState = {
   blurb: "",
   image: "",
   href: "",
+  gallery: "",
 };
+
+function galleryLines(value: string): string[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+}
 
 function ImageFieldStatus({
   uploading,
@@ -55,14 +67,15 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const router = useRouter();
   const [items, setItems] = useState<ShowreelItem[]>(initialItems);
   const [form, setForm] = useState<FormState>(emptyForm);
-  const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   function startEdit(item: ShowreelItem) {
-    setEditingSlug(item.slug);
+    setEditingId(item.id);
     setForm({
+      slug: item.slug,
       title: item.title,
       type: item.type,
       location: item.location,
@@ -70,12 +83,13 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       blurb: item.blurb,
       image: item.image,
       href: item.href ?? "",
+      gallery: item.gallery.map((image) => image.url).join("\n"),
     });
     setError(null);
   }
 
   function cancelEdit() {
-    setEditingSlug(null);
+    setEditingId(null);
     setForm(emptyForm);
     setError(null);
   }
@@ -91,14 +105,30 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setPending(true);
     setError(null);
 
-    const url = editingSlug
-      ? `/api/admin/projects/${encodeURIComponent(editingSlug)}`
-      : "/api/admin/projects";
+    const url = editingId
+      ? `/api/admin/showreel/${encodeURIComponent(editingId)}`
+      : "/api/admin/showreel";
+
+    /*
+     * The gallery travels with every save. Omitting it used to wipe the
+     * existing images, because an update replaces the record wholesale.
+     */
+    const payload = {
+      title: form.title,
+      type: form.type,
+      location: form.location,
+      year: form.year,
+      blurb: form.blurb,
+      image: form.image,
+      href: form.href.trim() || null,
+      gallery: galleryLines(form.gallery),
+      ...(form.slug.trim() ? { slug: form.slug.trim() } : {}),
+    };
 
     const response = await fetch(url, {
-      method: editingSlug ? "PUT" : "POST",
+      method: editingId ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
@@ -115,24 +145,24 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     const body: unknown = await response.json();
     const item = (body as { item: ShowreelItem }).item;
     setItems((prev) =>
-      editingSlug
-        ? prev.map((existing) => (existing.slug === editingSlug ? item : existing))
+      editingId
+        ? prev.map((existing) => (existing.id === editingId ? item : existing))
         : [...prev, item],
     );
     cancelEdit();
     setPending(false);
   }
 
-  async function handleDelete(slug: string) {
+  async function handleDelete(id: string) {
     if (!window.confirm("Delete this project?")) return;
 
-    const response = await fetch(`/api/admin/projects/${encodeURIComponent(slug)}`, {
+    const response = await fetch(`/api/admin/showreel/${encodeURIComponent(id)}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      setItems((prev) => prev.filter((item) => item.slug !== slug));
-      if (editingSlug === slug) cancelEdit();
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      if (editingId === id) cancelEdit();
     }
   }
 
@@ -189,7 +219,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           <ul className="space-y-3 lg:order-1">
             {items.map((item) => (
               <li
-                key={item.slug}
+                key={item.id}
                 className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4"
               >
                 <div>
@@ -210,7 +240,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => void handleDelete(item.slug)}
+                    onClick={() => void handleDelete(item.id)}
                     className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:border-red-400/60 hover:text-red-400"
                   >
                     Delete
@@ -226,7 +256,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:sticky lg:top-12"
           >
           <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
-            {editingSlug ? "Edit Project" : "Add Project"}
+            {editingId ? "Edit Project" : "Add Project"}
           </h2>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -293,6 +323,21 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                 placeholder="/showreel/live-in-concert"
               />
             </label>
+
+            <label className="text-sm text-kooka-mist">
+              Slug (optional){" "}
+              <input
+                value={form.slug}
+                onChange={(event) => setForm((prev) => ({ ...prev, slug: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="live-in-concert"
+              />
+              {/* Left as-is on save, so renaming a project keeps its URL. */}
+              <span className="mt-1.5 block text-xs text-kooka-mist/70">
+                Generated from the title when left blank. Changing it changes the
+                public URL.
+              </span>
+            </label>
           </div>
 
           <label className="block text-sm text-kooka-mist">
@@ -306,6 +351,17 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             />
           </label>
 
+          <label className="block text-sm text-kooka-mist">
+            Gallery — one image path per line{" "}
+            <textarea
+              value={form.gallery}
+              onChange={(event) => setForm((prev) => ({ ...prev, gallery: event.target.value }))}
+              rows={4}
+              className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 font-mono text-xs text-kooka-white outline-none focus:border-kooka-amber"
+              placeholder={"/Highlighted/project-2.webp\n/Highlighted/project-3.webp"}
+            />
+          </label>
+
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
 
           <div className="flex gap-3">
@@ -314,9 +370,9 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
               disabled={pending || uploading}
               className="rounded-full bg-kooka-amber px-6 py-2.5 font-display text-xs font-semibold uppercase tracking-[0.14em] text-kooka-black disabled:opacity-50"
             >
-              {editingSlug ? "Save Changes" : "Add Project"}
+              {editingId ? "Save Changes" : "Add Project"}
             </button>
-            {editingSlug ? (
+            {editingId ? (
               <button
                 type="button"
                 onClick={cancelEdit}

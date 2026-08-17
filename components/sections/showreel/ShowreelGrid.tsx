@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Eye } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { getShowreel, type ShowreelItem } from "@/data/showreel";
+import { listShowreel, type ShowreelItem } from "@/services/showreel.service";
 import { img, isRemoteImage } from "@/data/media";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
-export function ShowreelGrid() {
-  const showreel = getShowreel();
+export async function ShowreelGrid() {
+  const showreel = await listShowreel();
   const total = indexLabel(showreel.length);
 
   return (
@@ -27,7 +27,7 @@ export function ShowreelGrid() {
          */
         return (
           <RevealItem
-            key={item.slug}
+            key={item.id}
             className="kooka-glow-border group relative isolate flex aspect-4/5 flex-col justify-end overflow-hidden rounded-3xl border border-white/[0.08] bg-kooka-carbon sm:aspect-4/3 lg:aspect-16/10"
           >
             <Image

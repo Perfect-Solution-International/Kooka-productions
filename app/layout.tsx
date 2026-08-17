@@ -103,9 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <FooterGate>
-            <FooterGate>
             <Footer />
-          </FooterGate>
           </FooterGate>
         </MotionProvider>
       </body>

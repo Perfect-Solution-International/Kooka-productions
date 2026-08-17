@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { getShowreelItem, type ShowreelItem } from "@/data/showreel";
+import {
+  getShowreelBySlug,
+  listShowreel,
+  type ShowreelItem,
+} from "@/services/showreel.service";
 import { img, isRemoteImage } from "@/data/media";
 
 type ShowreelDetailProps = {
@@ -11,16 +15,19 @@ type ShowreelDetailProps = {
 };
 
 /*
- * Tiles are edited from the admin panel, so the slug set changes between
- * builds — the page reads the store per request instead of pre-rendering.
+ * The slug set changes whenever the admin adds a project, so the known slugs
+ * are pre-rendered and anything newer is rendered on first request.
  */
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const items = await listShowreel();
+  return items.map((item) => ({ slug: item.slug }));
+}
 
 export async function generateMetadata({
   params,
 }: ShowreelDetailProps): Promise<Metadata> {
   const { slug } = await params;
-  const item = getShowreelItem(slug);
+  const item = await getShowreelBySlug(slug);
   if (!item) return { title: "Project Not Found" };
 
   return {
@@ -34,13 +41,11 @@ export default async function ShowreelDetailPage({
   params,
 }: ShowreelDetailProps) {
   const { slug } = await params;
-  const item = getShowreelItem(slug);
+  const item = await getShowreelBySlug(slug);
   if (!item) notFound();
 
   const remote = isRemoteImage(item.image);
-  const gallery = (item.gallery ?? []).filter(
-    (source) => source.trim().length > 0,
-  );
+  const gallery = item.gallery.filter((image) => image.url.trim().length > 0);
   const fields = [
     { term: "Type", value: item.type },
     { term: "Location", value: item.location },
@@ -85,16 +90,16 @@ export default async function ShowreelDetailPage({
           */}
           {gallery.length > 0 ? (
             <ul className="flex shrink-0 snap-x snap-mandatory gap-3 overflow-x-auto overscroll-contain pb-1">
-              {gallery.map((source, index) => {
-                const remoteShot = isRemoteImage(source);
+              {gallery.map((image, index) => {
+                const remoteShot = isRemoteImage(image.url);
                 return (
                   <li
-                    key={source}
+                    key={image.id}
                     className="relative h-20 w-32 shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon sm:h-24 sm:w-40"
                   >
                     <Image
-                      src={remoteShot ? img(source, 640, 72) : source}
-                      alt={`${item.title} — gallery image ${index + 1}`}
+                      src={remoteShot ? img(image.url, 640, 72) : image.url}
+                      alt={image.alt ?? `${item.title} — gallery image ${index + 1}`}
                       fill
                       unoptimized={!remoteShot}
                       sizes="160px"

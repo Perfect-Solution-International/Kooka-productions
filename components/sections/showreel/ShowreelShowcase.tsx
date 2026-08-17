@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { getShowreel } from "@/data/showreel";
+import { listShowreel } from "@/services/showreel.service";
 import { img, isRemoteImage } from "@/data/media";
 
 /**
@@ -8,8 +8,8 @@ import { img, isRemoteImage } from "@/data/media";
  * the image alone and the caption sits under it, flush right, so the column
  * edge reads as a single line down the page.
  */
-export function ShowreelShowcase() {
-  const showreel = getShowreel();
+export async function ShowreelShowcase() {
+  const showreel = await listShowreel();
 
   return (
     <RevealGroup
@@ -17,7 +17,7 @@ export function ShowreelShowcase() {
       stagger={0.09}
     >
       {showreel.map((item) => (
-        <RevealItem key={item.slug} className="group">
+        <RevealItem key={item.id} className="group">
           <div className="relative aspect-4/3 overflow-hidden rounded-xl border border-white/[0.07]">
             <Image
               src={
