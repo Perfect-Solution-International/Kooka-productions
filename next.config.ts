@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Use the in-process TypeScript compiler API. The standalone CLI spawns a
+    // detached worker, which is not permitted by this production host.
+    useTypeScriptCli: false,
+  },
   images: {
     // Cinematic production / event photography is served from Unsplash's CDN,
     // which resizes and format-negotiates on its own. `lib/imageLoader.ts`

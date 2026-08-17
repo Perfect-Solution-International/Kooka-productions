@@ -11,8 +11,9 @@ const intro =
   "Together, our leadership team combines strategic vision, operational excellence, and technical innovation to deliver high-quality event experiences across corporate events, brand activations, cultural events, and large-scale productions. We are passionate about creating impactful experiences that connect people, elevate brands, and leave lasting impressions.";
 
 export const metadata: Metadata = {
-  title: "Kooka DNA",
-  description: intro,
+  title: "About Kooka Productions Melbourne",
+  description:
+    "Meet the Melbourne event production leaders behind Kooka Productions and our approach to creative, technical and operational excellence.",
   alternates: { canonical: "/dna" },
 };
 

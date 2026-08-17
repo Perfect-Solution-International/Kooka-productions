@@ -65,7 +65,7 @@ export function Hero() {
           alt=""
           fill
           priority
-          quality={90}
+          quality={75}
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -90,7 +90,7 @@ export function Hero() {
         className="kooka-container relative"
       >
         <motion.div
-          initial="hidden"
+          initial={false}
           animate="show"
           variants={staggerContainer(0.12, 0.15)}
           className="mx-auto max-w-4xl text-center"

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { CursorParallax } from "@/components/effects/CursorParallax";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Icon } from "@/components/ui/Icon";
@@ -47,6 +49,13 @@ export function ServiceBlock({ service, index }: ServiceBlockProps) {
             <p className="mt-4 text-sm leading-relaxed text-kooka-mist">
               {service.description}
             </p>
+            <Link
+              href={`/solutions/${service.slug}`}
+              className="mt-6 inline-flex items-center gap-2 self-start font-display text-xs font-semibold tracking-[0.16em] text-kooka-amber uppercase transition-colors hover:text-kooka-flare"
+            >
+              Explore Service
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         </GlassCard>
       </CursorParallax>

@@ -109,14 +109,15 @@ export function resolveQualityTier(): QualityTier {
   const coarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
   const width = window.innerWidth;
 
+  // The scene is decorative and its continuous render loop is disproportionately
+  // expensive under mobile CPU throttling. Phones and compact tablets retain
+  // the complete photographic hero without downloading or running Three.js.
+  if (coarse || width < 768) return "none";
+
   /*
    * A coarse pointer is the strongest signal available for "battery-powered
    * GPU". Even a fast tablet stays a step below the desktop scene.
    */
-  if (coarse) {
-    return cores >= 8 && memory >= 4 && width >= 768 ? "medium" : "low";
-  }
-
   if (cores <= 4 || memory <= 4 || width < 1024) return "medium";
 
   return "high";

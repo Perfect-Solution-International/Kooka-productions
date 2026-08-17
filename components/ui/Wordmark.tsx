@@ -11,7 +11,7 @@ export function Wordmark({
   return (
     <span className={cn("flex items-center gap-3", className)}>
       <Image
-        src="/Logo-kooka.png"
+        src="/Logo-kooka-64.webp"
         alt=""
         width={483}
         height={517}

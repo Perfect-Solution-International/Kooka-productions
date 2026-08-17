@@ -5,8 +5,14 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { FooterGate } from "@/components/layout/FooterGate";
 import { MotionProvider } from "@/components/providers/MotionProvider";
-import { SceneCanvas } from "@/components/3d/SceneCanvas";
+import { DeferredSceneCanvas } from "@/components/3d/DeferredSceneCanvas";
+import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
+import { img, media } from "@/data/media";
 import { site } from "@/data/site";
+
+const socialImage = img(media.heroStage, 1200, 75);
+const seoDescription =
+  "Melbourne event production and AV hire specialists delivering LED screens, sound, lighting, staging and live streaming across Australia.";
 
 const kookaDisplay = localFont({
   src: "./fonts/Outfit-Variable.woff2",
@@ -30,11 +36,15 @@ export const metadata: Metadata = {
     default: `${site.name} | ${site.seoLine}`,
     template: `%s | ${site.name}`,
   },
-  description: site.description,
+  description: seoDescription,
+  applicationName: site.name,
+  creator: site.name,
+  publisher: site.name,
+  category: "Event Production",
   icons: {
-    icon: "/Logo-kooka.png",
-    shortcut: "/Logo-kooka.png",
-    apple: "/Logo-kooka.png",
+    icon: [{ url: "/favicon-64.png", sizes: "64x64", type: "image/png" }],
+    shortcut: "/favicon-64.png",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   keywords: [
     "event production Melbourne",
@@ -51,14 +61,33 @@ export const metadata: Metadata = {
     url: site.url,
     siteName: site.name,
     title: `${site.name} | ${site.seoLine}`,
-    description: site.description,
+    description: seoDescription,
+    images: [
+      {
+        url: socialImage,
+        width: 1200,
+        height: 630,
+        alt: "Kooka Productions live event production in Melbourne",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} | ${site.seoLine}`,
-    description: site.description,
+    description: seoDescription,
+    images: [socialImage],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -84,6 +113,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${kookaDisplay.variable} ${kookaSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-kooka-black text-kooka-white">
+        <SiteStructuredData />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-kooka-amber focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-kooka-black"
@@ -96,7 +126,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             of the stack and every band of content is composited over it. Client
             component: it renders nothing until it has probed the device.
           */}
-          <SceneCanvas />
+          <DeferredSceneCanvas />
 
           <SiteHeader />
           <main id="main" className="relative z-10 flex-1">

@@ -2,12 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mainNav, type NavItem } from "@/data/navigation";
 import { contact, site } from "@/data/site";
-import { EASE_KOOKA } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
@@ -25,17 +23,15 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    /*
-     * Fires on every scroll frame. Comparing first keeps the state write — and
-     * the render pass React schedules around it — to the two frames that
-     * actually cross the threshold.
-     */
-    const next = latest > 24;
-    setScrolled((current) => (current === next ? current : next));
-  });
+  useEffect(() => {
+    const sync = () => {
+      const next = window.scrollY > 24;
+      setScrolled((current) => (current === next ? current : next));
+    };
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => window.removeEventListener("scroll", sync);
+  }, []);
 
   // Lock background scroll while the sheet is open.
   useEffect(() => {
@@ -131,22 +127,14 @@ export function Header() {
                         />
                       ) : null}
                       {active ? (
-                        <motion.span
-                          layoutId="nav-active"
-                          transition={{ duration: 0.5, ease: EASE_KOOKA }}
+                        <span
                           className="absolute inset-x-3 -bottom-0.5 h-px bg-kooka-amber"
                         />
                       ) : null}
                     </Link>
 
-                    {item.children ? (
-                      <AnimatePresence>
-                        {open ? (
-                          <motion.ul
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 6 }}
-                            transition={{ duration: 0.28, ease: EASE_KOOKA }}
+                    {item.children && open ? (
+                      <ul
                             // `before` bridges the 12px gap under the trigger so
                             // travelling into the panel does not fire mouseleave.
                             className="kooka-glass absolute top-full left-0 mt-3 w-[23rem] rounded-2xl p-3 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-['']"
@@ -166,9 +154,7 @@ export function Header() {
                                 </Link>
                               </li>
                             ))}
-                          </motion.ul>
-                        ) : null}
-                      </AnimatePresence>
+                      </ul>
                     ) : null}
                   </li>
                 );
@@ -206,14 +192,9 @@ export function Header() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.div
+      {menuOpen ? (
+          <div
             id="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE_KOOKA }}
             className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
           >
             {/* The sheet runs under the home indicator, so the pad clears it. */}
@@ -225,15 +206,8 @@ export function Header() {
                     const groupId = `mobile-group-${index}`;
 
                     return (
-                      <motion.li
+                      <li
                         key={item.href}
-                        initial={{ opacity: 0, y: 24 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          delay: 0.06 * index,
-                          duration: 0.5,
-                          ease: EASE_KOOKA,
-                        }}
                         className="border-b border-white/[0.07]"
                       >
                         <div className="flex items-center gap-3">
@@ -279,15 +253,9 @@ export function Header() {
                           ) : null}
                         </div>
 
-                        {item.children ? (
-                          <AnimatePresence initial={false}>
-                            {groupOpen ? (
-                              <motion.div
+                        {item.children && groupOpen ? (
+                          <div
                                 id={groupId}
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.4, ease: EASE_KOOKA }}
                                 className="overflow-hidden"
                               >
                                 <ul className="mb-5 flex flex-col border-l border-kooka-amber/30 pl-4">
@@ -309,20 +277,15 @@ export function Header() {
                                     </li>
                                   ))}
                                 </ul>
-                              </motion.div>
-                            ) : null}
-                          </AnimatePresence>
+                          </div>
                         ) : null}
-                      </motion.li>
+                      </li>
                     );
                   })}
                 </ul>
               </nav>
 
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.34, duration: 0.5, ease: EASE_KOOKA }}
+              <div
                 // Either action leaves the sheet, so dismiss it on tap.
                 onClick={() => setMenuOpen(false)}
                 className="flex flex-col gap-4"
@@ -337,11 +300,10 @@ export function Header() {
                   <Phone className="h-4 w-4 text-kooka-amber" aria-hidden />
                   {contact.phone}
                 </a>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         ) : null}
-      </AnimatePresence>
     </>
   );
 }

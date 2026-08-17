@@ -17,6 +17,8 @@ export type Service = {
   icon: IconName;
   image: string;
   description: string;
+  deliverables: readonly string[];
+  idealFor: readonly string[];
 };
 
 export const services: Service[] = [
@@ -27,6 +29,8 @@ export const services: Service[] = [
     image: media.conferenceStage,
     description:
       "End-to-end event production covering technical planning, system design, crew coordination, and on-site execution. From concept development to show delivery, we manage logistics, run sheets, rehearsals, and live operations to ensure seamless, high-impact events of any scale.",
+    deliverables: ["Production planning", "Crew coordination", "Show calling", "On-site delivery"],
+    idealFor: ["Corporate events", "Gala nights", "Brand activations", "Large-scale productions"],
   },
   {
     slug: "av-production",
@@ -35,6 +39,8 @@ export const services: Service[] = [
     image: media.controlRoom,
     description:
       "Professional AV solutions delivering high-impact visual and audio experiences across diverse event environments. We design and deploy vision systems, projection, displays, and signal workflows, integrating content playback and multi-screen presentations for reliable and engaging audience delivery.",
+    deliverables: ["AV system design", "Projection and displays", "Content playback", "Signal distribution"],
+    idealFor: ["Conferences", "Presentations", "Awards nights", "Hybrid events"],
   },
   {
     slug: "led-screens",
@@ -43,6 +49,8 @@ export const services: Service[] = [
     image: media.ledWall,
     description:
       "High-resolution LED display solutions engineered for maximum visual impact across indoor and outdoor events. We provide modular LED systems, custom configurations, and large-scale screen deployments, ensuring brightness, clarity, and seamless integration into any production environment.",
+    deliverables: ["LED wall hire", "Custom screen layouts", "Processing and playback", "Installation and operation"],
+    idealFor: ["Concerts", "Product launches", "Exhibitions", "Outdoor events"],
   },
   {
     slug: "sound-systems",
@@ -51,6 +59,8 @@ export const services: Service[] = [
     image: media.soundSystem,
     description:
       "Scalable sound systems designed for clarity, coverage, and consistency across any venue or audience size. Our solutions include PA deployment, microphones, monitoring, and digital mixing, tailored to venue acoustics to ensure clear, balanced audio throughout the event.",
+    deliverables: ["PA system design", "Digital mixing", "Wireless microphones", "Stage monitoring"],
+    idealFor: ["Live music", "Conferences", "Ceremonies", "Public events"],
   },
   {
     slug: "lighting-design",
@@ -59,6 +69,8 @@ export const services: Service[] = [
     image: media.lightBeams,
     description:
       "Creative lighting solutions that enhance atmosphere, visual storytelling, and audience engagement. We design and program stage, architectural, and ambient lighting systems, integrating intelligent fixtures and effects to create immersive environments that elevate the overall event experience.",
+    deliverables: ["Lighting design", "Fixture and rig planning", "Console programming", "Live operation"],
+    idealFor: ["Stage shows", "Gala dinners", "Brand events", "Architectural lighting"],
   },
   {
     slug: "stage-design",
@@ -67,6 +79,8 @@ export const services: Service[] = [
     image: media.stageRig,
     description:
       "Custom stage and scenic solutions designed to support both technical performance and visual impact. We deliver stage builds, branded environments, and structural systems, integrating rigging and production elements to create cohesive, functional, and visually striking event spaces.",
+    deliverables: ["Stage design", "Set construction", "Scenic integration", "Rigging coordination"],
+    idealFor: ["Concerts", "Corporate stages", "Awards nights", "Brand activations"],
   },
   {
     slug: "live-streaming",
@@ -75,6 +89,8 @@ export const services: Service[] = [
     image: media.broadcast,
     description:
       "Scalable hybrid and live streaming solutions connecting in-person and remote audiences through reliable, broadcast-quality workflows. We deliver multi-camera production, platform integration, recording, and redundant streaming systems to ensure seamless delivery across digital and live environments.",
+    deliverables: ["Multi-camera production", "Streaming platform integration", "Event recording", "Redundant delivery"],
+    idealFor: ["Hybrid conferences", "Webinars", "Live performances", "Corporate broadcasts"],
   },
   {
     slug: "technical-production",
@@ -83,6 +99,8 @@ export const services: Service[] = [
     image: media.audioDesk,
     description:
       "End-to-end technical direction ensuring seamless coordination across all production elements. We manage system design, vendor collaboration, and on-site execution, overseeing workflows, troubleshooting, and show delivery to maintain efficiency, reliability, and high production standards.",
+    deliverables: ["Technical direction", "System documentation", "Vendor coordination", "Show-site management"],
+    idealFor: ["Complex productions", "Multi-vendor events", "Touring shows", "Venue events"],
   },
   {
     slug: "permanent-installations",
@@ -91,6 +109,8 @@ export const services: Service[] = [
     image: media.screenArray,
     description:
       "Integrated AV and production systems designed for long-term use across venues, studios, and corporate environments. We handle system design, installation, commissioning, and optimisation, delivering reliable infrastructure supported by ongoing maintenance and technical support.",
+    deliverables: ["System design", "Equipment installation", "Commissioning", "Ongoing support"],
+    idealFor: ["Venues", "Corporate offices", "Studios", "Education spaces"],
   },
 ];
 

@@ -52,8 +52,8 @@ const RING_RADIUS = 86;
  * Seamless brand loader: the Kooka mark held at the centre of a drawing
  * progress ring, an orbiting light pulse and a swarm of motes.
  *
- * The mark is the untouched `public/Logo-kooka.png` — the cycle only moves its
- * opacity, blur and glow, never its geometry or colour.
+ * The mark uses a display-sized WebP derived from the source logo — the cycle
+ * only moves its opacity and glow, never its geometry or colour.
  *
  * Motion lives entirely in CSS (`app/globals.css`, "Loading screen" section),
  * so this stays a server component and the animation runs on the compositor
@@ -148,7 +148,7 @@ export function LogoLoader({
       })}
 
       <Image
-        src="/Logo-kooka.png"
+        src="/Logo-kooka-240.webp"
         alt=""
         width={483}
         height={517}

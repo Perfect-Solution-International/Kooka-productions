@@ -113,7 +113,7 @@ export function KookaSolutions() {
                       className="overflow-hidden"
                     >
                       <Link
-                        href={`/solutions#${service.slug}`}
+                        href={`/solutions/${service.slug}`}
                         className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9"
                       >
                         <Image
