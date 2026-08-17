@@ -21,7 +21,7 @@ export default function DnaPage() {
     <>
       <PageHero
         eyebrow="Who We Are"
-        title="DNA"
+        title="Kooka DNA"
         subtitle="Strategic Vision. Operational Excellence. Technical Innovation."
         description={intro}
         image={media.smokeStage}
