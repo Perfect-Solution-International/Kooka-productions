@@ -10,15 +10,16 @@ export function PartnerMarquee() {
       density="tight"
       className="overflow-hidden border-t border-white/[0.06]"
     >
-      {/*
-       * The tilt lives on the wrapper while the rail keeps the plain
-       * horizontal ticker, so the logos climb from the bottom-left corner to
-       * the top-right. `reverse` flips the ticker to travel with that heading;
-       * without it the rotated rail would drift back down toward the left.
-       */}
+  
       <div className="relative py-6 sm:py-10">
         <div className="relative -mx-[10vw] w-[120vw] rotate-[-6deg]">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px overflow-hidden bg-yellow-400/20">
+            <div className="animate-sweep absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
+          </div>
           <LogoTicker items={producerPartners} reverse />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px overflow-hidden bg-yellow-400/20">
+            <div className="animate-sweep absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-yellow-400 to-transparent [animation-direction:reverse]" />
+          </div>
         </div>
       </div>
     </Section>

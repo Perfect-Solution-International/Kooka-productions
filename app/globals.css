@@ -38,6 +38,7 @@
   --animate-glow-pulse: glow-pulse 4s var(--ease-kooka) infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-sweep: sweep 3.5s var(--ease-kooka) infinite;
+  --animate-border-glow: border-glow 3s var(--ease-kooka) infinite;
 
   @keyframes ticker {
     from {
@@ -76,6 +77,19 @@
     }
     100% {
       transform: translateX(220%);
+    }
+  }
+
+  @keyframes border-glow {
+    0%,
+    100% {
+      border-color: color-mix(in oklab, var(--color-kooka-amber) 35%, transparent);
+      box-shadow: 0 0 0 rgba(255, 176, 32, 0);
+    }
+    50% {
+      border-color: var(--color-kooka-amber);
+      box-shadow: 0 0 12px
+        color-mix(in oklab, var(--color-kooka-amber) 55%, transparent);
     }
   }
 }
@@ -146,6 +160,41 @@
     .animate-ticker {
       animation: none !important;
       transform: translate3d(0, 0, 0);
+    }
+
+    /*
+     * Same problem, worse consequence: the loader's cycle both opens and closes
+     * on a near-invisible logo so the loop has no seam, so fast-forwarding it
+     * leaves a blank square where the loading screen should be. Stop the motion
+     * outright and pin every layer to its resolved, fully-lit state.
+     *
+     * These live in `base` alongside the rule they are correcting — important
+     * declarations resolve layers in reverse, so a later layer could not win.
+     */
+    .kooka-loader *,
+    .kooka-loader *::before,
+    .kooka-loader *::after {
+      animation: none !important;
+    }
+    .kooka-loader-logo {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: drop-shadow(
+        0 0 18px color-mix(in oklab, var(--color-kooka-amber) 28%, transparent)
+      ) !important;
+    }
+    .kooka-loader-bloom {
+      opacity: 0.4 !important;
+      transform: scale(1) !important;
+    }
+    .kooka-loader-arc {
+      stroke-dasharray: 0.68 0.32 !important;
+      stroke-dashoffset: 0 !important;
+    }
+    .kooka-loader-ripple,
+    .kooka-loader-comet,
+    .kooka-loader-comet-head {
+      opacity: 0 !important;
     }
   }
 }
@@ -380,5 +429,286 @@
 
   .preserve-3d {
     transform-style: preserve-3d;
+  }
+}
+
+/* ==========================================================================
+   Loading screen
+   ==========================================================================
+
+   Every layer of the loader runs on one duration, `--loader-cycle`, or on an
+   exact divisor of it, so the whole composition is periodic at the cycle length
+   and the loop has no seam to hide. The shared easing is symmetric — velocity
+   reaches zero at 0% and at 100% — which is what keeps the wrap from reading as
+   a cut. Rotations stay linear for the same reason: an eased rotation stalls at
+   the seam.
+
+   Kept out of `@theme` deliberately. Tailwind only emits theme keyframes when
+   something references the matching `--animate-*` variable, and these are
+   driven by per-element durations and delays rather than a single utility.
+   ========================================================================== */
+
+@keyframes kooka-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes kooka-loader-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/*
+ * The progress arc draws itself in over the first half of the cycle and is
+ * swallowed again over the second. `pathLength="1"` normalises the circle so
+ * the dash pattern is expressed as a fraction of the circumference, which makes
+ * the closing frame — offset `-1` — the same pattern as the opening frame at
+ * offset `0`, one whole repeat later.
+ */
+@keyframes kooka-loader-arc {
+  0% {
+    stroke-dasharray: 0.02 0.98;
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+  50% {
+    stroke-dasharray: 0.66 0.34;
+    stroke-dashoffset: -0.14;
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 0.02 0.98;
+    stroke-dashoffset: -1;
+    opacity: 0.55;
+  }
+}
+
+/*
+ * The mark is legible on every frame of the cycle — the loop lights it, it
+ * never hides it. No blur at any point, and the resting floor sits high enough
+ * that the darkest frame still reads as the logo rather than as a shadow of it;
+ * the reveal is carried by brightness, saturation and the glow behind it.
+ */
+@keyframes kooka-loader-logo {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: scale(0.98);
+    filter: saturate(0.9) brightness(0.86)
+      drop-shadow(0 0 6px color-mix(in oklab, var(--color-kooka-amber) 12%, transparent));
+  }
+  22% {
+    opacity: 0.9;
+    filter: saturate(0.98) brightness(0.96)
+      drop-shadow(0 0 12px color-mix(in oklab, var(--color-kooka-amber) 20%, transparent));
+  }
+  48%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1.14) brightness(1.16)
+      drop-shadow(0 0 24px color-mix(in oklab, var(--color-kooka-amber) 38%, transparent));
+  }
+  88% {
+    opacity: 0.89;
+    filter: saturate(0.96) brightness(0.94)
+      drop-shadow(0 0 10px color-mix(in oklab, var(--color-kooka-amber) 18%, transparent));
+  }
+}
+
+@keyframes kooka-loader-bloom {
+  0%,
+  100% {
+    opacity: 0.14;
+    transform: scale(0.86);
+  }
+  55% {
+    opacity: 0.46;
+    transform: scale(1.05);
+  }
+  74% {
+    opacity: 0.58;
+    transform: scale(1);
+  }
+}
+
+@keyframes kooka-loader-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  35% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.32);
+  }
+}
+
+@keyframes kooka-loader-twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+}
+
+@layer components {
+  .kooka-loader {
+    --loader-size: 15rem;
+    --loader-cycle: 5s;
+    --loader-ease: cubic-bezier(0.45, 0, 0.55, 1);
+
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--loader-size);
+    /*
+     * Stated on both axes rather than left to `aspect-ratio`. The layers are
+     * stacked in a single grid cell, and a cell whose height is still being
+     * resolved cannot answer a percentage height — the mark's intrinsic 517px
+     * would win the row sizing and stretch the square into a portrait box,
+     * dragging the ring off centre with it.
+     */
+    height: var(--loader-size);
+    isolation: isolate;
+  }
+
+  .kooka-loader > * {
+    grid-area: 1 / 1;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* Warm ambient bloom the logo sits inside of. */
+  .kooka-loader-bloom {
+    width: 82%;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--color-kooka-amber) 42%, transparent) 0%,
+      color-mix(in oklab, var(--color-kooka-ember) 18%, transparent) 45%,
+      transparent 72%
+    );
+    filter: blur(26px);
+    animation: kooka-loader-bloom var(--loader-cycle) var(--loader-ease) infinite;
+  }
+
+  /* Hairline shells that breathe outward and dissolve, half a cycle apart. */
+  .kooka-loader-ripple {
+    width: 86%;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklab, var(--color-kooka-amber) 40%, transparent);
+    animation: kooka-loader-ripple var(--loader-cycle) var(--loader-ease) infinite;
+    animation-delay: var(--ripple-delay, 0s);
+  }
+
+  .kooka-loader-ring {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .kooka-loader-track {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.07);
+    stroke-width: 1;
+  }
+
+  /*
+   * Both moving strokes rotate about the viewBox centre rather than their own
+   * bounding box: a dashed arc's box changes as the dash grows, and a fill-box
+   * origin would drift with it.
+   */
+  .kooka-loader-arc,
+  .kooka-loader-comet,
+  .kooka-loader-comet-head {
+    fill: none;
+    stroke-linecap: round;
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+  }
+
+  .kooka-loader-arc {
+    stroke: var(--color-kooka-amber);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--color-kooka-amber) 55%, transparent));
+    animation:
+      kooka-loader-arc var(--loader-cycle) var(--loader-ease) infinite,
+      kooka-loader-spin var(--loader-cycle) linear infinite;
+  }
+
+  /* Soft trail plus a sharp head — the light pulse running the ring. */
+  .kooka-loader-comet {
+    stroke: var(--color-kooka-flare);
+    stroke-width: 3.5;
+    stroke-dasharray: 0.11 0.89;
+    opacity: 0.42;
+    filter: blur(4px);
+    animation: kooka-loader-spin var(--loader-cycle) linear infinite;
+  }
+
+  .kooka-loader-comet-head {
+    stroke: var(--color-kooka-white);
+    stroke-width: 2.4;
+    stroke-dasharray: 0.012 0.988;
+    filter: drop-shadow(0 0 8px var(--color-kooka-flare));
+    animation: kooka-loader-spin var(--loader-cycle) linear infinite;
+  }
+
+  .kooka-loader-orbit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /*
+     * The resting angle each mote's negative delay would have carried it to.
+     * The spin overrides it while it runs; with motion off it is the only thing
+     * standing between a scattered swarm and seven motes stacked at twelve
+     * o'clock.
+     */
+    transform: rotate(var(--orbit-phase));
+    animation: kooka-loader-spin var(--orbit-duration) linear infinite;
+    animation-delay: var(--orbit-delay);
+  }
+
+  .kooka-loader-orbit--reverse {
+    animation-name: kooka-loader-spin-reverse;
+  }
+
+  .kooka-loader-particle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--orbit-size);
+    height: var(--orbit-size);
+    margin: calc(var(--orbit-size) / -2);
+    border-radius: 9999px;
+    background: var(--color-kooka-flare);
+    box-shadow: 0 0 10px 1px color-mix(in oklab, var(--color-kooka-amber) 75%, transparent);
+    translate: 0 calc(var(--loader-size) * var(--orbit-radius) * -1);
+    animation: kooka-loader-twinkle var(--orbit-duration) var(--loader-ease) infinite;
+    animation-delay: var(--orbit-delay);
+  }
+
+  .kooka-loader-logo {
+    position: relative;
+    z-index: 1;
+    /*
+     * Sized off the width so the mark's own 483:517 ratio is what sets its
+     * height — the geometry is never touched, only light is.
+     */
+    width: 47%;
+    height: auto;
+    animation: kooka-loader-logo var(--loader-cycle) var(--loader-ease) infinite;
+    will-change: opacity, transform, filter;
   }
 }
