@@ -1,4 +1,8 @@
-import { listShowreel, type ShowreelItem } from "@/lib/showreelStore";
+import {
+  findShowreel,
+  listShowreel,
+  type ShowreelItem,
+} from "@/lib/showreelStore";
 
 export type { ShowreelItem };
 
@@ -9,4 +13,8 @@ export type { ShowreelItem };
  */
 export function getShowreel(): ShowreelItem[] {
   return listShowreel();
+}
+
+export function getShowreelItem(slug: string): ShowreelItem | null {
+  return findShowreel(slug);
 }

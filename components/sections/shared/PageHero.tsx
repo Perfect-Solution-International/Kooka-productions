@@ -13,6 +13,11 @@ type PageHeroProps = {
   readonly image: string;
   readonly children?: ReactNode;
   readonly className?: string;
+  /**
+   * `compact` trades the full-bleed height for a shallow banner — used by
+   * secondary pages that lead with their content rather than the image.
+   */
+  readonly size?: "default" | "compact";
 };
 
 export function PageHero({
@@ -23,11 +28,17 @@ export function PageHero({
   image,
   children,
   className,
+  size = "default",
 }: PageHeroProps) {
+  const compact = size === "compact";
+
   return (
     <section
       className={cn(
-        "relative isolate flex min-h-[68svh] items-end overflow-hidden pt-32 pb-14 sm:min-h-[74svh] sm:pt-36 sm:pb-20",
+        "relative isolate flex items-end overflow-hidden",
+        compact
+          ? "min-h-[42svh] pt-28 pb-10 sm:min-h-[46svh] sm:pt-32 sm:pb-14"
+          : "min-h-[68svh] pt-32 pb-14 sm:min-h-[74svh] sm:pt-36 sm:pb-20",
         className,
       )}
     >
@@ -60,7 +71,14 @@ export function PageHero({
             {eyebrow}
           </RevealItem>
 
-          <h1 className="kooka-display overflow-hidden text-[clamp(2rem,8.5vw,6rem)]">
+          <h1
+            className={cn(
+              "kooka-display overflow-hidden",
+              compact
+                ? "text-[clamp(1.75rem,5.5vw,3.5rem)]"
+                : "text-[clamp(2rem,8.5vw,6rem)]",
+            )}
+          >
             <RevealItem as="span" variants={maskUp} className="block">
               {title}
             </RevealItem>

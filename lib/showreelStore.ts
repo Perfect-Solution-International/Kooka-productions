@@ -84,6 +84,10 @@ export function listShowreel(): ShowreelItem[] {
   return readAll();
 }
 
+export function findShowreel(slug: string): ShowreelItem | null {
+  return readAll().find((item) => item.slug === slug) ?? null;
+}
+
 export function createShowreel(input: ShowreelInput): ShowreelItem {
   const items = readAll();
   const item: ShowreelItem = { slug: uniqueSlug(slugify(input.title), items), ...input };

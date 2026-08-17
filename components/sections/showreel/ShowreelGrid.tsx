@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Eye } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { ShowreelDetailDialog } from "@/components/sections/showreel/ShowreelDetailDialog";
 import { getShowreel, type ShowreelItem } from "@/data/showreel";
 import { img, isRemoteImage } from "@/data/media";
 
@@ -59,9 +58,15 @@ export function ShowreelGrid() {
               <span className="text-kooka-muted">{total}</span>
             </p>
 
-            <ShowreelDetailDialog item={item} index={index} total={total} />
+            <Link
+              href={`/showreel/${item.slug}`}
+              className="absolute right-4 bottom-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/55 text-kooka-white backdrop-blur-md transition-colors duration-500 hover:border-kooka-amber hover:bg-kooka-amber hover:text-kooka-black sm:right-6 sm:bottom-6 lg:right-8 lg:bottom-8"
+            >
+              <Eye className="h-4 w-4" aria-hidden />
+              <span className="sr-only">View details: {item.title}</span>
+            </Link>
 
-            {/* Right padding keeps the copy clear of the detail trigger */}
+            {/* Right padding keeps the copy clear of the detail link */}
             <div className="relative p-5 pr-20 sm:p-7 sm:pr-24 md:p-8 md:pr-24 lg:p-10 lg:pr-28">
               <ShowreelMeta item={item} />
 
