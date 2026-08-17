@@ -61,7 +61,7 @@ export function FootprintGrid() {
             <div className="relative p-5 sm:p-7 md:p-8 lg:p-10">
               <FootprintMeta item={item} />
 
-              <h3 className="kooka-display mt-2 text-2xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-3xl lg:text-[2.4rem]">
+              <h3 className="kooka-display mt-2 text-xl transition-colors duration-500 group-hover:text-kooka-flare sm:text-2xl lg:text-[2rem]">
                 {item.title}
               </h3>
 
