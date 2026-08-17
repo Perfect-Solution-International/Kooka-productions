@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { FootprintItem } from "@/lib/footprintStore";
 
@@ -36,7 +36,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setError(null);
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setPending(true);
     setError(null);
@@ -52,13 +52,18 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     });
 
     if (!response.ok) {
-      const body = (await response.json().catch(() => null)) as { error?: string } | null;
-      setError(body?.error ?? "Something went wrong.");
+      const body: unknown = await response.json().catch(() => null);
+      const message =
+        typeof body === "object" && body !== null && "error" in body && typeof body.error === "string"
+          ? body.error
+          : "Something went wrong.";
+      setError(message);
       setPending(false);
       return;
     }
 
-    const { item } = (await response.json()) as { item: FootprintItem };
+    const body: unknown = await response.json();
+    const item = (body as { item: FootprintItem }).item;
     setItems((prev) =>
       editingSlug
         ? prev.map((existing) => (existing.slug === editingSlug ? item : existing))
@@ -94,7 +99,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           <h1 className="font-display text-2xl">Manage Projects — Showreel</h1>
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={() => void handleLogout()}
             className="rounded-full border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.14em] text-kooka-mist hover:border-kooka-amber/60 hover:text-kooka-amber"
           >
             Log Out
@@ -102,7 +107,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
         </div>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(event) => void handleSubmit(event)}
           className="mt-8 space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
         >
           <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
@@ -111,7 +116,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm text-kooka-mist">
-              Title
+              Title{" "}
               <input
                 value={form.title}
                 onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
@@ -121,7 +126,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             </label>
 
             <label className="text-sm text-kooka-mist">
-              Image URL or /public path
+              Image URL or /public path{" "}
               <input
                 value={form.image}
                 onChange={(event) => setForm((prev) => ({ ...prev, image: event.target.value }))}
@@ -133,7 +138,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           </div>
 
           <label className="block text-sm text-kooka-mist">
-            Blurb
+            Blurb{" "}
             <textarea
               value={form.blurb}
               onChange={(event) => setForm((prev) => ({ ...prev, blurb: event.target.value }))}
@@ -186,7 +191,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDelete(item.slug)}
+                  onClick={() => void handleDelete(item.slug)}
                   className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:border-red-400/60 hover:text-red-400"
                 >
                   Delete

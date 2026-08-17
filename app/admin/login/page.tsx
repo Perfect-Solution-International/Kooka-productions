@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
@@ -9,7 +9,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setPending(true);
     setError(null);
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
         <h1 className="font-display text-xl text-kooka-white">Admin Login</h1>
 
         <label className="mt-6 block text-sm text-kooka-mist">
-          Password
+          Password{" "}
           <input
             type="password"
             value={password}
