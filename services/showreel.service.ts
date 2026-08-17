@@ -28,6 +28,7 @@ export type ShowreelItem = {
   href: string | null;
   published: boolean;
   sortOrder: number;
+  updatedAt: Date;
   gallery: ShowreelGalleryImage[];
 };
 
@@ -47,6 +48,7 @@ type ShowreelRow = {
   href: string | null;
   published: boolean;
   sortOrder: number;
+  updatedAt: Date;
   images: { id: string; url: string; alt: string | null }[];
 };
 

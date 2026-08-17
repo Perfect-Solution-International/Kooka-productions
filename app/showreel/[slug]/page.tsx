@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getShowreelBySlug,
   listShowreel,
@@ -70,8 +71,9 @@ export default async function ShowreelDetailPage({
     { term: "Year", value: item.year },
   ].filter((field) => field.value.trim().length > 0);
   const projectUrl = `${site.url}/showreel/${item.slug}`;
-  const projectImages = [item.image, ...gallery].map((source) =>
-    new URL(source, site.url).href,
+  /* Gallery rows carry their path on `url`, the hero image is a bare string. */
+  const projectImages = [item.image, ...gallery.map((image) => image.url)].map(
+    (source) => new URL(source, site.url).href,
   );
 
   /*
