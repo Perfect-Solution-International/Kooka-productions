@@ -9,7 +9,7 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/", description: "Concept. Create. Captivate." },
-  { label: "About Us", href: "/about", description: "The Kooka DNA" },
+  { label: "DNA", href: "/dna", description: "The Kooka DNA" },
   {
     label: "Projects",
     href: "/showreel",
@@ -19,8 +19,6 @@ export const mainNav: NavItem[] = [
     label: "What We Do",
     href: "/services",
     description: "Technical artistry, zero compromise",
-    // One source of truth: the dropdown mirrors the nine service blocks and
-    // jumps straight to each anchor on /services.
     children: services.map((service) => ({
       label: service.title,
       href: `/services#${service.slug}`,
@@ -35,9 +33,9 @@ export const mainNav: NavItem[] = [
 
 export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
+  { label: "DNA", href: "/dna" },
   { label: "Projects", href: "/showreel" },
   { label: "Kooka Solutions", href: "/services" },
-  { label: "Kooka Footprint", href: "/where-we-work" },
+  { label: "Kooka Footprint", href: "/solutions" },
   // { label: "Admin Panel", href: "/admin" },
 ];

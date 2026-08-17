@@ -11,17 +11,17 @@ const intro =
   "Together, our leadership team combines strategic vision, operational excellence, and technical innovation to deliver high-quality event experiences across corporate events, brand activations, cultural events, and large-scale productions. We are passionate about creating impactful experiences that connect people, elevate brands, and leave lasting impressions.";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "Kooka DNA",
   description: intro,
-  alternates: { canonical: "/about" },
+  alternates: { canonical: "/dna" },
 };
 
-export default function AboutPage() {
+export default function DnaPage() {
   return (
     <>
       <PageHero
         eyebrow="Who We Are"
-        title="About Us"
+        title="DNA"
         subtitle="Strategic Vision. Operational Excellence. Technical Innovation."
         description={intro}
         image={media.smokeStage}

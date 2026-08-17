@@ -8,7 +8,7 @@ Marketing website and lightweight admin CMS for **Kooka Productions**, a Melbour
 
 The site presents Kooka Productions' services (event production, AV hire, LED walls, projection mapping, live streaming), showcases past work ("Kooka Footprint" / project showreel), and introduces the team and partners. It also ships a minimal password-protected admin panel for managing the portfolio ("Footprint") entries — add, edit, delete projects and upload their images — without needing a database.
 
-- **What it does:** Public marketing site (home, about, services, showreel, where-we-work) + an internal `/admin` CRUD tool for portfolio items.
+- **What it does:** Public marketing site (home, dna, services, showreel, solutions) + an internal `/admin` CRUD tool for portfolio items.
 - **Who it's for:** Kooka Productions' marketing team/site owner (admin panel) and prospective clients browsing the public site.
 - **Main objectives:** Fast, visually striking (WebGL hero, glassmorphism UI, motion) marketing presence with zero external backend dependency — content lives in versioned TypeScript/JSON files, not a database.
 
@@ -16,7 +16,7 @@ The site presents Kooka Productions' services (event production, AV hire, LED wa
 
 ### Public Site
 - Animated Three.js/WebGL hero scene with device-tier-aware quality scaling
-- Responsive marketing pages: Home, About, Services, Showreel, Where We Work
+- Responsive marketing pages: Home, DNA, Services, Showreel, Solutions
 - Reveal/scroll animations via Framer Motion
 - Reduced-motion support (`prefers-reduced-motion` aware hooks)
 - Custom Unsplash-backed image loader (bypasses `/_next/image` for external photography)
@@ -67,10 +67,10 @@ Next.js **App Router** project, effectively a **layered/feature-folder** structu
 ```
 kooka/
 ├── app/                        # Next.js App Router: pages, layouts, API routes
-│   ├── about/                  # /about
+│   ├── dna/                    # /dna
 │   ├── services/                # /services
 │   ├── showreel/                # /showreel (portfolio/showreel page)
-│   ├── where-we-work/           # /where-we-work (Kooka Footprint)
+│   ├── solutions/                # /solutions (Kooka Footprint)
 │   ├── admin/                   # /admin, /admin/login, /admin/projects (CMS)
 │   ├── api/admin/                # Route handlers: login, logout, projects CRUD, upload
 │   ├── fonts/                    # Self-hosted variable fonts (Inter, Outfit)

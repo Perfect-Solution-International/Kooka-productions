@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Kooka Footprint",
   description:
     "Events, environments and experiences Kooka Productions delivers — corporate events, conferences, product launches, brand activations, gala nights, live touring, festivals, sporting events, community gatherings and worship events.",
-  alternates: { canonical: "/where-we-work" },
+  alternates: { canonical: "/solutions" },
 };
 
 const regions = [
@@ -25,7 +25,7 @@ const regions = [
   { city: "Perth", meta: "Freighted tour packages" },
 ];
 
-export default function WhereWeWorkPage() {
+export default function SolutionsPage() {
   return (
     <>
       <PageHero
