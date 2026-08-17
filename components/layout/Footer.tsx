@@ -113,8 +113,10 @@ export function Footer() {
           </div>
 
           <div className="sm:col-span-2 lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
-            <ul className="flex flex-col items-center space-y-1 text-sm sm:items-start lg:space-y-3">
+            <h2 className="kooka-eyebrow mb-2 text-center sm:text-left lg:mb-4">
+              Contact
+            </h2>
+            <ul className="space-y-1 text-sm lg:space-y-3">
               <li>
                 <a
                   href={contact.phoneHref}
