@@ -41,14 +41,14 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="sm:col-span-2 lg:col-span-4">
             <Wordmark className="text-lg" />
-            <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
+            <p className="mt-4 text-center font-display text-sm tracking-[0.16em] text-kooka-amber uppercase sm:text-left">
               {site.tagline}
             </p>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-kooka-mist">
+            <p className="mt-3 max-w-sm text-center text-sm leading-relaxed text-kooka-mist sm:text-left">
               {site.seoLine}
             </p>
 
-            <ul className="mt-6 flex gap-2.5">
+            <ul className="mt-6 flex justify-center gap-2.5 sm:justify-start">
               {socials.map((social) => (
                 <li key={social.label}>
                   <a
@@ -111,7 +111,7 @@ export function Footer() {
 
           <div className="sm:col-span-2 lg:col-span-3">
             <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
-            <ul className="space-y-1 text-sm lg:space-y-3">
+            <ul className="flex flex-col items-center space-y-1 text-sm sm:items-start lg:space-y-3">
               <li>
                 <a
                   href={contact.phoneHref}
@@ -147,7 +147,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-center text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
