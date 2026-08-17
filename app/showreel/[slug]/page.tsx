@@ -38,6 +38,9 @@ export default async function ShowreelDetailPage({
   if (!item) notFound();
 
   const remote = isRemoteImage(item.image);
+  const gallery = (item.gallery ?? []).filter(
+    (source) => source.trim().length > 0,
+  );
   const fields = [
     { term: "Type", value: item.type },
     { term: "Location", value: item.location },
@@ -63,16 +66,45 @@ export default async function ShowreelDetailPage({
       </Link>
 
       <div className="mt-3 grid min-h-0 flex-1 gap-5 sm:mt-4 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
-        <div className="kooka-glow-border relative min-h-0 overflow-hidden rounded-3xl border border-white/[0.08] bg-kooka-carbon">
-          <Image
-            src={remote ? img(item.image, 1600, 82) : item.image}
-            alt={item.title}
-            fill
-            priority
-            unoptimized={!remote}
-            sizes="(min-width: 1024px) 58vw, 100vw"
-            className="object-cover"
-          />
+        <div className="flex min-h-0 flex-col gap-3">
+          <div className="kooka-glow-border relative min-h-0 flex-1 overflow-hidden rounded-3xl border border-white/[0.08] bg-kooka-carbon">
+            <Image
+              src={remote ? img(item.image, 1600, 82) : item.image}
+              alt={item.title}
+              fill
+              priority
+              unoptimized={!remote}
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+
+          {/*
+            Gallery is a fixed-height rail so the page stays inside one viewport:
+            extra shots scroll sideways instead of pushing the layout taller.
+          */}
+          {gallery.length > 0 ? (
+            <ul className="flex shrink-0 snap-x snap-mandatory gap-3 overflow-x-auto overscroll-contain pb-1">
+              {gallery.map((source, index) => {
+                const remoteShot = isRemoteImage(source);
+                return (
+                  <li
+                    key={source}
+                    className="relative h-20 w-32 shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon sm:h-24 sm:w-40"
+                  >
+                    <Image
+                      src={remoteShot ? img(source, 640, 72) : source}
+                      alt={`${item.title} — gallery image ${index + 1}`}
+                      fill
+                      unoptimized={!remoteShot}
+                      sizes="160px"
+                      className="object-cover"
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
         </div>
 
         <div className="flex min-h-0 flex-col">

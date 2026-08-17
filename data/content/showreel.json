@@ -6,7 +6,17 @@
     "location": "Melbourne",
     "year": "2025",
     "blurb": "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
-    "image": "/Highlighted/project-1.webp"
+    "image": "/Highlighted/project-1.webp",
+    "gallery": [
+      "/Highlighted/project-2.webp",
+      "/Highlighted/project-3.webp",
+      "/Highlighted/project-4.webp",
+      "/exprience/experience-1.webp",
+      "/exprience/experience-2.webp",
+      "/exprience/experience-3.webp",
+      "/Choose/BTC-747.jpg",
+      "/Venues%20%26%20Events/venue.jpg"
+    ]
   },
   {
     "slug": "golden-jubilee-dance-of-the-lions",
@@ -15,7 +25,14 @@
     "location": "Trinity College Kandy OBA, Melbourne",
     "year": "2026",
     "blurb": "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
-    "image": "/Highlighted/project-2.webp"
+    "image": "/Highlighted/project-2.webp",
+    "gallery": [
+      "/exprience/BTC-850.jpg",
+      "/exprience/1O5A2999eee.jpg",
+      "/Highlighted/project-1.webp",
+      "/Highlighted/project-4.webp",
+      "/Choose/BTC-747.jpg"
+    ]
   },
   {
     "slug": "a-night-in-rio-dinner-dance",
@@ -24,7 +41,13 @@
     "location": "St. Peter's College OBSC, Melbourne",
     "year": "2026",
     "blurb": "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
-    "image": "/Highlighted/project-3.webp"
+    "image": "/Highlighted/project-3.webp",
+    "gallery": [
+      "/exprience/Copy%20of%20DSC08254.jpg",
+      "/exprience/experience-2.webp",
+      "/Highlighted/project-2.webp",
+      "/Venues%20%26%20Events/venue.jpg"
+    ]
   },
   {
     "slug": "the-finale-tour",
@@ -33,15 +56,13 @@
     "location": "Australia",
     "year": "2025",
     "blurb": "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
-    "image": "/Highlighted/project-4.webp"
-  },
-  {
-    "slug": "sdrg",
-    "title": "sdrg",
-    "type": "Event",
-    "location": "sdfg",
-    "year": "2026",
-    "blurb": "sdfg",
-    "image": "sdfg"
+    "image": "/Highlighted/project-4.webp",
+    "gallery": [
+      "/Highlighted/project-1.webp",
+      "/Highlighted/project-3.webp",
+      "/exprience/experience-1.webp",
+      "/exprience/experience-3.webp",
+      "/Choose/BTC-747.jpg"
+    ]
   }
 ]
