@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/showreel" },
 };
 
+/*
+ * Footprint tiles are edited from the admin panel, so this page reads the
+ * store on every request instead of the static rendering Next would default
+ * to — otherwise a save wouldn't appear until the next build.
+ */
+export const dynamic = "force-dynamic";
+
 export default function ShowreelPage() {
   return (
     <>

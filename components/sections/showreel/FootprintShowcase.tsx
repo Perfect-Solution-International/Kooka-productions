@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { footprint } from "@/data/footprint";
+import { getFootprint } from "@/data/footprint";
 import { img, isRemoteImage } from "@/data/media";
 
 /**
@@ -9,6 +9,8 @@ import { img, isRemoteImage } from "@/data/media";
  * edge reads as a single line down the page.
  */
 export function FootprintShowcase() {
+  const footprint = getFootprint();
+
   return (
     <RevealGroup
       className="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:gap-x-10 lg:gap-y-20"

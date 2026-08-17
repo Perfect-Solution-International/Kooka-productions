@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { footprint } from "@/data/footprint";
+import { getFootprint } from "@/data/footprint";
 import { img, isRemoteImage } from "@/data/media";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
 export function FootprintGrid() {
+  const footprint = getFootprint();
+
   return (
     <RevealGroup
       className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-5"

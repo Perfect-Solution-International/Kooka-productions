@@ -1,38 +1,12 @@
+import { listFootprint, type FootprintItem } from "@/lib/footprintStore";
 
-export type FootprintItem = {
-  slug: string;
-  title: string;
-  blurb: string;
-  image: string;
-};
+export type { FootprintItem };
 
-export const footprint: FootprintItem[] = [
-  {
-    slug: "live-in-concert",
-    title: "Live In Concert",
-    blurb:
-      "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
-    image: "/Highlighted/project-1.webp",
-  },
-  {
-    slug: "golden-jubilee-dance-of-the-lions",
-    title: "Golden Jubilee — Dance of the Lions",
-    blurb:
-      "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
-    image: "/Highlighted/project-2.webp",
-  },
-  {
-    slug: "a-night-in-rio-dinner-dance",
-    title: "A Night In Rio — Annual Dinner Dance",
-    blurb:
-      "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
-    image: "/Highlighted/project-3.webp",
-  },
-  {
-    slug: "the-finale-tour",
-    title: "The Finale Tour",
-    blurb:
-      "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
-    image: "/Highlighted/project-4.webp",
-  },
-];
+/*
+ * Reads the JSON store fresh on every call — pages that render this must opt
+ * into dynamic rendering (`export const dynamic = "force-dynamic"`) so admin
+ * edits show up without a rebuild.
+ */
+export function getFootprint(): FootprintItem[] {
+  return listFootprint();
+}
