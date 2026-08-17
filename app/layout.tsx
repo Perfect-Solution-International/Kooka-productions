@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
+import { FooterGate } from "@/components/layout/FooterGate";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SceneCanvas } from "@/components/3d/SceneCanvas";
 import { site } from "@/data/site";
@@ -101,7 +102,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main id="main" className="relative z-10 flex-1">
             {children}
           </main>
-          <Footer />
+          <FooterGate>
+            <FooterGate>
+            <Footer />
+          </FooterGate>
+          </FooterGate>
         </MotionProvider>
       </body>
     </html>
