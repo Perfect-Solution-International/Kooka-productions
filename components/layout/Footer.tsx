@@ -41,14 +41,14 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="sm:col-span-2 lg:col-span-4">
             <Wordmark className="text-lg" />
-            <p className="mt-4 font-display text-sm tracking-[0.16em] text-kooka-amber uppercase">
+            <p className="mt-4 text-center font-display text-sm tracking-[0.16em] text-kooka-amber uppercase sm:text-left">
               {site.tagline}
             </p>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-kooka-mist">
+            <p className="mt-3 max-w-sm text-center text-sm leading-relaxed text-kooka-mist sm:text-left">
               {site.seoLine}
             </p>
 
-            <ul className="mt-6 flex gap-2.5">
+            <ul className="mt-6 flex justify-center gap-2.5 sm:justify-start">
               {socials.map((social) => (
                 <li key={social.label}>
                   <a
@@ -66,51 +66,56 @@ export function Footer() {
           </div>
 
           {/*
-            Rows are full-height tap targets on touch and collapse back to a
-            tight list once a pointer is driving.
+            Two columns from the smallest screen up so Explore and Solutions
+            pair off immediately; `sm:contents` drops the wrapper once the
+            outer grid takes over pairing them itself.
           */}
-          <nav aria-label="Quick links" className="lg:col-span-2">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
-            <ul className="lg:space-y-2">
-              {footerQuickLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="grid grid-cols-2 gap-x-4 sm:contents">
+            <nav aria-label="Quick links" className="lg:col-span-2">
+              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
+              <ul className="lg:space-y-2">
+                {footerQuickLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <nav aria-label="Services" className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
-            <ul className="lg:space-y-2">
-              {footerServices.map((service) => (
-                <li key={service.slug}>
+            <nav aria-label="Services" className="lg:col-span-3">
+              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
+              <ul className="lg:space-y-2">
+                {footerServices.map((service) => (
+                  <li key={service.slug}>
+                    <Link
+                      href={`/services#${service.slug}`}
+                      className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    >
+                      {service.title}
+                    </Link>
+                  </li>
+                ))}
+                <li>
                   <Link
-                    href={`/services#${service.slug}`}
-                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    href="/services"
+                    className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
                   >
-                    {service.title}
+                    All Solutions
                   </Link>
                 </li>
-              ))}
-              <li>
-                <Link
-                  href="/services"
-                  className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
-                >
-                  All Solutions
-                </Link>
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
 
           <div className="sm:col-span-2 lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
+            <h2 className="kooka-eyebrow mb-2 text-center sm:text-left lg:mb-4">
+              Contact
+            </h2>
             <ul className="space-y-1 text-sm lg:space-y-3">
               <li>
                 <a
@@ -147,7 +152,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/[0.07] pt-5 text-center text-xs text-kooka-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>

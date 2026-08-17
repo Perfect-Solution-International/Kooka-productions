@@ -10,16 +10,20 @@ type CtaSectionProps = {
   readonly title?: string;
   readonly description?: string;
   readonly eyebrow?: string;
+  /** Forwarded to `Section`, so the home page can run the tighter rhythm. */
+  readonly density?: "default" | "tight";
 };
 
 export function CtaSection({
   eyebrow = "Next Step",
   title = "Let's Bring Your Event to Life",
   description = "Speak with our team to plan and deliver your next event with confidence.",
+  density = "default",
 }: CtaSectionProps) {
   return (
     <Section
       id="get-a-quote"
+      density={density}
       className="border-t border-white/[0.06]"
       containerClassName="relative"
     >
@@ -41,24 +45,25 @@ export function CtaSection({
             className="kooka-bloom -top-16 right-0 h-[16rem] w-[16rem] animate-glow-pulse sm:-top-24 sm:h-[28rem] sm:w-[28rem]"
           />
 
-          <RevealGroup className="relative px-5 py-12 sm:px-14 sm:py-20 lg:px-20 lg:py-24">
+          {/* Phones read the panel as a centred block; the rail returns at md. */}
+          <RevealGroup className="relative px-5 py-12 text-center sm:px-14 sm:py-20 md:text-left lg:px-20 lg:py-24">
             <RevealItem as="p" className="kooka-eyebrow mb-6">
               {eyebrow}
             </RevealItem>
             <RevealItem
               as="h2"
-              className="kooka-display max-w-3xl text-[clamp(1.875rem,7vw,3.75rem)]"
+              className="kooka-display mx-auto max-w-3xl text-[clamp(1.875rem,7vw,3.75rem)] md:mx-0"
             >
               {title}
             </RevealItem>
             <RevealItem
               as="p"
-              className="mt-6 max-w-xl text-base leading-relaxed text-kooka-mist sm:text-lg"
+              className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-kooka-mist sm:text-lg md:mx-0"
             >
               {description}
             </RevealItem>
 
-            <RevealItem className="mt-9 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4">
+            <RevealItem className="mt-9 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:items-center sm:justify-center sm:gap-4 md:justify-start">
               <ButtonLink
                 href={contact.quoteHref}
                 size="lg"

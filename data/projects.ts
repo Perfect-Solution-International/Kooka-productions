@@ -41,15 +41,4 @@ export const featuredProjects: Project[] = [
       "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
     image: "/Highlighted/project-3.webp",
   },
-  {
-    title: "The Finale Tour",
-    type: "Live Touring",
-    location: "Australia",
-    year: "2025",
-    summary:
-      "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
-    image: "/Highlighted/project-4.webp",
-    /* Near-square source: bias the crop low so the performer stays framed. */
-    focus: "object-[50%_60%]",
-  },
 ];

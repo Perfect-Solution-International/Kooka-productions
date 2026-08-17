@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/shared/PageHero";
+import { GlassCard } from "@/components/ui/GlassCard";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -37,30 +38,27 @@ export default function AboutPage() {
           align="center"
         />
 
-        {/*
-          Director columns — a snap rail on mobile, then two columns before the
-          ruled three-up. A `1fr` track floors at the content's min width, and
-          at tablet a single long surname is wider than a third of the row, so
-          three columns there force the whole grid past the viewport.
-        */}
         <RevealGroup
-          className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-8 overflow-x-auto sm:mt-14 sm:grid sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 sm:overflow-visible lg:grid-cols-3 lg:gap-0"
-          stagger={0.12}
+          as="ul"
+          stagger={0.07}
+          className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3"
         >
           {leadership.map((person) => (
-            <RevealItem
-              key={person.name}
-              className="flex w-[82%] shrink-0 snap-center flex-col sm:w-auto sm:min-w-0 lg:border-l lg:border-white/[0.08] lg:px-8 lg:first:border-l-0 lg:first:pl-0 lg:last:pr-0 xl:px-12"
-            >
-              <h3 className="font-display text-2xl leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-3xl">
-                {person.name}
-              </h3>
-              <p className="mt-4 font-display text-base text-kooka-ember sm:text-lg">
-                {person.role}
-              </p>
-              <p className="mt-6 text-sm leading-relaxed text-kooka-mist [text-align:justify] [hyphens:auto]">
-                {person.bio}
-              </p>
+            <RevealItem key={person.name} as="li" className="h-full">
+              <GlassCard
+                as="article"
+                className="flex h-full flex-col p-6 transition-shadow duration-500 hover:shadow-[0_36px_90px_-46px_rgb(255_176_32/0.42)] sm:p-7"
+              >
+                <h3 className="font-display text-xl leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-2xl">
+                  {person.name}
+                </h3>
+                <p className="mt-3 font-display text-sm text-kooka-ember sm:text-base">
+                  {person.role}
+                </p>
+                <p className="mt-5 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
+                  {person.bio}
+                </p>
+              </GlassCard>
             </RevealItem>
           ))}
         </RevealGroup>

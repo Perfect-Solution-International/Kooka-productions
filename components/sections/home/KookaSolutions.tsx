@@ -17,12 +17,17 @@ export function KookaSolutions() {
   const [openSlug, setOpenSlug] = useState<string | null>(services[0].slug);
 
   return (
-    <Section id="solutions" className="border-t border-white/[0.06]">
+    <Section
+      id="solutions"
+      density="tight"
+      className="border-t border-white/[0.06]"
+    >
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
         {/* Left rail — headline, intro, CTA */}
         <Reveal variants={fadeLeft} className="lg:col-span-5">
-          <div className="lg:sticky lg:top-32">
-            <p className="kooka-eyebrow mb-6 flex items-center gap-3">
+          {/* Phones read the rail as a centred block; it left-aligns at md. */}
+          <div className="text-center md:text-left lg:sticky lg:top-32">
+            <p className="kooka-eyebrow mb-6 flex items-center justify-center gap-3 md:justify-start">
               <span className="h-px w-8 bg-kooka-amber/70" aria-hidden />
               <span>Kooka Solutions</span>
             </p>
@@ -31,7 +36,7 @@ export function KookaSolutions() {
               Technical Artistry. Zero Compromise.
             </h2>
 
-            <p className="mt-8 max-w-md text-base leading-relaxed text-kooka-mist">
+            <p className="mx-auto mt-8 max-w-md text-base leading-relaxed text-kooka-mist md:mx-0">
               {site.intro}
             </p>
 

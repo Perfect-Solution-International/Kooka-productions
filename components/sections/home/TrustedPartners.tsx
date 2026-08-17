@@ -1,15 +1,14 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/Section";
-import { LogoTicker } from "@/components/ui/LogoTicker";
 import { Reveal } from "@/components/ui/Reveal";
 import { localMedia } from "@/data/media";
-import { producerPartners } from "@/data/partners";
 
 export function TrustedPartners() {
   return (
     <Section
       id="trusted"
       full
+      density="tight"
       className="overflow-hidden border-t border-white/[0.06]"
     >
       <Image
@@ -50,11 +49,6 @@ export function TrustedPartners() {
           </p>
         </Reveal>
       </div>
-
-      {/* Full-bleed rail so the marquee runs past the container edges */}
-      <Reveal className="relative mt-12">
-        <LogoTicker items={producerPartners} />
-      </Reveal>
     </Section>
   );
 }

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/sections/shared/PageHero";
 import { FootprintGrid } from "@/components/sections/footprint/FootprintGrid";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { Section } from "@/components/ui/Section";
-import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { maskUp } from "@/lib/motion";
+import { media } from "@/data/media";
 
 const tagline = "Events, Environments & Experiences We Deliver";
 
@@ -17,42 +17,25 @@ export const metadata: Metadata = {
   alternates: { canonical: "/showreel" },
 };
 
+/*
+ * Footprint tiles are edited from the admin panel, so this page reads the
+ * store on every request instead of the static rendering Next would default
+ * to — otherwise a save wouldn't appear until the next build.
+ */
+export const dynamic = "force-dynamic";
+
 export default function ShowreelPage() {
   return (
     <>
-      {/* Type-led opener — headline left, the read-in pinned to the right rail */}
-      <section className="relative isolate overflow-hidden pt-36 pb-16 sm:pt-40 sm:pb-20">
-        <div
-          aria-hidden
-          className="kooka-bloom -top-24 left-1/4 h-[18rem] w-[18rem] opacity-30 sm:-top-32 sm:h-[32rem] sm:w-[32rem]"
-        />
+      <PageHero
+        eyebrow="Kooka Footprint"
+        title="Kooka Footprint"
+        subtitle={tagline}
+        description={intro}
+        image={media.stadiumNight}
+      />
 
-        <div className="kooka-container">
-          <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-16">
-            <h1 className="kooka-display overflow-hidden text-[clamp(2.75rem,8vw,6.5rem)] lg:col-span-7">
-              <RevealGroup as="span" stagger={0.08}>
-                <RevealItem as="span" variants={maskUp} className="block">
-                  Kooka
-                </RevealItem>
-                <RevealItem as="span" variants={maskUp} className="block">
-                  Footprint.
-                </RevealItem>
-              </RevealGroup>
-            </h1>
-
-            <Reveal className="lg:col-span-5 lg:pb-4">
-              <p className="font-display text-[0.68rem] tracking-[0.22em] text-kooka-amber uppercase lg:text-right">
-                {tagline}
-              </p>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-kooka-mist sm:text-base lg:ml-auto lg:text-right">
-                {intro}
-              </p>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <Section className="pt-0">
+      <Section bloom="top" density="tight">
         <FootprintGrid />
       </Section>
 

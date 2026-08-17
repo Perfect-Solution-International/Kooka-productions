@@ -7,7 +7,7 @@ import { site } from "@/data/site";
 
 export function KookaExperience() {
   return (
-    <Section id="kooka-experience" bloom="top">
+    <Section id="kooka-experience" bloom="top" density="tight">
       <SectionHeading
         eyebrow="What We Do"
         title="Kooka Experience"

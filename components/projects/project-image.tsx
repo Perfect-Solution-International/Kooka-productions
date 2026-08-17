@@ -69,7 +69,7 @@ export function ProjectImage({
             src={project.image}
             alt={`${project.title} — ${project.type} production in ${project.location}, ${project.year}`}
             fill
-            sizes="(min-width: 1024px) 60vw, 100vw"
+            sizes="100vw"
             priority={priority}
             loading={priority ? undefined : "eager"}
             fetchPriority={priority ? undefined : "high"}

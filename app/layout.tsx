@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SceneCanvas } from "@/components/3d/SceneCanvas";
@@ -97,7 +97,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           */}
           <SceneCanvas />
 
-          <Header />
+          <SiteHeader />
           <main id="main" className="relative z-10 flex-1">
             {children}
           </main>

@@ -36,7 +36,7 @@ export default function WhereWeWorkPage() {
         image={media.festivalNight}
       />
 
-      <Section className="border-t border-white/[0.06]" full>
+      <Section className="border-t border-white/[0.06]" density="tight" full>
         <div className="kooka-container">
           <SectionHeading
             eyebrow="Environments"

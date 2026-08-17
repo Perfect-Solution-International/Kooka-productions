@@ -31,8 +31,9 @@ const HYSTERESIS = 0.12;
 const SLIDE_RATIO_DESKTOP = 0.9;
 const SLIDE_RATIO_MOBILE = 0.6;
 const DESKTOP_QUERY = "(min-width: 1024px)";
-/* Tailwind's `sm` breakpoint, where the plate switches to `aspect-4/3`. */
-const SMALL_QUERY = "(min-width: 640px)";
+
+/** The pin's own `py-8 lg:py-10`, kept off the plate's height budget. */
+const PIN_PADDING = 80;
 
 /**
  * Maps raw scroll progress to an active index, holding the previous index
@@ -63,32 +64,6 @@ function resolveIndex(
  */
 const COMPACT_PLATE_HEIGHT = 420;
 
-type PlateMetrics = {
-  readonly containerWidth: number;
-  readonly isDesktop: boolean;
-  readonly isSmall: boolean;
-};
-
-/**
- * Whether the plate is short enough that the overlay copy needs its condensed
- * treatment. The plate now spans the container, so its height comes from the
- * container width and the aspect ratio — not from the leftover viewport.
- */
-function resolvePlate({
-  containerWidth,
-  isDesktop,
-  isSmall,
-}: PlateMetrics): boolean {
-  if (containerWidth <= 0) return false;
-
-  /* Matches the plate's `aspect-4/5 sm:aspect-4/3 lg:aspect-16/9`. */
-  let ratio = 4 / 5;
-  if (isDesktop) ratio = 16 / 9;
-  else if (isSmall) ratio = 4 / 3;
-
-  return containerWidth / ratio < COMPACT_PLATE_HEIGHT;
-}
-
 export function ScrollProjectShowcase({
   projects,
   className,
@@ -99,21 +74,21 @@ export function ScrollProjectShowcase({
   const [activeIndex, setActiveIndex] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [isSmall, setIsSmall] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [plateHeight, setPlateHeight] = useState(0);
   const reduced = useReducedMotion();
   const touch = useMediaQuery(TOUCH_QUERY);
 
   /*
-   * The plate spans the container, so its height follows this width. Measured
-   * so the overlay's compact mode reacts to the real box rather than a guess.
+   * Measured rather than derived from the width and the aspect ratio: the
+   * plate's height cap overrides that ratio on a wide or short window, so the
+   * box is the only honest source for whether the overlay has room.
    */
   useEffect(() => {
     const node = plateRef.current;
     if (!node) return;
 
     const observer = new ResizeObserver(([entry]) => {
-      setContainerWidth(entry.contentRect.width);
+      setPlateHeight(entry.contentRect.height);
     });
 
     observer.observe(node);
@@ -123,21 +98,13 @@ export function ScrollProjectShowcase({
 
   useEffect(() => {
     const desktop = window.matchMedia(DESKTOP_QUERY);
-    const small = window.matchMedia(SMALL_QUERY);
 
-    const sync = () => {
-      setIsDesktop(desktop.matches);
-      setIsSmall(small.matches);
-    };
+    const sync = () => setIsDesktop(desktop.matches);
 
     sync();
     desktop.addEventListener("change", sync);
-    small.addEventListener("change", sync);
 
-    return () => {
-      desktop.removeEventListener("change", sync);
-      small.removeEventListener("change", sync);
-    };
+    return () => desktop.removeEventListener("change", sync);
   }, []);
 
   /*
@@ -201,7 +168,7 @@ export function ScrollProjectShowcase({
 
   const activeProject = projects[activeIndex];
 
-  const isCompactPlate = resolvePlate({ containerWidth, isDesktop, isSmall });
+  const isCompactPlate = plateHeight > 0 && plateHeight < COMPACT_PLATE_HEIGHT;
 
   return (
     <div
@@ -243,9 +210,8 @@ export function ScrollProjectShowcase({
         so it releases exactly as scroll progress reaches 1.
       */}
       {/*
-        `min-h` rather than a fixed `height`: the plate spans the full
-        container width, so on a short window it is taller than the viewport
-        and the pin has to grow with it instead of clipping it.
+        `min-h` rather than a fixed `height`, so the pin can still grow past
+        the viewport if the plate ever asks for it.
       */}
       <div
         className={cn(
@@ -254,11 +220,21 @@ export function ScrollProjectShowcase({
         )}
         style={{ minHeight: viewportHeight > 0 ? viewportHeight : undefined }}
       >
-        <div className="kooka-container flex w-full flex-col justify-center">
-          {/* Full container width, same as every other section on the page. */}
+        <div className="flex w-full flex-col justify-center">
+          {/*
+            Full-bleed rather than inset to the page container: the still reads
+            as a frame of the production instead of as one more card in the
+            column. Height is capped to the pin so a wide window cannot make
+            the plate taller than the viewport it is pinned inside — the ratio
+            gives way there and `object-cover` takes up the crop.
+          */}
           <div
             ref={plateRef}
             className="relative aspect-4/5 w-full overflow-hidden sm:aspect-4/3 lg:aspect-16/9"
+            style={{
+              maxHeight:
+                viewportHeight > 0 ? viewportHeight - PIN_PADDING : undefined,
+            }}
           >
             <ProjectImage
               project={activeProject}
@@ -271,26 +247,33 @@ export function ScrollProjectShowcase({
               the image: this is an `items-end` row, so an overlay taller than
               its frame would otherwise push its own first lines out of view.
             */}
-            <div className="absolute inset-0 flex items-end justify-between gap-8 overflow-hidden p-6 sm:p-10 lg:p-14">
-              <ProjectDetails
-                project={activeProject}
-                index={activeIndex}
-                total={projects.length}
-                reduced={reduced}
-                compact={isCompactPlate}
-              />
-
-              <div className="hidden h-40 shrink-0 pb-1 lg:block">
-                <ProjectProgress
-                  titles={projects.map((project) => project.title)}
-                  activeIndex={activeIndex}
-                  progress={scrollYProgress}
+            <div className="absolute inset-0 flex items-end overflow-hidden py-6 sm:py-10 lg:py-14">
+              {/*
+                The plate is full-bleed but its copy is not: holding the
+                overlay to the page container keeps the title on the same left
+                edge as every heading above and below it.
+              */}
+              <div className="kooka-container flex w-full items-end justify-between gap-8">
+                <ProjectDetails
+                  project={activeProject}
+                  index={activeIndex}
+                  total={projects.length}
+                  reduced={reduced}
+                  compact={isCompactPlate}
                 />
+
+                <div className="hidden h-40 shrink-0 pb-1 lg:block">
+                  <ProjectProgress
+                    titles={projects.map((project) => project.title)}
+                    activeIndex={activeIndex}
+                    progress={scrollYProgress}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 shrink-0 lg:hidden">
+          <div className="kooka-container mt-6 shrink-0 lg:hidden">
             <ProjectProgress
               titles={projects.map((project) => project.title)}
               activeIndex={activeIndex}

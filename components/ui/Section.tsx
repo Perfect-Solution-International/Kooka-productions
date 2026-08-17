@@ -9,6 +9,17 @@ type SectionProps = {
   /** Renders a warm ambient bloom behind the section content. */
   readonly bloom?: "none" | "top" | "center" | "bottom";
   readonly full?: boolean;
+  /**
+   * Vertical rhythm. Interior pages give each section room to read on its own;
+   * the home page runs one band straight into the next, where the roomier
+   * scale reads as dead space rather than as separation.
+   */
+  readonly density?: "default" | "tight";
+};
+
+const densityPadding: Record<"default" | "tight", string> = {
+  default: "py-16 sm:py-24 md:py-28 lg:py-36",
+  tight: "py-10 sm:py-14 md:py-16 lg:py-20",
 };
 
 /*
@@ -31,14 +42,12 @@ export function Section({
   containerClassName,
   bloom = "none",
   full = false,
+  density = "default",
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={cn(
-        "relative isolate py-16 sm:py-24 md:py-28 lg:py-36",
-        className,
-      )}
+      className={cn("relative isolate", densityPadding[density], className)}
     >
       {bloom !== "none" ? (
         <div className={cn("kooka-bloom", bloomPosition[bloom])} aria-hidden />

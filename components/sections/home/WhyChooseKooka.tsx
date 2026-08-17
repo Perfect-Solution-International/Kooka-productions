@@ -10,6 +10,7 @@ export function WhyChooseKooka() {
     <Section
       id="why-kooka"
       full
+      density="tight"
       className="overflow-hidden border-t border-white/[0.06]"
     >
       <Image
@@ -33,7 +34,7 @@ export function WhyChooseKooka() {
 
       <div className="kooka-container relative grid gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal variants={fadeLeft} className="lg:col-span-5">
-          <h2 className="kooka-display text-[clamp(1.875rem,6vw,4.25rem)]">
+          <h2 className="kooka-display text-center text-[clamp(1.875rem,6vw,4.25rem)] md:text-left">
             Why Choose Kooka
           </h2>
         </Reveal>

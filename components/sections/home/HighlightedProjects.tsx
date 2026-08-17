@@ -9,7 +9,7 @@ export function HighlightedProjects() {
   return (
     <section
       id="projects"
-      className="relative isolate pt-16 sm:pt-24 md:pt-28 lg:pt-36"
+      className="relative isolate pt-10 sm:pt-14 md:pt-16 lg:pt-20"
     >
       <div
         className="kooka-bloom top-1/3 left-1/2 h-[20rem] w-[20rem] -translate-x-1/2 opacity-25 sm:h-[38rem] sm:w-[38rem]"
@@ -34,7 +34,7 @@ export function HighlightedProjects() {
         }
       />
 
-      <Reveal className="kooka-container relative flex justify-center pb-16 sm:pb-24 md:pb-28 lg:pb-36">
+      <Reveal className="kooka-container relative flex justify-center pb-10 sm:pb-14 md:pb-16 lg:pb-20">
         <ButtonLink
           href="/showreel"
           variant="secondary"
