@@ -114,7 +114,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
   return (
     <main className="min-h-screen bg-kooka-black px-6 py-12 text-kooka-white">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <div className="flex items-center justify-between">
           <h1 className="font-display text-2xl">Manage Projects — Showreel</h1>
           <button
@@ -126,10 +126,46 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           </button>
         </div>
 
-        <form
-          onSubmit={(event) => void handleSubmit(event)}
-          className="mt-8 space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
-        >
+        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
+          <ul className="space-y-3 lg:order-1">
+            {items.map((item) => (
+              <li
+                key={item.slug}
+                className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4"
+              >
+                <div>
+                  <p className="font-display text-sm text-kooka-white">{item.title}</p>
+                  <p className="mt-1 text-[0.7rem] text-kooka-mist/70">
+                    {item.type} · {item.location} · {item.year}
+                  </p>
+                  <p className="mt-1 max-w-md text-xs text-kooka-mist">{item.blurb}</p>
+                  <p className="mt-1 text-[0.7rem] text-kooka-mist/70">{item.image}</p>
+                </div>
+                <div className="flex shrink-0 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(item)}
+                    className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:text-kooka-amber"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleDelete(item.slug)}
+                    className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:border-red-400/60 hover:text-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+            {items.length === 0 ? <p className="text-sm text-kooka-mist">No projects yet.</p> : null}
+          </ul>
+
+          <form
+            onSubmit={(event) => void handleSubmit(event)}
+            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:sticky lg:top-12"
+          >
           <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
             {editingSlug ? "Edit Project" : "Add Project"}
           </h2>
@@ -232,41 +268,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             ) : null}
           </div>
         </form>
-
-        <ul className="mt-8 space-y-3">
-          {items.map((item) => (
-            <li
-              key={item.slug}
-              className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4"
-            >
-              <div>
-                <p className="font-display text-sm text-kooka-white">{item.title}</p>
-                <p className="mt-1 text-[0.7rem] text-kooka-mist/70">
-                  {item.type} · {item.location} · {item.year}
-                </p>
-                <p className="mt-1 max-w-md text-xs text-kooka-mist">{item.blurb}</p>
-                <p className="mt-1 text-[0.7rem] text-kooka-mist/70">{item.image}</p>
-              </div>
-              <div className="flex shrink-0 gap-2">
-                <button
-                  type="button"
-                  onClick={() => startEdit(item)}
-                  className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:text-kooka-amber"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => void handleDelete(item.slug)}
-                  className="rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-[0.1em] text-kooka-mist hover:border-red-400/60 hover:text-red-400"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-          {items.length === 0 ? <p className="text-sm text-kooka-mist">No projects yet.</p> : null}
-        </ul>
+        </div>
       </div>
     </main>
   );
