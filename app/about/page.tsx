@@ -55,7 +55,7 @@ export default function AboutPage() {
                 <p className="mt-3 font-display text-sm text-kooka-ember sm:text-base">
                   {person.role}
                 </p>
-                <p className="mt-5 text-sm leading-relaxed text-kooka-mist [hyphens:auto]">
+                <p className="mt-5 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
                   {person.bio}
                 </p>
               </GlassCard>
