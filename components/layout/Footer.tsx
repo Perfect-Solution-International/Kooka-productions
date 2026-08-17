@@ -66,48 +66,51 @@ export function Footer() {
           </div>
 
           {/*
-            Rows are full-height tap targets on touch and collapse back to a
-            tight list once a pointer is driving.
+            Two columns from the smallest screen up so Explore and Solutions
+            pair off immediately; `sm:contents` drops the wrapper once the
+            outer grid takes over pairing them itself.
           */}
-          <nav aria-label="Quick links" className="lg:col-span-2">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
-            <ul className="lg:space-y-2">
-              {footerQuickLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="grid grid-cols-2 gap-x-4 sm:contents">
+            <nav aria-label="Quick links" className="lg:col-span-2">
+              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
+              <ul className="lg:space-y-2">
+                {footerQuickLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <nav aria-label="Services" className="lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
-            <ul className="lg:space-y-2">
-              {footerServices.map((service) => (
-                <li key={service.slug}>
+            <nav aria-label="Services" className="lg:col-span-3">
+              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
+              <ul className="lg:space-y-2">
+                {footerServices.map((service) => (
+                  <li key={service.slug}>
+                    <Link
+                      href={`/services#${service.slug}`}
+                      className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    >
+                      {service.title}
+                    </Link>
+                  </li>
+                ))}
+                <li>
                   <Link
-                    href={`/services#${service.slug}`}
-                    className="flex min-h-11 items-center text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-amber lg:min-h-0"
+                    href="/services"
+                    className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
                   >
-                    {service.title}
+                    All Solutions
                   </Link>
                 </li>
-              ))}
-              <li>
-                <Link
-                  href="/services"
-                  className="flex min-h-11 items-center text-sm text-kooka-amber transition-colors duration-300 hover:text-kooka-flare lg:min-h-0"
-                >
-                  All Solutions
-                </Link>
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
 
           <div className="sm:col-span-2 lg:col-span-3">
             <h2 className="kooka-eyebrow mb-2 lg:mb-4">Contact</h2>
