@@ -19,12 +19,10 @@ export const metadata: Metadata = {
 };
 
 /*
- * Showreel tiles are edited from the admin panel, so this page reads the
- * store on every request instead of the static rendering Next would default
- * to — otherwise a save wouldn't appear until the next build.
+ * Showreel tiles are edited from the admin panel, but the database reads are
+ * cached under the "showreel" tag and every mutation revalidates it, so the
+ * page stays statically rendered and still reflects a save immediately.
  */
-export const dynamic = "force-dynamic";
-
 export default function ShowreelPage() {
   return (
     <>

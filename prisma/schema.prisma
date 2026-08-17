@@ -1,0 +1,53 @@
+// Kooka database. Only the showreel projects and the admin accounts live here;
+// the rest of the site content stays in the typed modules under `data/`.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Showreel {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  type      String
+  location  String
+  year      String
+  blurb     String   @db.Text
+  image     String   @db.VarChar(512)
+  href      String?  @db.VarChar(512)
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images ShowreelImage[]
+
+  @@index([published, sortOrder])
+}
+
+model ShowreelImage {
+  id         String   @id @default(cuid())
+  showreelId String
+  url        String   @db.VarChar(512)
+  alt        String?
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  showreel Showreel @relation(fields: [showreelId], references: [id], onDelete: Cascade)
+
+  @@index([showreelId, sortOrder])
+}

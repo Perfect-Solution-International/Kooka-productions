@@ -4,10 +4,15 @@ import { cookies } from "next/headers";
 export const ADMIN_SESSION_COOKIE = "kooka_admin_session";
 export const ADMIN_SESSION_MAX_AGE_SECONDS = 60 * 60 * 12;
 
+/*
+ * The signing key is deliberately separate from any account password: the
+ * two used to share one env var, so rotating the login also invalidated every
+ * session and vice versa.
+ */
 function getSecret(): string {
-  const secret = process.env.ADMIN_PASSWORD;
+  const secret = process.env.SESSION_SECRET;
   if (!secret) {
-    throw new Error("ADMIN_PASSWORD is not set");
+    throw new Error("SESSION_SECRET is not set");
   }
   return secret;
 }
@@ -25,10 +30,6 @@ function safeEqual(a: string, b: string): boolean {
   const bufferB = Buffer.from(b);
   if (bufferA.length !== bufferB.length) return false;
   return timingSafeEqual(bufferA, bufferB);
-}
-
-export function verifyPassword(password: string): boolean {
-  return safeEqual(password, getSecret());
 }
 
 export function createSessionToken(): string {

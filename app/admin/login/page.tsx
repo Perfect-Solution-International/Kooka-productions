@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -17,11 +18,12 @@ export default function AdminLoginPage() {
     const response = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
+      /* Omitting the email signs in as the single seeded admin. */
+      body: JSON.stringify(email.trim() ? { email: email.trim(), password } : { password }),
     });
 
     if (!response.ok) {
-      setError("Wrong password.");
+      setError("Wrong email or password.");
       setPending(false);
       return;
     }
@@ -39,6 +41,17 @@ export default function AdminLoginPage() {
         <h1 className="font-display text-xl text-kooka-white">Admin Login</h1>
 
         <label className="mt-6 block text-sm text-kooka-mist">
+          Email (optional){" "}
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className="mt-2 w-full rounded-lg border border-white/15 bg-black/30 px-4 py-2.5 text-kooka-white outline-none focus:border-kooka-amber"
+            autoComplete="username"
+          />
+        </label>
+
+        <label className="mt-4 block text-sm text-kooka-mist">
           Password{" "}
           <input
             type="password"

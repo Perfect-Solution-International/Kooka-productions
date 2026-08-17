@@ -1,18 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { MetadataRoute } from "next";
-import { getShowreel } from "@/data/showreel";
+import { listShowreel } from "@/services/showreel.service";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
 
 export const dynamic = "force-dynamic";
-
-const SHOWREEL_DATA_FILE = path.join(
-  process.cwd(),
-  "data",
-  "content",
-  "showreel.json",
-);
 
 function absoluteUrl(value: string): string | null {
   try {
@@ -22,9 +13,14 @@ function absoluteUrl(value: string): string | null {
   }
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const showreelModified = fs.statSync(SHOWREEL_DATA_FILE).mtime;
-  const projects = getShowreel();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await listShowreel();
+  /* Projects live in MySQL, so the index date is the newest row's timestamp. */
+  const showreelModified = projects.reduce<Date | undefined>(
+    (latest, project) =>
+      latest && latest > project.updatedAt ? latest : project.updatedAt,
+    undefined,
+  );
 
   const pages: MetadataRoute.Sitemap = [
     {
@@ -56,13 +52,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const projectPages: MetadataRoute.Sitemap = projects.map((project) => {
-    const images = [project.image, ...(project.gallery ?? [])]
+    const images = [project.image, ...project.gallery.map((image) => image.url)]
       .map(absoluteUrl)
       .filter((url): url is string => url !== null);
 
     return {
       url: `${site.url}/showreel/${encodeURIComponent(project.slug)}`,
-      lastModified: showreelModified,
+      lastModified: project.updatedAt,
       changeFrequency: "monthly",
       priority: 0.7,
       ...(images.length > 0 ? { images } : {}),
