@@ -28,6 +28,29 @@ const emptyForm: FormState = {
   href: "",
 };
 
+function ImageFieldStatus({
+  uploading,
+  image,
+}: {
+  readonly uploading: boolean;
+  readonly image: string;
+}) {
+  if (uploading) {
+    return <p className="mt-1.5 text-xs text-kooka-mist/70">Uploading…</p>;
+  }
+
+  if (!image) {
+    return <p className="mt-1.5 text-xs text-kooka-mist/70">No image selected.</p>;
+  }
+
+  return (
+    <p className="mt-1.5 flex items-center gap-2 text-xs text-kooka-mist/70">
+      <img src={image} alt="" className="h-8 w-8 rounded object-cover" />
+      {image}
+    </p>
+  );
+}
+
 export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const router = useRouter();
   const [items, setItems] = useState<FootprintItem[]>(initialItems);
@@ -35,6 +58,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   function startEdit(item: FootprintItem) {
     setEditingSlug(item.slug);
@@ -58,6 +82,12 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!form.image) {
+      setError("Upload an image first.");
+      return;
+    }
+
     setPending(true);
     setError(null);
 
@@ -104,6 +134,35 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       setItems((prev) => prev.filter((item) => item.slug !== slug));
       if (editingSlug === slug) cancelEdit();
     }
+  }
+
+  async function handleImageSelect(file: File | undefined) {
+    if (!file) return;
+    setUploading(true);
+    setError(null);
+
+    const body = new FormData();
+    body.append("file", file);
+
+    const response = await fetch("/api/admin/upload", { method: "POST", body });
+
+    if (!response.ok) {
+      const responseBody: unknown = await response.json().catch(() => null);
+      const message =
+        typeof responseBody === "object" &&
+        responseBody !== null &&
+        "error" in responseBody &&
+        typeof responseBody.error === "string"
+          ? responseBody.error
+          : "Image upload failed.";
+      setError(message);
+      setUploading(false);
+      return;
+    }
+
+    const { path: uploadedPath } = (await response.json()) as { path: string };
+    setForm((prev) => ({ ...prev, image: uploadedPath }));
+    setUploading(false);
   }
 
   async function handleLogout() {
@@ -182,14 +241,14 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             </label>
 
             <label className="text-sm text-kooka-mist">
-              Image URL or /public path{" "}
+              Image{" "}
               <input
-                value={form.image}
-                onChange={(event) => setForm((prev) => ({ ...prev, image: event.target.value }))}
-                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
-                placeholder="/Highlighted/project-5.webp"
-                required
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+                onChange={(event) => void handleImageSelect(event.target.files?.[0])}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none file:mr-3 file:rounded-full file:border-0 file:bg-kooka-amber file:px-3 file:py-1 file:text-xs file:font-semibold file:text-kooka-black focus:border-kooka-amber"
               />
+              <ImageFieldStatus uploading={uploading} image={form.image} />
             </label>
 
             <label className="text-sm text-kooka-mist">
@@ -252,7 +311,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           <div className="flex gap-3">
             <button
               type="submit"
-              disabled={pending}
+              disabled={pending || uploading}
               className="rounded-full bg-kooka-amber px-6 py-2.5 font-display text-xs font-semibold uppercase tracking-[0.14em] text-kooka-black disabled:opacity-50"
             >
               {editingSlug ? "Save Changes" : "Add Project"}
