@@ -9,6 +9,7 @@ export type ShowreelItem = {
   year: string;
   blurb: string;
   image: string;
+  gallery?: string[];
   href?: string;
 };
 
@@ -19,6 +20,7 @@ export type ShowreelInput = {
   year: string;
   blurb: string;
   image: string;
+  gallery?: string[];
   href?: string;
 };
 
@@ -57,10 +59,17 @@ function uniqueSlug(base: string, existing: ShowreelItem[], skipSlug?: string): 
   return slug;
 }
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === "string");
+}
+
 export function parseShowreelInput(body: unknown): ShowreelInput | null {
   if (typeof body !== "object" || body === null) return null;
 
-  const { title, type, location, year, blurb, image, href } = body as Record<string, unknown>;
+  const { title, type, location, year, blurb, image, gallery, href } = body as Record<
+    string,
+    unknown
+  >;
   if (typeof title !== "string" || !title.trim()) return null;
   if (typeof type !== "string" || !type.trim()) return null;
   if (typeof location !== "string" || !location.trim()) return null;
@@ -68,6 +77,11 @@ export function parseShowreelInput(body: unknown): ShowreelInput | null {
   if (typeof blurb !== "string" || !blurb.trim()) return null;
   if (typeof image !== "string" || !image.trim()) return null;
   if (href !== undefined && typeof href !== "string") return null;
+  if (gallery !== undefined && !isStringArray(gallery)) return null;
+
+  const galleryPaths = (gallery ?? [])
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
 
   return {
     title: title.trim(),
@@ -76,12 +90,17 @@ export function parseShowreelInput(body: unknown): ShowreelInput | null {
     year: year.trim(),
     blurb: blurb.trim(),
     image: image.trim(),
+    ...(galleryPaths.length > 0 ? { gallery: galleryPaths } : {}),
     ...(href?.trim() ? { href: href.trim() } : {}),
   };
 }
 
 export function listShowreel(): ShowreelItem[] {
   return readAll();
+}
+
+export function findShowreel(slug: string): ShowreelItem | null {
+  return readAll().find((item) => item.slug === slug) ?? null;
 }
 
 export function createShowreel(input: ShowreelInput): ShowreelItem {
