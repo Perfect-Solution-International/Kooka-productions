@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, type SubmitEvent } from "react";
-import { useRouter } from "next/navigation";
 import type { ShowreelItem } from "@/services/showreel.service";
+import { AdminShell } from "@/components/admin/AdminShell";
 
 type ProjectsManagerProps = {
   readonly initialItems: ShowreelItem[];
@@ -64,7 +64,6 @@ function ImageFieldStatus({
 }
 
 export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
-  const router = useRouter();
   const [items, setItems] = useState<ShowreelItem[]>(initialItems);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -195,28 +194,16 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setUploading(false);
   }
 
-  async function handleLogout() {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/");
-    router.refresh();
-  }
-
   return (
-    <main className="min-h-screen bg-kooka-black px-6 py-12 text-kooka-white">
-      <div className="mx-auto max-w-6xl">
-        <div className="flex items-center justify-between">
-          <h1 className="font-display text-2xl">Manage Projects — Showreel</h1>
-          <button
-            type="button"
-            onClick={() => void handleLogout()}
-            className="rounded-full border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.14em] text-kooka-mist hover:border-kooka-amber/60 hover:text-kooka-amber"
-          >
-            Log Out
-          </button>
-        </div>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
-          <ul className="space-y-3 lg:order-1">
+    <AdminShell title="Manage Projects — Showreel">
+      {/*
+        Below `lg` the two panes stack and this one container scrolls. From
+        `lg` up the frame is fixed and each pane scrolls on its own, so the
+        page itself never moves.
+      */}
+      <div className="h-full overflow-y-auto no-scrollbar p-5 lg:overflow-hidden">
+        <div className="grid gap-6 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+          <ul className="space-y-3 lg:order-1 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar lg:pr-1">
             {items.map((item) => (
               <li
                 key={item.id}
@@ -253,7 +240,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
           <form
             onSubmit={(event) => void handleSubmit(event)}
-            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:sticky lg:top-12"
+            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar"
           >
           <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
             {editingId ? "Edit Project" : "Add Project"}
@@ -385,6 +372,6 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
         </form>
         </div>
       </div>
-    </main>
+    </AdminShell>
   );
 }
