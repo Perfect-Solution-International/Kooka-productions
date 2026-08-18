@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { footerQuickLinks } from "@/data/navigation";
@@ -158,6 +159,18 @@ export function Footer() {
           </p>
           <p className="font-display tracking-[0.24em] uppercase">
             {site.domain}
+          </p>
+          <p className="flex items-center justify-center gap-2 sm:justify-end">
+            <span className="font-display tracking-[0.18em] uppercase">
+              Developed By
+            </span>
+            <Image
+              src="/psi-logo.png"
+              alt="PSI"
+              width={1300}
+              height={497}
+              className="h-7 w-auto opacity-70 transition-opacity duration-500 hover:opacity-100"
+            />
           </p>
         </div>
       </div>
