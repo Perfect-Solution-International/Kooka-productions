@@ -190,8 +190,8 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
         page itself never moves.
       */}
       <div className="h-full overflow-y-auto no-scrollbar p-5 lg:overflow-hidden">
-        <div className="grid gap-6 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-          <ul className="space-y-3 lg:order-1 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar lg:pr-1">
+        <div className="grid gap-6 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+          <ul className="space-y-3 order-2 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar lg:pr-1">
             {items.map((item) => (
               <li
                 key={item.id}
@@ -228,7 +228,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
           <form
             onSubmit={(event) => void handleSubmit(event)}
-            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar"
+            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 order-1 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar"
           >
           <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
             {editingId ? "Edit Project" : "Add Project"}
