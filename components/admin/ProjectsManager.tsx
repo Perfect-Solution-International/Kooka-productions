@@ -402,16 +402,6 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             </label>
 
             <label className="text-sm text-kooka-mist">
-              Link (optional){" "}
-              <input
-                value={form.href}
-                onChange={(event) => setForm((prev) => ({ ...prev, href: event.target.value }))}
-                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
-                placeholder="/showreel/live-in-concert"
-              />
-            </label>
-
-            <label className="text-sm text-kooka-mist">
               Slug (optional){" "}
               <input
                 value={form.slug}
@@ -428,7 +418,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           </div>
 
           <label className="block text-sm text-kooka-mist">
-            Blurb{" "}
+            Description{" "}
             <textarea
               value={form.blurb}
               onChange={(event) => setForm((prev) => ({ ...prev, blurb: event.target.value }))}
