@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, type SubmitEvent } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { ShowreelItem } from "@/services/showreel.service";
-import { readErrorMessage } from "@/lib/api/client";
+import { readErrorMessage, uploadImage } from "@/lib/api/client";
 import { AdminShell } from "@/components/admin/AdminShell";
 
 type ProjectsManagerProps = {
@@ -18,8 +19,8 @@ type FormState = {
   blurb: string;
   image: string;
   href: string;
-  /** One image path per line. */
-  gallery: string;
+  /** Uploaded paths, in the order they appear on the public page. */
+  gallery: string[];
 };
 
 const emptyForm: FormState = {
@@ -31,14 +32,16 @@ const emptyForm: FormState = {
   blurb: "",
   image: "",
   href: "",
-  gallery: "",
+  gallery: [],
 };
 
-function galleryLines(value: string): string[] {
-  return value
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
+function move<T>(list: T[], from: number, to: number): T[] {
+  if (to < 0 || to >= list.length) return list;
+
+  const next = [...list];
+  const [moved] = next.splice(from, 1);
+  next.splice(to, 0, moved);
+  return next;
 }
 
 function ImageFieldStatus({
@@ -64,6 +67,82 @@ function ImageFieldStatus({
   );
 }
 
+type GalleryFieldProps = {
+  readonly paths: string[];
+  readonly uploading: boolean;
+  readonly onAdd: (files: FileList | null) => void;
+  readonly onRemove: (index: number) => void;
+  readonly onMove: (index: number, offset: number) => void;
+};
+
+function GalleryField({ paths, uploading, onAdd, onRemove, onMove }: GalleryFieldProps) {
+  return (
+    <div className="text-sm text-kooka-mist">
+      <label htmlFor="gallery-input">Gallery</label>
+      <input
+        id="gallery-input"
+        type="file"
+        multiple
+        accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+        onChange={(event) => {
+          onAdd(event.target.files);
+          /* Cleared so re-picking the same file still fires a change. */
+          event.target.value = "";
+        }}
+        className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none file:mr-3 file:rounded-full file:border-0 file:bg-kooka-amber file:px-3 file:py-1 file:text-xs file:font-semibold file:text-kooka-black focus:border-kooka-amber"
+      />
+
+      {uploading ? <p className="mt-1.5 text-xs text-kooka-mist/70">Uploading…</p> : null}
+
+      {paths.length === 0 ? (
+        <p className="mt-1.5 text-xs text-kooka-mist/70">No gallery images yet.</p>
+      ) : (
+        <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+          {paths.map((path, index) => (
+            <li
+              key={`${path}-${index}`}
+              className="relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-black/30"
+            >
+              <img src={path} alt="" className="h-full w-full object-cover" />
+
+              <button
+                type="button"
+                onClick={() => onRemove(index)}
+                aria-label={`Remove image ${index + 1}`}
+                className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-kooka-mist hover:text-red-400"
+              >
+                <X className="h-3 w-3" aria-hidden />
+              </button>
+
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/70 px-1 py-0.5">
+                <button
+                  type="button"
+                  onClick={() => onMove(index, -1)}
+                  disabled={index === 0}
+                  aria-label={`Move image ${index + 1} earlier`}
+                  className="text-kooka-mist hover:text-kooka-amber disabled:opacity-30"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+                </button>
+                <span className="text-[0.65rem] text-kooka-mist/70">{index + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => onMove(index, 1)}
+                  disabled={index === paths.length - 1}
+                  aria-label={`Move image ${index + 1} later`}
+                  className="text-kooka-mist hover:text-kooka-amber disabled:opacity-30"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const [items, setItems] = useState<ShowreelItem[]>(initialItems);
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -71,6 +150,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [galleryUploading, setGalleryUploading] = useState(false);
 
   function startEdit(item: ShowreelItem) {
     setEditingId(item.id);
@@ -83,7 +163,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       blurb: item.blurb,
       image: item.image,
       href: item.href ?? "",
-      gallery: item.gallery.map((image) => image.url).join("\n"),
+      gallery: item.gallery.map((image) => image.url),
     });
     setError(null);
   }
@@ -121,7 +201,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       blurb: form.blurb,
       image: form.image,
       href: form.href.trim() || null,
-      gallery: galleryLines(form.gallery),
+      gallery: form.gallery,
       ...(form.slug.trim() ? { slug: form.slug.trim() } : {}),
     };
 
@@ -166,20 +246,52 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setUploading(true);
     setError(null);
 
-    const body = new FormData();
-    body.append("file", file);
+    const result = await uploadImage(file);
 
-    const response = await fetch("/api/admin/upload", { method: "POST", body });
-
-    if (!response.ok) {
-      setError(await readErrorMessage(response, "Image upload failed."));
+    if ("error" in result) {
+      setError(result.error);
       setUploading(false);
       return;
     }
 
-    const { path: uploadedPath } = (await response.json()) as { path: string };
-    setForm((prev) => ({ ...prev, image: uploadedPath }));
+    setForm((prev) => ({ ...prev, image: result.path }));
     setUploading(false);
+  }
+
+  /*
+   * Uploads run together but the results are read back in pick order, so the
+   * gallery keeps the sequence the admin selected.
+   */
+  async function handleGallerySelect(files: FileList | null) {
+    if (!files || files.length === 0) return;
+
+    setGalleryUploading(true);
+    setError(null);
+
+    const results = await Promise.all(Array.from(files).map(uploadImage));
+    const failed = results.find((result) => "error" in result);
+
+    if (failed && "error" in failed) {
+      setError(failed.error);
+    }
+
+    const paths = results.flatMap((result) => ("path" in result ? [result.path] : []));
+    if (paths.length > 0) {
+      setForm((prev) => ({ ...prev, gallery: [...prev.gallery, ...paths] }));
+    }
+
+    setGalleryUploading(false);
+  }
+
+  function removeGalleryImage(index: number) {
+    setForm((prev) => ({
+      ...prev,
+      gallery: prev.gallery.filter((_, position) => position !== index),
+    }));
+  }
+
+  function moveGalleryImage(index: number, offset: number) {
+    setForm((prev) => ({ ...prev, gallery: move(prev.gallery, index, index + offset) }));
   }
 
   return (
@@ -326,16 +438,13 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
             />
           </label>
 
-          <label className="block text-sm text-kooka-mist">
-            Gallery — one image path per line{" "}
-            <textarea
-              value={form.gallery}
-              onChange={(event) => setForm((prev) => ({ ...prev, gallery: event.target.value }))}
-              rows={4}
-              className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 font-mono text-xs text-kooka-white outline-none focus:border-kooka-amber"
-              placeholder={"/Highlighted/project-2.webp\n/Highlighted/project-3.webp"}
-            />
-          </label>
+          <GalleryField
+            paths={form.gallery}
+            uploading={galleryUploading}
+            onAdd={(files) => void handleGallerySelect(files)}
+            onRemove={removeGalleryImage}
+            onMove={moveGalleryImage}
+          />
 
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
 

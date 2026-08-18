@@ -19,3 +19,23 @@ export async function readErrorMessage(
 
   return fallback;
 }
+
+export type UploadResult = { path: string } | { error: string };
+
+/*
+ * One request per file: the upload route takes a single `file` part, so a
+ * multi-select is fanned out by the caller rather than batched here.
+ */
+export async function uploadImage(file: File): Promise<UploadResult> {
+  const body = new FormData();
+  body.append("file", file);
+
+  const response = await fetch("/api/admin/upload", { method: "POST", body });
+
+  if (!response.ok) {
+    return { error: await readErrorMessage(response, "Image upload failed.") };
+  }
+
+  const { path } = (await response.json()) as { path: string };
+  return { path };
+}

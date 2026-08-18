@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
+import { toUploadUrl, uploadDir } from "@/lib/uploads";
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
@@ -13,8 +14,6 @@ const ALLOWED_TYPES: Record<string, string> = {
   "image/gif": "gif",
   "image/svg+xml": "svg",
 };
-
-const uploadDir = path.join(process.cwd(), "public", "Project");
 
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated())) {
@@ -43,5 +42,5 @@ export async function POST(request: Request) {
   const bytes = Buffer.from(await file.arrayBuffer());
   await fs.writeFile(path.join(uploadDir, filename), bytes);
 
-  return NextResponse.json({ path: `/Project/${filename}` }, { status: 201 });
+  return NextResponse.json({ path: toUploadUrl(filename) }, { status: 201 });
 }

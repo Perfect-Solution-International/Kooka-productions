@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/db";
 import { ServiceError } from "@/lib/errors";
 import { uniqueSlug } from "@/lib/slug";
+import { deleteUnreferencedUploads } from "@/lib/uploads";
 import {
   showreelCreateSchema,
   showreelUpdateSchema,
@@ -165,10 +166,15 @@ export async function createShowreel(body: unknown): Promise<ShowreelItem> {
  */
 export async function updateShowreel(id: string, body: unknown): Promise<ShowreelItem> {
   const input = parseInput(showreelUpdateSchema, body);
-  const existing = await prisma.showreel.findUnique({ where: { id }, select: { id: true } });
+  const existing = await prisma.showreel.findUnique({
+    where: { id },
+    select: { id: true, image: true, images: { select: { url: true } } },
+  });
   if (!existing) {
     throw new ServiceError("NOT_FOUND", "Showreel item not found.");
   }
+
+  const previousFiles = [existing.image, ...existing.images.map((image) => image.url)];
 
   const slug = input.slug
     ? await uniqueSlug(input.slug, (candidate) => slugTaken(candidate, id), "project")
@@ -203,16 +209,27 @@ export async function updateShowreel(id: string, body: unknown): Promise<Showree
     });
   });
 
+  /*
+   * Runs against the committed row, so a file the edit kept is still
+   * referenced and only the ones it dropped are removed from disk.
+   */
+  await deleteUnreferencedUploads(previousFiles);
+
   revalidateTags([CACHE_TAGS.showreel]);
   return toItem(row);
 }
 
 export async function deleteShowreel(id: string): Promise<void> {
-  const existing = await prisma.showreel.findUnique({ where: { id }, select: { id: true } });
+  const existing = await prisma.showreel.findUnique({
+    where: { id },
+    select: { id: true, image: true, images: { select: { url: true } } },
+  });
   if (!existing) {
     throw new ServiceError("NOT_FOUND", "Showreel item not found.");
   }
 
   await prisma.showreel.delete({ where: { id } });
+  await deleteUnreferencedUploads([existing.image, ...existing.images.map((image) => image.url)]);
+
   revalidateTags([CACHE_TAGS.showreel]);
 }
