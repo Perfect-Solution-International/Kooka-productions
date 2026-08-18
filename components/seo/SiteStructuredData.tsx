@@ -1,8 +1,7 @@
 import { JsonLd } from "@/components/seo/JsonLd";
-import { services } from "@/data/services";
 import { contact, site, socials } from "@/data/site";
 
-export function SiteStructuredData() {
+export function SiteStructuredData({ solutions }: { readonly solutions: readonly { title: string }[] }) {
   const organizationId = `${site.url}/#organization`;
 
   return (
@@ -38,7 +37,7 @@ export function SiteStructuredData() {
               name: "Australia",
             },
             sameAs: socials.map((social) => social.href),
-            knowsAbout: services.map((service) => service.title),
+            knowsAbout: solutions.map((service) => service.title),
           },
           {
             "@type": "WebSite",

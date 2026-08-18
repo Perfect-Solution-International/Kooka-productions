@@ -45,13 +45,16 @@ export async function deleteUnreferencedUploads(urls: readonly string[]): Promis
   const candidates = [...new Set(urls.filter(isManagedUpload))];
   if (candidates.length === 0) return;
 
-  const [covers, gallery] = await Promise.all([
-    prisma.showreel.findMany({ where: { image: { in: candidates } }, select: { image: true } }),
+  const [projects, gallery] = await Promise.all([
+    prisma.showreel.findMany({
+      where: { OR: [{ image: { in: candidates } }, { video: { in: candidates } }] },
+      select: { image: true, video: true },
+    }),
     prisma.showreelImage.findMany({ where: { url: { in: candidates } }, select: { url: true } }),
   ]);
 
   const stillReferenced = new Set([
-    ...covers.map((row) => row.image),
+    ...projects.flatMap((row) => [row.image, row.video].filter((url): url is string => Boolean(url))),
     ...gallery.map((row) => row.url),
   ]);
 

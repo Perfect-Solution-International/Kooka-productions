@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, MoveDown, Play } from "lucide-react";
+import { Mail, MoveDown, Play } from "lucide-react";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { img, media } from "@/data/media";
-import { site } from "@/data/site";
+import { contact, site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -148,16 +148,13 @@ export function Hero() {
               The Reel
             </ButtonLink>
             <ButtonLink
-              href="/showreel#portfolio"
+              href={contact.quoteHref}
               variant="secondary"
               size="lg"
               className="w-full sm:w-auto"
             >
-              Portfolio
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1"
-                aria-hidden
-              />
+              <Mail className="h-4 w-4" aria-hidden />
+              Get a Quote
             </ButtonLink>
           </motion.div>
         </motion.div>

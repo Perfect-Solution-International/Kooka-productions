@@ -8,13 +8,13 @@ import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { EASE_KOOKA, fadeLeft } from "@/lib/motion";
-import { img } from "@/data/media";
-import { services } from "@/data/services";
+import { img, isRemoteImage } from "@/data/media";
+import type { HomeSolutionItem } from "@/services/home-solution.service";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-export function KookaSolutions() {
-  const [openSlug, setOpenSlug] = useState<string | null>(services[0].slug);
+export function KookaSolutions({ services }: { readonly services: readonly HomeSolutionItem[] }) {
+  const [openSlug, setOpenSlug] = useState<string | null>(services[0]?.slug ?? null);
 
   return (
     <Section
@@ -112,14 +112,12 @@ export function KookaSolutions() {
                       transition={{ duration: 0.45, ease: EASE_KOOKA }}
                       className="overflow-hidden"
                     >
-                      <Link
-                        href={`/solutions/${service.slug}`}
-                        className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9"
-                      >
+                      <div className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9">
                         <Image
-                          src={img(service.image, 1400, 80)}
+                          src={isRemoteImage(service.image) ? img(service.image, 1400, 80) : service.image}
                           alt={service.title}
                           fill
+                          unoptimized={!isRemoteImage(service.image)}
                           sizes="(min-width: 1024px) 55vw, 100vw"
                           className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/panel:scale-[1.05]"
                         />
@@ -127,14 +125,9 @@ export function KookaSolutions() {
                           aria-hidden
                           className="absolute inset-0 bg-linear-to-t from-kooka-void/80 via-transparent to-transparent"
                         />
-                        <span className="absolute right-5 bottom-4 inline-flex items-center gap-2 font-display text-[0.62rem] font-semibold tracking-[0.22em] text-kooka-white uppercase transition-colors duration-500 group-hover/panel:text-kooka-amber">
-                          <span>Learn More</span>
-                          <ArrowUpRight
-                            className="h-3.5 w-3.5 transition-transform duration-500 group-hover/panel:translate-x-1 group-hover/panel:-translate-y-1"
-                            aria-hidden
-                          />
-                        </span>
-                      </Link>
+                        {/* TEMPORARILY_HIDDEN: Restore the "Learn More" label
+                            and arrow when service-detail promotion resumes. */}
+                      </div>
                     </motion.div>
                   ) : null}
                 </AnimatePresence>

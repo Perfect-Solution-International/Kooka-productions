@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { footerQuickLinks } from "@/data/navigation";
-import { services } from "@/data/services";
+import type { HomeSolutionItem } from "@/services/home-solution.service";
 import { contact, site, socials } from "@/data/site";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { SocialIcon } from "@/components/ui/SocialIcon";
@@ -20,12 +20,11 @@ const footerServiceSlugs = [
   "stage-design",
 ];
 
-const footerServices = footerServiceSlugs.flatMap(
-  (slug) => services.find((service) => service.slug === slug) ?? [],
-);
-
-export function Footer() {
+export function Footer({ solutions }: { readonly solutions: readonly HomeSolutionItem[] }) {
   const year = new Date().getFullYear();
+  const footerServices = footerServiceSlugs.flatMap(
+    (slug) => solutions.find((service) => service.slug === slug) ?? [],
+  );
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-white/[0.07] bg-kooka-void">

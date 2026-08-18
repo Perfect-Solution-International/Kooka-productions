@@ -4,7 +4,7 @@ import { ServiceBlock } from "@/components/sections/services/ServiceBlock";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { Section } from "@/components/ui/Section";
 import { RevealGroup } from "@/components/ui/Reveal";
-import { services } from "@/data/services";
+import { listHomeSolutions } from "@/services/home-solution.service";
 import { media } from "@/data/media";
 
 export const metadata: Metadata = {
@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/solutions" },
 };
 
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const services = await listHomeSolutions();
   return (
     <>
       <PageHero

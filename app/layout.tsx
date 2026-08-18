@@ -4,11 +4,13 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { FooterGate } from "@/components/layout/FooterGate";
+import { FloatingActions } from "@/components/layout/FloatingActions";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { DeferredSceneCanvas } from "@/components/3d/DeferredSceneCanvas";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
 import { img, media } from "@/data/media";
 import { site } from "@/data/site";
+import { listHomeSolutions } from "@/services/home-solution.service";
 
 const socialImage = img(media.heroStage, 1200, 75);
 const seoDescription =
@@ -103,7 +105,8 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const solutions = await listHomeSolutions();
   return (
     <html
       lang="en-AU"
@@ -113,7 +116,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${kookaDisplay.variable} ${kookaSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-kooka-black text-kooka-white">
-        <SiteStructuredData />
+        <SiteStructuredData solutions={solutions} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-kooka-amber focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-kooka-black"
@@ -128,12 +131,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           */}
           <DeferredSceneCanvas />
 
-          <SiteHeader />
+          <SiteHeader solutions={solutions} />
+          <FloatingActions />
           <main id="main" className="relative z-10 flex-1">
             {children}
           </main>
           <FooterGate>
-            <Footer />
+            <Footer solutions={solutions} />
           </FooterGate>
         </MotionProvider>
       </body>

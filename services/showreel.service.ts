@@ -26,6 +26,7 @@ export type ShowreelItem = {
   year: string;
   blurb: string;
   image: string;
+  video: string | null;
   href: string | null;
   published: boolean;
   sortOrder: number;
@@ -46,6 +47,7 @@ type ShowreelRow = {
   year: string;
   blurb: string;
   image: string;
+  video: string | null;
   href: string | null;
   published: boolean;
   sortOrder: number;
@@ -96,7 +98,7 @@ export const listShowreel = unstable_cache(
     });
     return rows.map(toItem);
   },
-  ["showreel:list"],
+  ["showreel:list:v2"],
   { tags: [CACHE_TAGS.showreel] },
 );
 
@@ -108,7 +110,7 @@ export const getShowreelBySlug = unstable_cache(
     });
     return row ? toItem(row) : null;
   },
-  ["showreel:by-slug"],
+  ["showreel:by-slug:v2"],
   { tags: [CACHE_TAGS.showreel] },
 );
 
@@ -148,6 +150,7 @@ export async function createShowreel(body: unknown): Promise<ShowreelItem> {
       year: input.year,
       blurb: input.blurb,
       image: input.image,
+      video: input.video ?? null,
       href: input.href ?? null,
       published: input.published ?? true,
       sortOrder: input.sortOrder ?? (await nextSortOrder()),
@@ -168,13 +171,14 @@ export async function updateShowreel(id: string, body: unknown): Promise<Showree
   const input = parseInput(showreelUpdateSchema, body);
   const existing = await prisma.showreel.findUnique({
     where: { id },
-    select: { id: true, image: true, images: { select: { url: true } } },
+    select: { id: true, image: true, video: true, images: { select: { url: true } } },
   });
   if (!existing) {
     throw new ServiceError("NOT_FOUND", "Showreel item not found.");
   }
 
-  const previousFiles = [existing.image, ...existing.images.map((image) => image.url)];
+  const previousFiles = [existing.image, existing.video, ...existing.images.map((image) => image.url)]
+    .filter((url): url is string => Boolean(url));
 
   const slug = input.slug
     ? await uniqueSlug(input.slug, (candidate) => slugTaken(candidate, id), "project")
@@ -201,6 +205,7 @@ export async function updateShowreel(id: string, body: unknown): Promise<Showree
         ...(input.year === undefined ? {} : { year: input.year }),
         ...(input.blurb === undefined ? {} : { blurb: input.blurb }),
         ...(input.image === undefined ? {} : { image: input.image }),
+        ...(input.video === undefined ? {} : { video: input.video ?? null }),
         ...(input.href === undefined ? {} : { href: input.href ?? null }),
         ...(input.published === undefined ? {} : { published: input.published }),
         ...(input.sortOrder === undefined ? {} : { sortOrder: input.sortOrder }),
@@ -222,14 +227,17 @@ export async function updateShowreel(id: string, body: unknown): Promise<Showree
 export async function deleteShowreel(id: string): Promise<void> {
   const existing = await prisma.showreel.findUnique({
     where: { id },
-    select: { id: true, image: true, images: { select: { url: true } } },
+    select: { id: true, image: true, video: true, images: { select: { url: true } } },
   });
   if (!existing) {
     throw new ServiceError("NOT_FOUND", "Showreel item not found.");
   }
 
   await prisma.showreel.delete({ where: { id } });
-  await deleteUnreferencedUploads([existing.image, ...existing.images.map((image) => image.url)]);
+  await deleteUnreferencedUploads(
+    [existing.image, existing.video, ...existing.images.map((image) => image.url)]
+      .filter((url): url is string => Boolean(url)),
+  );
 
   revalidateTags([CACHE_TAGS.showreel]);
 }

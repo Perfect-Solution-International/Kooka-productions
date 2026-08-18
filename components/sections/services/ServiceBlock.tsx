@@ -1,15 +1,13 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { CursorParallax } from "@/components/effects/CursorParallax";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Icon } from "@/components/ui/Icon";
 import { RevealItem } from "@/components/ui/Reveal";
-import { img } from "@/data/media";
-import type { Service } from "@/data/services";
+import { img, isRemoteImage } from "@/data/media";
+import type { HomeSolutionItem } from "@/services/home-solution.service";
 
 type ServiceBlockProps = {
-  readonly service: Service;
+  readonly service: HomeSolutionItem;
   readonly index: number;
 };
 
@@ -24,9 +22,10 @@ export function ServiceBlock({ service, index }: ServiceBlockProps) {
         >
           <div className="relative aspect-16/10 overflow-hidden">
             <Image
-              src={img(service.image, 800, 78)}
+              src={isRemoteImage(service.image) ? img(service.image, 800, 78) : service.image}
               alt={service.title}
               fill
+              unoptimized={!isRemoteImage(service.image)}
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
               className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />
@@ -49,13 +48,6 @@ export function ServiceBlock({ service, index }: ServiceBlockProps) {
             <p className="mt-4 text-sm leading-relaxed text-kooka-mist">
               {service.description}
             </p>
-            <Link
-              href={`/solutions/${service.slug}`}
-              className="mt-6 inline-flex items-center gap-2 self-start font-display text-xs font-semibold tracking-[0.16em] text-kooka-amber uppercase transition-colors hover:text-kooka-flare"
-            >
-              Explore Service
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
         </GlassCard>
       </CursorParallax>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHero } from "@/components/sections/shared/PageHero";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Section } from "@/components/ui/Section";
@@ -48,17 +49,31 @@ export default function DnaPage() {
             <RevealItem key={person.name} as="li" className="h-full">
               <GlassCard
                 as="article"
-                className="flex h-full flex-col p-6 transition-shadow duration-500 hover:shadow-[0_36px_90px_-46px_rgb(255_176_32/0.42)] sm:p-7"
+                className="flex h-full flex-col overflow-hidden transition-shadow duration-500 hover:shadow-[0_36px_90px_-46px_rgb(255_176_32/0.42)]"
               >
-                <h3 className="font-display text-xl leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-2xl">
-                  {person.name}
-                </h3>
-                <p className="mt-3 font-display text-sm text-kooka-ember sm:text-base">
-                  {person.role}
-                </p>
-                <p className="mt-5 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
-                  {person.bio}
-                </p>
+                {person.image ? (
+                  <div className="relative aspect-4/5 overflow-hidden border-b border-white/[0.08] bg-kooka-carbon">
+                    <Image
+                      src={person.image}
+                      alt={`${person.name}, ${person.role}`}
+                      fill
+                      unoptimized
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover object-top transition-transform duration-[1200ms] ease-kooka hover:scale-[1.02]"
+                    />
+                  </div>
+                ) : null}
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 className="font-display text-xl leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-2xl">
+                    {person.name}
+                  </h3>
+                  <p className="mt-3 font-display text-sm text-kooka-ember sm:text-base">
+                    {person.role}
+                  </p>
+                  <p className="mt-5 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
+                    {person.bio}
+                  </p>
+                </div>
               </GlassCard>
             </RevealItem>
           ))}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { maskUp } from "@/lib/motion";
-import { img } from "@/data/media";
+import { img, isRemoteImage } from "@/data/media";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
@@ -43,10 +43,11 @@ export function PageHero({
       )}
     >
       <Image
-        src={img(image, 2200, 82)}
+        src={isRemoteImage(image) ? img(image, 2200, 82) : image}
         alt=""
         fill
         priority
+        unoptimized={!isRemoteImage(image)}
         quality={90}
         sizes="100vw"
         className="-z-20 object-cover object-center"

@@ -39,7 +39,7 @@ export function KookaExperience() {
               className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             />
 
-            <div className="kooka-scrim absolute inset-0 opacity-70 transition-opacity duration-700 group-hover:opacity-100" />
+            <div className="kooka-scrim absolute inset-0 opacity-25 transition-opacity duration-700 group-hover:opacity-10" />
           </RevealItem>
         ))}
       </RevealGroup>

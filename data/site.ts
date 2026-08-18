@@ -19,13 +19,12 @@ export const site = {
 export const contact = {
   phone: "0415 830 719",
   phoneHref: "tel:+61415830719",
+  whatsappHref: "https://wa.me/61415830719",
   email: "info@kookaproductions.com.au",
   emailHref: "mailto:info@kookaproductions.com.au",
-  /** "Get a Quote" opens a pre-addressed enquiry until a form backend exists. */
-  quoteHref:
-    "mailto:info@kookaproductions.com.au?subject=Event%20production%20quote%20enquiry",
-  /** Contact strip anchor on the homepage. */
-  contactHref: "/#contact",
+  /** Quote and contact calls-to-action lead to the dedicated enquiry page. */
+  quoteHref: "/contact",
+  contactHref: "/contact",
   address: "PO Box 415, Croydon, Vic 3136",
   city: "Melbourne",
   state: "Victoria",

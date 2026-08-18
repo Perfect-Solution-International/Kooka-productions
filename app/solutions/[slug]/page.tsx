@@ -9,15 +9,16 @@ import { ButtonLink } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { img } from "@/data/media";
-import { serviceBySlug, services } from "@/data/services";
+import { img, isRemoteImage } from "@/data/media";
+import { listHomeSolutions } from "@/services/home-solution.service";
 import { site } from "@/data/site";
 
 type ServicePageProps = {
   readonly params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const services = await listHomeSolutions();
   return services.map((service) => ({ slug: service.slug }));
 }
 
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = serviceBySlug(slug);
+  const service = (await listHomeSolutions()).find((item) => item.slug === slug);
   if (!service) return { title: "Service Not Found" };
 
   const title = `${service.title} Melbourne`;
@@ -42,7 +43,7 @@ export async function generateMetadata({
       url: `/solutions/${service.slug}`,
       images: [
         {
-          url: img(service.image, 1200, 75),
+          url: isRemoteImage(service.image) ? img(service.image, 1200, 75) : service.image,
           width: 1200,
           height: 630,
           alt: `${service.title} by Kooka Productions`,
@@ -54,7 +55,8 @@ export async function generateMetadata({
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = serviceBySlug(slug);
+  const services = await listHomeSolutions();
+  const service = services.find((item) => item.slug === slug);
   if (!service) notFound();
 
   const related = services
@@ -74,7 +76,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
               name: service.title,
               description: service.description,
               url: pageUrl,
-              image: img(service.image, 1200, 75),
+              image: new URL(
+                isRemoteImage(service.image) ? img(service.image, 1200, 75) : service.image,
+                site.url,
+              ).href,
               provider: { "@id": `${site.url}/#organization` },
               areaServed: { "@type": "Country", name: "Australia" },
               serviceType: service.title,
@@ -113,7 +118,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         description={service.description}
         image={service.image}
       >
-        <ButtonLink href="/#contact" size="lg">
+        <ButtonLink href="/contact" size="lg">
           Discuss Your Event
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </ButtonLink>

@@ -18,8 +18,7 @@ export default function AdminLoginPage() {
     const response = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      /* Omitting the email signs in as the single seeded admin. */
-      body: JSON.stringify(email.trim() ? { email: email.trim(), password } : { password }),
+      body: JSON.stringify({ email: email.trim(), password }),
     });
 
     if (!response.ok) {
@@ -41,13 +40,14 @@ export default function AdminLoginPage() {
         <h1 className="font-display text-xl text-kooka-white">Admin Login</h1>
 
         <label className="mt-6 block text-sm text-kooka-mist">
-          Email (optional){" "}
+          Email{" "}
           <input
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="mt-2 w-full rounded-lg border border-white/15 bg-black/30 px-4 py-2.5 text-kooka-white outline-none focus:border-kooka-amber"
             autoComplete="username"
+            required
           />
         </label>
 

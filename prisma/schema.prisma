@@ -28,6 +28,7 @@ model Showreel {
   year      String
   blurb     String   @db.Text
   image     String   @db.VarChar(512)
+  video     String?  @db.VarChar(512)
   href      String?  @db.VarChar(512)
   published Boolean  @default(true)
   sortOrder Int      @default(0)
@@ -50,4 +51,21 @@ model ShowreelImage {
   showreel Showreel @relation(fields: [showreelId], references: [id], onDelete: Cascade)
 
   @@index([showreelId, sortOrder])
+}
+
+model HomeSolution {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  icon        String
+  image       String   @db.VarChar(512)
+  description String   @db.Text
+  deliverables Json
+  idealFor     Json
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
 }

@@ -9,6 +9,7 @@ import { PartnerMarquee } from "@/components/sections/home/PartnerMarquee";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { site } from "@/data/site";
+import { listHomeSolutions } from "@/services/home-solution.service";
 
 export const metadata: Metadata = {
   title: `${site.name} | ${site.seoLine}`,
@@ -16,12 +17,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const homeSolutions = await listHomeSolutions();
   return (
     <>
       <Hero />
       <KookaExperience />
-      <KookaSolutions />
+      <KookaSolutions services={homeSolutions} />
       <HighlightedProjects />
       <WhyChooseKooka />
       <TrustedPartners />

@@ -27,6 +27,7 @@ export const showreelCreateSchema = z.object({
   year: requiredText,
   blurb: longText,
   image: urlPath,
+  video: optionalUrlPath,
   href: optionalUrlPath,
   gallery: z.array(galleryEntrySchema).optional(),
   ...publishFields,

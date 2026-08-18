@@ -3,7 +3,7 @@
 import { useState, type SubmitEvent } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { ShowreelItem } from "@/services/showreel.service";
-import { readErrorMessage, uploadImage } from "@/lib/api/client";
+import { readErrorMessage, uploadFile } from "@/lib/api/client";
 import { AdminShell } from "@/components/admin/AdminShell";
 
 type ProjectsManagerProps = {
@@ -18,6 +18,7 @@ type FormState = {
   year: string;
   blurb: string;
   image: string;
+  video: string;
   href: string;
   /** Uploaded paths, in the order they appear on the public page. */
   gallery: string[];
@@ -31,6 +32,7 @@ const emptyForm: FormState = {
   year: "",
   blurb: "",
   image: "",
+  video: "",
   href: "",
   gallery: [],
 };
@@ -64,6 +66,40 @@ function ImageFieldStatus({
       <img src={image} alt="" className="h-8 w-8 rounded object-cover" />
       {image}
     </p>
+  );
+}
+
+function VideoFieldStatus({
+  uploading,
+  video,
+  onRemove,
+}: {
+  readonly uploading: boolean;
+  readonly video: string;
+  readonly onRemove: () => void;
+}) {
+  if (uploading) {
+    return <p className="mt-1.5 text-xs text-kooka-mist/70">Uploading video…</p>;
+  }
+
+  if (!video) {
+    return <p className="mt-1.5 text-xs text-kooka-mist/70">No video selected. Images will be used instead.</p>;
+  }
+
+  return (
+    <div className="mt-2 rounded-lg border border-white/10 bg-black/30 p-2">
+      <video src={video} controls preload="metadata" className="aspect-video w-full rounded object-cover" />
+      <div className="mt-2 flex items-center justify-between gap-3">
+        <p className="min-w-0 truncate text-xs text-kooka-mist/70">{video}</p>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="shrink-0 text-xs text-red-400 hover:text-red-300"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -150,6 +186,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [videoUploading, setVideoUploading] = useState(false);
   const [galleryUploading, setGalleryUploading] = useState(false);
 
   function startEdit(item: ShowreelItem) {
@@ -162,6 +199,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       year: item.year,
       blurb: item.blurb,
       image: item.image,
+      video: item.video ?? "",
       href: item.href ?? "",
       gallery: item.gallery.map((image) => image.url),
     });
@@ -200,6 +238,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
       year: form.year,
       blurb: form.blurb,
       image: form.image,
+      video: form.video.trim() || null,
       href: form.href.trim() || null,
       gallery: form.gallery,
       ...(form.slug.trim() ? { slug: form.slug.trim() } : {}),
@@ -246,7 +285,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setUploading(true);
     setError(null);
 
-    const result = await uploadImage(file);
+    const result = await uploadFile(file);
 
     if ("error" in result) {
       setError(result.error);
@@ -256,6 +295,23 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
 
     setForm((prev) => ({ ...prev, image: result.path }));
     setUploading(false);
+  }
+
+  async function handleVideoSelect(file: File | undefined) {
+    if (!file) return;
+    setVideoUploading(true);
+    setError(null);
+
+    const result = await uploadFile(file);
+
+    if ("error" in result) {
+      setError(result.error);
+      setVideoUploading(false);
+      return;
+    }
+
+    setForm((prev) => ({ ...prev, video: result.path }));
+    setVideoUploading(false);
   }
 
   /*
@@ -268,7 +324,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setGalleryUploading(true);
     setError(null);
 
-    const results = await Promise.all(Array.from(files).map((file) => uploadImage(file)));
+    const results = await Promise.all(Array.from(files).map((file) => uploadFile(file)));
     const failed = results.find((result) => "error" in result);
 
     if (failed && "error" in failed) {
@@ -316,6 +372,9 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                   </p>
                   <p className="mt-1 max-w-md text-xs text-kooka-mist">{item.blurb}</p>
                   <p className="mt-1 text-[0.7rem] text-kooka-mist/70">{item.image}</p>
+                  {item.video ? (
+                    <p className="mt-1 text-[0.7rem] text-kooka-amber">Video attached</p>
+                  ) : null}
                 </div>
                 <div className="flex shrink-0 gap-2">
                   <button
@@ -366,6 +425,21 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
                 className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none file:mr-3 file:rounded-full file:border-0 file:bg-kooka-amber file:px-3 file:py-1 file:text-xs file:font-semibold file:text-kooka-black focus:border-kooka-amber"
               />
               <ImageFieldStatus uploading={uploading} image={form.image} />
+            </label>
+
+            <label className="text-sm text-kooka-mist">
+              Video (optional){" "}
+              <input
+                type="file"
+                accept="video/mp4,video/webm,video/quicktime"
+                onChange={(event) => void handleVideoSelect(event.target.files?.[0])}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none file:mr-3 file:rounded-full file:border-0 file:bg-kooka-amber file:px-3 file:py-1 file:text-xs file:font-semibold file:text-kooka-black focus:border-kooka-amber"
+              />
+              <VideoFieldStatus
+                uploading={videoUploading}
+                video={form.video}
+                onRemove={() => setForm((prev) => ({ ...prev, video: "" }))}
+              />
             </label>
 
             <label className="text-sm text-kooka-mist">
@@ -441,7 +515,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
           <div className="flex gap-3">
             <button
               type="submit"
-              disabled={pending || uploading}
+              disabled={pending || uploading || videoUploading || galleryUploading}
               className="rounded-full bg-kooka-amber px-6 py-2.5 font-display text-xs font-semibold uppercase tracking-[0.14em] text-kooka-black disabled:opacity-50"
             >
               {editingId ? "Save Changes" : "Add Project"}

@@ -3,6 +3,7 @@ import { hash } from "bcryptjs";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import showreelItems from "./seed-data/showreel.json";
+import { services as staticServices } from "../data/services";
 
 /*
  * Idempotent: rows are upserted on their natural key, so re-running the seed
@@ -82,6 +83,28 @@ async function seedAdminUser(prisma: PrismaClient): Promise<void> {
   });
 }
 
+async function seedHomeSolutions(prisma: PrismaClient): Promise<void> {
+  for (const [index, service] of staticServices.entries()) {
+    const row = {
+      title: service.title,
+      icon: service.icon,
+      image: service.image,
+      description: service.description,
+      deliverables: [...service.deliverables],
+      idealFor: [...service.idealFor],
+      sortOrder: index,
+    };
+    await prisma.homeSolution.upsert({
+      where: { slug: service.slug },
+      create: { slug: service.slug, ...row },
+      update: {
+        deliverables: [...service.deliverables],
+        idealFor: [...service.idealFor],
+      },
+    });
+  }
+}
+
 async function main(): Promise<void> {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -94,6 +117,7 @@ async function main(): Promise<void> {
 
   try {
     await seedShowreel(prisma);
+    await seedHomeSolutions(prisma);
     await seedAdminUser(prisma);
     console.info("Seed complete.");
   } finally {

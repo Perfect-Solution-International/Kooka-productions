@@ -46,6 +46,13 @@ export async function ShowreelGrid() {
               className="absolute inset-0 bg-kooka-amber/0 transition-colors duration-700 group-hover:bg-kooka-amber/[0.05]"
             />
 
+            <Link
+              href={`/showreel/${item.slug}`}
+              className="absolute inset-0 z-10 rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-kooka-amber"
+            >
+              <span className="sr-only">View details: {item.title}</span>
+            </Link>
+
             {/* Running index anchors the tile opposite the caption */}
             <p
               aria-hidden
@@ -58,13 +65,12 @@ export async function ShowreelGrid() {
               <span className="text-kooka-muted">{total}</span>
             </p>
 
-            <Link
-              href={`/showreel/${item.slug}`}
-              className="absolute right-4 bottom-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/55 text-kooka-white backdrop-blur-md transition-colors duration-500 hover:border-kooka-amber hover:bg-kooka-amber hover:text-kooka-black sm:right-6 sm:bottom-6 lg:right-8 lg:bottom-8"
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-4 bottom-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/55 text-kooka-white backdrop-blur-md transition-colors duration-500 group-hover:border-kooka-amber group-hover:bg-kooka-amber group-hover:text-kooka-black sm:right-6 sm:bottom-6 lg:right-8 lg:bottom-8"
             >
               <Eye className="h-4 w-4" aria-hidden />
-              <span className="sr-only">View details: {item.title}</span>
-            </Link>
+            </span>
 
             {/* Right padding keeps the copy clear of the detail link */}
             <div className="relative p-5 pr-20 sm:p-7 sm:pr-24 md:p-8 md:pr-24 lg:p-10 lg:pr-28">
@@ -84,8 +90,7 @@ export async function ShowreelGrid() {
               </p>
 
               {item.href ? (
-                <Link
-                  href={item.href}
+                <span
                   className="kooka-hover-reveal group/link mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase"
                 >
                   View Project
@@ -93,7 +98,7 @@ export async function ShowreelGrid() {
                     className="h-3 w-3 transition-transform duration-500 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
                     aria-hidden
                   />
-                </Link>
+                </span>
               ) : (
                 <span className="kooka-hover-reveal mt-5 inline-flex items-center gap-2 font-display text-[0.58rem] tracking-[0.26em] text-kooka-amber uppercase">
                   Kooka delivers here

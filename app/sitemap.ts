@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { listShowreel } from "@/services/showreel.service";
-import { services } from "@/data/services";
+import { listHomeSolutions } from "@/services/home-solution.service";
 import { site } from "@/data/site";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +15,7 @@ function absoluteUrl(value: string): string | null {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await listShowreel();
+  const services = await listHomeSolutions();
   /* Projects live in MySQL, so the index date is the newest row's timestamp. */
   const showreelModified = projects.reduce<Date | undefined>(
     (latest, project) =>
@@ -46,6 +47,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${site.url}/footprint`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${site.url}/contact`,
       changeFrequency: "monthly",
       priority: 0.8,
     },

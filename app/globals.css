@@ -370,6 +370,33 @@
     padding-inline: max(1rem, env(safe-area-inset-left))
       max(1rem, env(safe-area-inset-right));
   }
+
+  /* The navigation needs the full viewport rail: using the editorial content
+   * max-width here forces the logo, six links and actions to compete for a
+   * 76rem box even on a wide display. */
+  .kooka-header-container {
+    width: 100%;
+    padding-inline: max(1rem, env(safe-area-inset-left))
+      max(1rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 480px) {
+    .kooka-header-container {
+      padding-inline: max(1.25rem, env(safe-area-inset-left))
+        max(1.25rem, env(safe-area-inset-right));
+    }
+  }
+  @media (min-width: 768px) {
+    .kooka-header-container {
+      padding-inline: max(2rem, env(safe-area-inset-left))
+        max(2rem, env(safe-area-inset-right));
+    }
+  }
+  @media (min-width: 1440px) {
+    .kooka-header-container {
+      padding-inline: max(3rem, env(safe-area-inset-left))
+        max(3rem, env(safe-area-inset-right));
+    }
+  }
   @media (min-width: 480px) {
     .kooka-container {
       padding-inline: max(1.25rem, env(safe-area-inset-left))

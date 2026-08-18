@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import { ChevronDown, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mainNav, type NavItem } from "@/data/navigation";
 import { contact, site } from "@/data/site";
@@ -17,8 +17,9 @@ const matchesPath = (href: string, pathname: string) => {
   return pathname.startsWith(path);
 };
 
-export function Header() {
+export function Header({ solutions }: { readonly solutions: readonly { slug: string; title: string }[] }) {
   const pathname = usePathname();
+  const navigation = mainNav(solutions);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -41,13 +42,25 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  // A rotated tablet or resized browser can cross into the desktop header
+  // while the sheet is open. Close it so the hidden sheet never keeps body
+  // scrolling locked behind the desktop navigation.
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1440px)");
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setMenuOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   /*
    * The nine service links do not fit under the five top-level rows on a
    * phone, so the sheet keeps them collapsed and opens only the group the
    * current route sits in.
    */
   const routeGroup =
-    mainNav.find((item) =>
+    navigation.find((item) =>
       item.children?.some((child) => matchesPath(child.href, pathname)),
     )?.href ?? null;
 
@@ -74,7 +87,7 @@ export function Header() {
       >
         <div
           className={cn(
-            "kooka-container flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "kooka-header-container flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
             scrolled ? "h-16 lg:h-18" : "h-20 lg:h-24",
           )}
         >
@@ -87,16 +100,16 @@ export function Header() {
             <Wordmark className="text-base lg:text-lg" />
           </Link>
 
-          <nav aria-label="Primary" className="hidden lg:block">
+          <nav aria-label="Primary" className="hidden shrink-0 min-[1440px]:block">
             <ul className="flex items-center gap-1">
-              {mainNav.map((item) => {
+              {navigation.map((item) => {
                 const active = isActive(item.href) || hasActiveChild(item);
                 const open = openDropdown === item.href;
 
                 return (
                   <li
                     key={item.href}
-                    className="relative"
+                    className="relative shrink-0"
                     onMouseEnter={() =>
                       item.children ? setOpenDropdown(item.href) : undefined
                     }
@@ -110,7 +123,7 @@ export function Header() {
                         setOpenDropdown(item.children ? item.href : null)
                       }
                       className={cn(
-                        "relative flex items-center gap-1.5 rounded-full px-4 py-2 font-display text-[0.72rem] font-medium tracking-[0.16em] uppercase transition-colors duration-300",
+                        "relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 font-display text-[0.68rem] font-medium tracking-[0.14em] uppercase transition-colors duration-300 min-[1680px]:px-4 min-[1680px]:text-[0.72rem] min-[1680px]:tracking-[0.16em]",
                         active
                           ? "text-kooka-amber"
                           : "text-kooka-mist hover:text-kooka-white",
@@ -162,15 +175,16 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="hidden shrink-0 items-center gap-3 min-[1440px]:flex">
             <a
               href={contact.phoneHref}
-              className="inline-flex items-center gap-2 text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-white"
+              className="hidden shrink-0 items-center gap-2 whitespace-nowrap text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-white min-[1680px]:inline-flex"
             >
               <Phone className="h-4 w-4 text-kooka-amber" aria-hidden />
               {contact.phone}
             </a>
             <ButtonLink href={contact.quoteHref} size="sm">
+              <Mail className="h-4 w-4" aria-hidden />
               Get a Quote
             </ButtonLink>
           </div>
@@ -181,7 +195,7 @@ export function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="-mr-1 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber lg:hidden"
+            className="-mr-1 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber min-[1440px]:hidden"
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden />
@@ -195,13 +209,13 @@ export function Header() {
       {menuOpen ? (
           <div
             id="mobile-menu"
-            className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl min-[1440px]:hidden"
           >
             {/* The sheet runs under the home indicator, so the pad clears it. */}
             <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-[max(3rem,calc(env(safe-area-inset-bottom)+1.5rem))]">
               <nav aria-label="Mobile">
                 <ul className="flex flex-col">
-                  {mainNav.map((item, index) => {
+                  {navigation.map((item, index) => {
                     const groupOpen = openGroup === item.href;
                     const groupId = `mobile-group-${index}`;
 
@@ -291,6 +305,7 @@ export function Header() {
                 className="flex flex-col gap-4"
               >
                 <ButtonLink href={contact.quoteHref} size="lg" className="w-full">
+                  <Mail className="h-4 w-4" aria-hidden />
                   Get a Quote
                 </ButtonLink>
                 <a

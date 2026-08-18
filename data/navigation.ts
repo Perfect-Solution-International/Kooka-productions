@@ -1,4 +1,3 @@
-import { services } from "./services";
 import { footprintCategories } from "./footprint";
 
 export type NavItem = {
@@ -8,7 +7,7 @@ export type NavItem = {
   children?: NavItem[];
 };
 
-export const mainNav: NavItem[] = [
+export const mainNav = (solutions: readonly { slug: string; title: string }[]): NavItem[] => [
   { label: "Home", href: "/", description: "Concept. Create. Captivate." },
   { label: "DNA", href: "/dna", description: "The Kooka DNA" },
   {
@@ -20,7 +19,7 @@ export const mainNav: NavItem[] = [
     label: "Solutions",
     href: "/solutions",
     description: "Technical artistry, zero compromise",
-    children: services.map((service) => ({
+    children: solutions.map((service) => ({
       label: service.title,
       href: `/solutions/${service.slug}`,
     })),
@@ -36,7 +35,7 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "Contact Us",
-    href: "/#contact",
+    href: "/contact",
     description: "Melbourne HQ, Australia-wide",
   },
 ];
@@ -47,5 +46,6 @@ export const footerQuickLinks: NavItem[] = [
   { label: "Showreel", href: "/showreel" },
   { label: "Kooka Solutions", href: "/solutions" },
   { label: "Kooka Footprint", href: "/footprint" },
+  { label: "Contact Us", href: "/contact" },
   // { label: "Admin Panel", href: "/admin" },
 ];
