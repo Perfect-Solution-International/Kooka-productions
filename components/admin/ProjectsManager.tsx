@@ -268,7 +268,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     setGalleryUploading(true);
     setError(null);
 
-    const results = await Promise.all(Array.from(files).map(uploadImage));
+    const results = await Promise.all(Array.from(files).map((file) => uploadImage(file)));
     const failed = results.find((result) => "error" in result);
 
     if (failed && "error" in failed) {
