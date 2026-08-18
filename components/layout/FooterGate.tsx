@@ -11,6 +11,8 @@ const FOOTERLESS_ROUTES = [/^\/showreel\/[^/]+\/?$/];
 
 export function FooterGate({ children }: { readonly children: ReactNode }) {
   const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
+
   const hidden = FOOTERLESS_ROUTES.some((route) => route.test(pathname));
 
   return hidden ? null : <>{children}</>;

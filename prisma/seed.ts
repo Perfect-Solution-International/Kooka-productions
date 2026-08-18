@@ -68,10 +68,16 @@ async function seedAdminUser(prisma: PrismaClient): Promise<void> {
     throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set to seed the first admin");
   }
 
+  /*
+   * The name is only needed to create the row. Re-seeding leaves it alone, so
+   * a name edited in the admin panel is not reverted on the next run.
+   */
+  const name = process.env.ADMIN_NAME?.trim() || email.split("@")[0];
   const passwordHash = await hash(password, BCRYPT_ROUNDS);
+
   await prisma.user.upsert({
     where: { email },
-    create: { email, passwordHash },
+    create: { name, email, passwordHash },
     update: { passwordHash },
   });
 }
