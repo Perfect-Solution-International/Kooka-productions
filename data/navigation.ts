@@ -47,5 +47,5 @@ export const footerQuickLinks: NavItem[] = [
   { label: "Showreel", href: "/showreel" },
   { label: "Kooka Solutions", href: "/solutions" },
   { label: "Kooka Footprint", href: "/footprint" },
-  { label: "Admin Panel", href: "/admin" },
+  // { label: "Admin Panel", href: "/admin" },
 ];
