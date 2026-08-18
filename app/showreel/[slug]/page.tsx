@@ -75,9 +75,13 @@ export default async function ShowreelDetailPage({
   );
 
   /*
-   * Pinned to a single viewport — the site header and footer are suppressed for
-   * this route and the document never scrolls. Only the blurb scrolls inside
-   * itself, so long copy stays reachable without the page growing past the fold.
+   * Desktop is pinned to a single viewport — the site header and footer are
+   * suppressed for this route, the document never scrolls, and only the blurb
+   * scrolls inside itself so long copy stays reachable above the fold.
+   *
+   * Phones and tablets cannot carry that: hero, rail and copy stacked into one
+   * viewport leave every band too short to read. Below `lg` the article grows
+   * with its content and the page scrolls normally instead.
    */
   return (
     <>
@@ -118,7 +122,7 @@ export default async function ShowreelDetailPage({
           ],
         }}
       />
-      <article className="flex h-[100svh] flex-col overflow-hidden px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 lg:px-12 lg:py-8">
+      <article className="flex min-h-[100svh] flex-col px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-8 lg:h-[100svh] lg:overflow-hidden lg:px-12 lg:py-8">
       <Link
         href="/showreel"
         className="group/back inline-flex min-h-11 shrink-0 items-center gap-2.5 self-start font-display text-[0.6rem] font-semibold tracking-[0.24em] text-kooka-mist uppercase transition-colors duration-500 hover:text-kooka-amber"
@@ -130,14 +134,14 @@ export default async function ShowreelDetailPage({
         Back to Showreel
       </Link>
 
-      <div className="mt-3 grid min-h-0 flex-1 gap-5 sm:mt-4 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
+      <div className="mt-3 grid flex-1 gap-6 sm:mt-4 lg:min-h-0 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
         <ShowreelMedia
           title={item.title}
           cover={item.image}
           gallery={gallery}
         />
 
-        <div className="flex min-h-0 flex-col">
+        <div className="flex flex-col lg:min-h-0">
           <p className="kooka-eyebrow shrink-0">Kooka Showreel</p>
           <h1 className="mt-2 shrink-0 font-display text-2xl leading-tight font-semibold text-kooka-white sm:text-3xl lg:text-4xl">
             {item.title}
@@ -163,7 +167,7 @@ export default async function ShowreelDetailPage({
           ) : null}
 
           {item.blurb.trim().length > 0 ? (
-            <p className="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-white/[0.08] pt-4 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
+            <p className="mt-5 border-t border-white/[0.08] pt-4 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto] lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain">
               {item.blurb}
             </p>
           ) : null}
