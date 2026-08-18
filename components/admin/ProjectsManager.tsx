@@ -2,6 +2,7 @@
 
 import { useState, type SubmitEvent } from "react";
 import type { ShowreelItem } from "@/services/showreel.service";
+import { readErrorMessage } from "@/lib/api/client";
 import { AdminShell } from "@/components/admin/AdminShell";
 
 type ProjectsManagerProps = {
@@ -131,12 +132,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     });
 
     if (!response.ok) {
-      const body: unknown = await response.json().catch(() => null);
-      const message =
-        typeof body === "object" && body !== null && "error" in body && typeof body.error === "string"
-          ? body.error
-          : "Something went wrong.";
-      setError(message);
+      setError(await readErrorMessage(response, "Something went wrong."));
       setPending(false);
       return;
     }
@@ -176,15 +172,7 @@ export function ProjectsManager({ initialItems }: ProjectsManagerProps) {
     const response = await fetch("/api/admin/upload", { method: "POST", body });
 
     if (!response.ok) {
-      const responseBody: unknown = await response.json().catch(() => null);
-      const message =
-        typeof responseBody === "object" &&
-        responseBody !== null &&
-        "error" in responseBody &&
-        typeof responseBody.error === "string"
-          ? responseBody.error
-          : "Image upload failed.";
-      setError(message);
+      setError(await readErrorMessage(response, "Image upload failed."));
       setUploading(false);
       return;
     }

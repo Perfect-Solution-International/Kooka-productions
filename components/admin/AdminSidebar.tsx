@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Clapperboard, ExternalLink, LogOut, X } from "lucide-react";
+import { Clapperboard, ExternalLink, LogOut, Users, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type NavItem = {
@@ -13,6 +13,7 @@ type NavItem = {
 
 const NAV_ITEMS: readonly NavItem[] = [
   { href: "/admin/projects", label: "Projects", icon: Clapperboard },
+  { href: "/admin/users", label: "Users", icon: Users },
 ];
 
 type AdminSidebarProps = {
