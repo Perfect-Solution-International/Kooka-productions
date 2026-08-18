@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ShowreelMedia } from "@/components/sections/showreel/ShowreelMedia";
 import {
   getShowreelBySlug,
   listShowreel,
   type ShowreelItem,
 } from "@/services/showreel.service";
-import { img, isRemoteImage } from "@/data/media";
 import { site } from "@/data/site";
 
 type ShowreelDetailProps = {
@@ -63,7 +62,6 @@ export default async function ShowreelDetailPage({
   const item = await getShowreelBySlug(slug);
   if (!item) notFound();
 
-  const remote = isRemoteImage(item.image);
   const gallery = item.gallery.filter((image) => image.url.trim().length > 0);
   const fields = [
     { term: "Type", value: item.type },
@@ -133,50 +131,11 @@ export default async function ShowreelDetailPage({
       </Link>
 
       <div className="mt-3 grid min-h-0 flex-1 gap-5 sm:mt-4 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
-        <div className="flex min-h-0 flex-col gap-3">
-          <div className="kooka-glow-border relative min-h-0 flex-1 overflow-hidden rounded-3xl border border-white/[0.08] bg-kooka-carbon">
-            <Image
-              src={remote ? img(item.image, 1600, 82) : item.image}
-              alt={item.title}
-              fill
-              priority
-              unoptimized={!remote}
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-
-          {/*
-            Phones run the gallery as a swipe carousel showing two shots per
-            screen (the `gap-2` is subtracted so the pair fits exactly), extras
-            snapping sideways, on a height capped in `svh` so the rail cannot
-            squeeze the hero out of the single viewport. From `sm`
-            up the row is wide enough to share — every shot takes an equal
-            slice, capped at the thumbnail size.
-          */}
-          {gallery.length > 0 ? (
-            <ul className="flex h-[18svh] min-h-24 shrink-0 snap-x snap-mandatory gap-2 overflow-x-auto overscroll-contain pb-1 sm:h-auto sm:min-h-0 sm:snap-none sm:gap-3 sm:overflow-visible sm:pb-0">
-              {gallery.map((image, index) => {
-                const remoteShot = isRemoteImage(image.url);
-                return (
-                  <li
-                    key={image.id}
-                    className="relative h-full w-[calc((100%-0.5rem)/2)] shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon sm:h-auto sm:aspect-[16/10] sm:w-auto sm:min-w-0 sm:max-w-40 sm:flex-1 sm:basis-0"
-                  >
-                    <Image
-                      src={remoteShot ? img(image.url, 320, 72) : image.url}
-                      alt={image.alt ?? `${item.title} — gallery image ${index + 1}`}
-                      fill
-                      unoptimized={!remoteShot}
-                      sizes="(min-width: 640px) 160px, 50vw"
-                      className="object-cover"
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          ) : null}
-        </div>
+        <ShowreelMedia
+          title={item.title}
+          cover={item.image}
+          gallery={gallery}
+        />
 
         <div className="flex min-h-0 flex-col">
           <p className="kooka-eyebrow shrink-0">Kooka Showreel</p>
