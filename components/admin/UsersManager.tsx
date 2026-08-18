@@ -10,19 +10,14 @@ type UsersManagerProps = {
 };
 
 type FormState = {
+  name: string;
   email: string;
   password: string;
-  role: string;
 };
 
-const emptyForm: FormState = { email: "", password: "", role: "admin" };
+const emptyForm: FormState = { name: "", email: "", password: "" };
 
 const MIN_PASSWORD_LENGTH = 10;
-
-const ROLES = [
-  { value: "admin", label: "Admin" },
-  { value: "editor", label: "Editor" },
-] as const;
 
 const PASSWORD_ALPHABET =
   "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*";
@@ -68,7 +63,7 @@ export function UsersManager({ initialUsers }: UsersManagerProps) {
 
   function startEdit(user: AdminUserRecord) {
     setEditingId(user.id);
-    setForm({ email: user.email, password: "", role: user.role });
+    setForm({ name: user.name, email: user.email, password: "" });
     setError(null);
     setNotice(null);
     setShowPassword(false);
@@ -110,8 +105,8 @@ export function UsersManager({ initialUsers }: UsersManagerProps) {
       : "/api/admin/users";
 
     const payload = {
+      name: form.name.trim(),
       email: form.email.trim(),
-      role: form.role,
       ...(form.password ? { password: form.password } : {}),
     };
 
@@ -163,18 +158,16 @@ export function UsersManager({ initialUsers }: UsersManagerProps) {
   return (
     <AdminShell title="Manage Users">
       <div className="h-full overflow-y-auto no-scrollbar p-5 lg:overflow-hidden">
-        <div className="grid gap-6 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
-          <ul className="space-y-3 lg:order-1 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar lg:pr-1">
+        <div className="grid gap-6 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]">
+          <ul className="space-y-3 order-2 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar lg:pr-1">
             {users.map((user) => (
               <li
                 key={user.id}
                 className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4"
               >
                 <div className="min-w-0">
-                  <p className="truncate font-display text-sm text-kooka-white">{user.email}</p>
-                  <p className="mt-1 text-[0.7rem] uppercase tracking-[0.12em] text-kooka-amber/80">
-                    {user.role}
-                  </p>
+                  <p className="truncate font-display text-sm text-kooka-white">{user.name}</p>
+                  <p className="mt-1 truncate text-[0.7rem] text-kooka-mist">{user.email}</p>
                   <p className="mt-1 text-[0.7rem] text-kooka-mist/70">
                     Added {formatDate(user.createdAt)}
                   </p>
@@ -203,11 +196,24 @@ export function UsersManager({ initialUsers }: UsersManagerProps) {
 
           <form
             onSubmit={(event) => void handleSubmit(event)}
-            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 lg:order-2 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar"
+            className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 order-1 lg:h-full lg:min-h-0 lg:overflow-y-auto no-scrollbar"
           >
             <h2 className="font-display text-sm uppercase tracking-[0.14em] text-kooka-mist">
               {editingId ? "Edit Account" : "New Account"}
             </h2>
+
+            <label className="block text-sm text-kooka-mist">
+              Name{" "}
+              <input
+                value={form.name}
+                onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
+                placeholder="Jane Doe"
+                maxLength={191}
+                autoComplete="off"
+                required
+              />
+            </label>
 
             <label className="block text-sm text-kooka-mist">
               Email{" "}
@@ -219,21 +225,6 @@ export function UsersManager({ initialUsers }: UsersManagerProps) {
                 autoComplete="off"
                 required
               />
-            </label>
-
-            <label className="block text-sm text-kooka-mist">
-              Role{" "}
-              <select
-                value={form.role}
-                onChange={(event) => setForm((prev) => ({ ...prev, role: event.target.value }))}
-                className="mt-1.5 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-kooka-white outline-none focus:border-kooka-amber"
-              >
-                {ROLES.map((role) => (
-                  <option key={role.value} value={role.value} className="bg-kooka-carbon">
-                    {role.label}
-                  </option>
-                ))}
-              </select>
             </label>
 
             <div className="text-sm text-kooka-mist">

@@ -9,8 +9,8 @@ const BCRYPT_ROUNDS = 12;
 
 export type AdminUser = {
   id: string;
+  name: string;
   email: string;
-  role: string;
 };
 
 /*
@@ -24,8 +24,8 @@ export type AdminUserRecord = AdminUser & {
 
 const publicFields = {
   id: true,
+  name: true,
   email: true,
-  role: true,
   createdAt: true,
   updatedAt: true,
 } as const;
@@ -52,7 +52,7 @@ export async function verifyCredentials(body: unknown): Promise<AdminUser> {
     throw new ServiceError("UNAUTHORIZED", "Invalid credentials.");
   }
 
-  return { id: user.id, email: user.email, role: user.role };
+  return { id: user.id, name: user.name, email: user.email };
 }
 
 export async function listUsers(): Promise<AdminUserRecord[]> {
@@ -73,9 +73,9 @@ export async function createUser(body: unknown): Promise<AdminUserRecord> {
 
   return prisma.user.create({
     data: {
+      name: input.name,
       email: input.email,
       passwordHash: await hash(input.password, BCRYPT_ROUNDS),
-      ...(input.role ? { role: input.role } : {}),
     },
     select: publicFields,
   });
@@ -92,8 +92,8 @@ export async function updateUser(id: string, body: unknown): Promise<AdminUserRe
   return prisma.user.update({
     where: { id },
     data: {
+      ...(input.name ? { name: input.name } : {}),
       ...(input.email ? { email: input.email } : {}),
-      ...(input.role ? { role: input.role } : {}),
       ...(input.password ? { passwordHash: await hash(input.password, BCRYPT_ROUNDS) } : {}),
     },
     select: publicFields,

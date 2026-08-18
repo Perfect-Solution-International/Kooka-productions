@@ -9,22 +9,23 @@ const passwordField = z
   .min(10, "Password must be at least 10 characters.")
   .max(255);
 
-const roleField = z.enum(["admin", "editor"]);
+/** Sized for the VARCHAR(191) column behind it. */
+const nameField = z.string().trim().min(1).max(191);
 
 export const userCreateSchema = z.object({
+  name: nameField,
   email: z.email().max(255),
   password: passwordField,
-  role: roleField.optional(),
 });
 
 /*
- * Password is omitted, not emptied, when an edit only touches the email or the
- * role — an empty string would otherwise hash into a usable credential.
+ * Password is omitted, not emptied, when an edit only touches the name or the
+ * email — an empty string would otherwise hash into a usable credential.
  */
 export const userUpdateSchema = z.object({
+  name: nameField.optional(),
   email: z.email().max(255).optional(),
   password: passwordField.optional(),
-  role: roleField.optional(),
 });
 
 export type UserCreateInput = z.infer<typeof userCreateSchema>;
