@@ -147,20 +147,21 @@ export default async function ShowreelDetailPage({
           </div>
 
           {/*
-            Gallery is a fixed-height rail so the page stays inside one viewport:
-            extra shots scroll sideways instead of pushing the layout taller.
+            Gallery shares one rail: every shot gets an equal slice of the row,
+            capped at the thumbnail size, so more shots render smaller instead
+            of scrolling or pushing the layout past the viewport.
           */}
           {gallery.length > 0 ? (
-            <ul className="flex shrink-0 snap-x snap-mandatory gap-3 overflow-x-auto overscroll-contain pb-1">
+            <ul className="flex shrink-0 gap-3">
               {gallery.map((image, index) => {
                 const remoteShot = isRemoteImage(image.url);
                 return (
                   <li
                     key={image.id}
-                    className="relative h-20 w-32 shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon sm:h-24 sm:w-40"
+                    className="relative aspect-[16/10] min-w-0 flex-1 basis-0 overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon max-w-32 sm:max-w-40"
                   >
                     <Image
-                      src={remoteShot ? img(image.url, 640, 72) : image.url}
+                      src={remoteShot ? img(image.url, 320, 72) : image.url}
                       alt={image.alt ?? `${item.title} — gallery image ${index + 1}`}
                       fill
                       unoptimized={!remoteShot}
