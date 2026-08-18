@@ -147,25 +147,28 @@ export default async function ShowreelDetailPage({
           </div>
 
           {/*
-            Gallery shares one rail: every shot gets an equal slice of the row,
-            capped at the thumbnail size, so more shots render smaller instead
-            of scrolling or pushing the layout past the viewport.
+            Phones run the gallery as a swipe carousel showing two shots per
+            screen (the `gap-2` is subtracted so the pair fits exactly), extras
+            snapping sideways, on a height capped in `svh` so the rail cannot
+            squeeze the hero out of the single viewport. From `sm`
+            up the row is wide enough to share — every shot takes an equal
+            slice, capped at the thumbnail size.
           */}
           {gallery.length > 0 ? (
-            <ul className="flex shrink-0 gap-3">
+            <ul className="flex h-[18svh] min-h-24 shrink-0 snap-x snap-mandatory gap-2 overflow-x-auto overscroll-contain pb-1 sm:h-auto sm:min-h-0 sm:snap-none sm:gap-3 sm:overflow-visible sm:pb-0">
               {gallery.map((image, index) => {
                 const remoteShot = isRemoteImage(image.url);
                 return (
                   <li
                     key={image.id}
-                    className="relative aspect-[16/10] min-w-0 flex-1 basis-0 overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon max-w-32 sm:max-w-40"
+                    className="relative h-full w-[calc((100%-0.5rem)/2)] shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-kooka-carbon sm:h-auto sm:aspect-[16/10] sm:w-auto sm:min-w-0 sm:max-w-40 sm:flex-1 sm:basis-0"
                   >
                     <Image
                       src={remoteShot ? img(image.url, 320, 72) : image.url}
                       alt={image.alt ?? `${item.title} — gallery image ${index + 1}`}
                       fill
                       unoptimized={!remoteShot}
-                      sizes="160px"
+                      sizes="(min-width: 640px) 160px, 50vw"
                       className="object-cover"
                     />
                   </li>
