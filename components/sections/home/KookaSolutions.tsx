@@ -31,7 +31,7 @@ export function KookaSolutions({ services }: { readonly services: readonly HomeS
               <span className="h-px w-8 bg-kooka-amber/70" aria-hidden />
               <span>Kooka Solutions</span>
             </p>
-
+ 
             <h2 className="kooka-display text-[clamp(1.875rem,6vw,4.5rem)]">
               Technical Artistry. Zero Compromise.
             </h2>
