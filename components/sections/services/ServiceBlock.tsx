@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { CursorParallax } from "@/components/effects/CursorParallax";
+import { ButtonLink } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Icon } from "@/components/ui/Icon";
 import { RevealItem } from "@/components/ui/Reveal";
@@ -48,6 +50,15 @@ export function ServiceBlock({ service, index }: ServiceBlockProps) {
             <p className="mt-4 text-sm leading-relaxed text-kooka-mist">
               {service.description}
             </p>
+            <ButtonLink
+              href={`/solutions/${service.slug}`}
+              variant="ghost"
+              size="sm"
+              className="mt-6 self-start px-0"
+            >
+              Explore
+              <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+            </ButtonLink>
           </div>
         </GlassCard>
       </CursorParallax>

@@ -10,6 +10,7 @@ export const leadership: TeamMember[] = [
     name: "Shehan Desilva",
     role: "Managing Director",
     bio: "Shehan Desilva leads the overall vision, growth, and strategic direction of the company. With a strong focus on business development, client relationships, and long-term scalability, he drives the company's commitment to delivering premium event experiences while building a sustainable and forward-thinking production brand. Shehan oversees financial performance, strategic partnerships, and high-level business operations, ensuring the company continues to evolve within the ever-changing events industry.",
+    image: "/team/Shehan-Desilva.jpeg",
   },
   {
     name: "Ryan Senn",

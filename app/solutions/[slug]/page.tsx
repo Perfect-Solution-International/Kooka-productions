@@ -12,6 +12,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { img, isRemoteImage } from "@/data/media";
 import { listHomeSolutions } from "@/services/home-solution.service";
 import { site } from "@/data/site";
+import { solutionContentBySlug } from "@/data/solution-content";
+import { footprintCategories } from "@/data/footprint";
 
 type ServicePageProps = {
   readonly params: Promise<{ slug: string }>;
@@ -29,8 +31,9 @@ export async function generateMetadata({
   const service = (await listHomeSolutions()).find((item) => item.slug === slug);
   if (!service) return { title: "Service Not Found" };
 
-  const title = `${service.title} Melbourne`;
-  const description = `${service.description.slice(0, 152).trimEnd()}…`;
+  const content = solutionContentBySlug(slug);
+  const title = content?.seoTitle ?? `${service.title} Melbourne`;
+  const description = content?.metaDescription ?? `${service.description.slice(0, 152).trimEnd()}…`;
 
   return {
     title,
@@ -63,6 +66,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
     .filter((candidate) => candidate.slug !== service.slug)
     .slice(0, 3);
   const pageUrl = `${site.url}/solutions/${service.slug}`;
+  const content = solutionContentBySlug(service.slug);
+
+  const resolveLinkHref = (linkSlug: string): string =>
+    footprintCategories.some((category) => category.slug === linkSlug)
+      ? `/footprint#${linkSlug}`
+      : `/solutions/${linkSlug}`;
 
   return (
     <>
@@ -107,6 +116,21 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 },
               ],
             },
+            ...(content
+              ? [
+                  {
+                    "@type": "FAQPage",
+                    mainEntity: content.faqs.map((faq) => ({
+                      "@type": "Question",
+                      name: faq.question,
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: faq.answer,
+                      },
+                    })),
+                  },
+                ]
+              : []),
           ],
         }}
       />
@@ -158,6 +182,85 @@ export default async function ServicePage({ params }: ServicePageProps) {
           </GlassCard>
         </div>
       </Section>
+
+      {content ? (
+        <Section className="border-t border-white/[0.06]">
+          <SectionHeading
+            eyebrow="In Depth"
+            title={content.articleHeading}
+            description={content.articleIntro}
+          />
+          <div className="mt-10 grid gap-8">
+            {content.sections.map((articleSection) => (
+              <GlassCard key={articleSection.heading} className="p-7 sm:p-9">
+                <h3 className="kooka-display text-xl sm:text-2xl">{articleSection.heading}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-kooka-mist sm:text-base">
+                  {articleSection.body}
+                </p>
+                {articleSection.points.length > 0 ? (
+                  <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+                    {articleSection.points.map((point) => (
+                      <li key={point.title} className="border-t border-white/[0.07] pt-4">
+                        <p className="font-display font-semibold text-kooka-white">{point.title}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-kooka-mist">
+                          {point.description}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </GlassCard>
+            ))}
+          </div>
+
+          <GlassCard glow={false} className="mt-8 border-kooka-amber/30 bg-kooka-amber/[0.05] p-7 sm:p-9">
+            <p className="kooka-eyebrow">At a Glance</p>
+            <p className="mt-4 text-base leading-relaxed text-kooka-white sm:text-lg">
+              {content.featuredSnippet}
+            </p>
+          </GlassCard>
+        </Section>
+      ) : null}
+
+      {content && content.faqs.length > 0 ? (
+        <Section className="border-t border-white/[0.06]" density="tight">
+          <SectionHeading eyebrow="FAQs" title="Common Questions" />
+          <div className="mt-10 grid gap-4">
+            {content.faqs.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 open:border-kooka-amber/40"
+              >
+                <summary className="cursor-pointer list-none font-display font-semibold text-kooka-white marker:content-none">
+                  {faq.question}
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-kooka-mist sm:text-base">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
+      {content && content.internalLinks.length > 0 ? (
+        <Section className="border-t border-white/[0.06]" density="tight">
+          <SectionHeading eyebrow="Related Reading" title="Explore Related Services" />
+          <ul className="mt-10 grid gap-4 md:grid-cols-2">
+            {content.internalLinks.map((link) => (
+              <li key={link.slug}>
+                <Link
+                  href={resolveLinkHref(link.slug)}
+                  className="group flex min-h-28 items-center justify-between rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-colors hover:border-kooka-amber/40 hover:bg-kooka-amber/[0.06]"
+                >
+                  <span className="font-display font-semibold tracking-wide uppercase">{link.label}</span>
+                  <ArrowRight className="h-4 w-4 text-kooka-amber transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
 
       <Section className="border-t border-white/[0.06]" density="tight">
         <SectionHeading eyebrow="Explore More" title="Related Solutions" />
