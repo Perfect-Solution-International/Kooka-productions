@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { producerPartners, type ProducerPartner } from "@/data/partners";
-import { filledGlyphs, partnerGlyphs } from "@/lib/partnerGlyphs";
 import { cn } from "@/lib/utils";
 
 type PartnerLockupProps = Readonly<{
@@ -14,21 +14,16 @@ type PartnerLockupProps = Readonly<{
 }>;
 
 function PartnerMark({ partner }: { readonly partner: ProducerPartner }) {
-  const Glyph = partnerGlyphs[partner.glyph];
-
   return (
-    <span className="group inline-flex items-center gap-2.5 text-kooka-mist transition-colors duration-500 hover:text-kooka-white">
-      <Glyph
-        className={cn(
-          "h-5 w-5 shrink-0 sm:h-[1.375rem] sm:w-[1.375rem]",
-          filledGlyphs.has(partner.glyph) && "fill-current",
-        )}
-        strokeWidth={2}
-        aria-hidden
+    <span className="group inline-flex h-8 w-24 items-center justify-center sm:h-9 sm:w-28">
+      <Image
+        src={partner.logo}
+        alt={partner.name}
+        width={112}
+        height={36}
+        unoptimized
+        className="h-full w-full object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
       />
-      <span className="text-base font-medium tracking-[0.01em] whitespace-nowrap sm:text-lg">
-        {partner.name}
-      </span>
     </span>
   );
 }
@@ -38,8 +33,7 @@ function PartnerMark({ partner }: { readonly partner: ProducerPartner }) {
  * width, the way the supplied reference sits. With `marquee`, the same marks
  * run as an infinite rail: the list is rendered twice and translated by -50%,
  * so the seam lands exactly where the sequence repeats, and only the first
- * copy is exposed to assistive tech. Swap the glyphs for real logo files when
- * they land; neither layout changes.
+ * copy is exposed to assistive tech.
  */
 export function PartnerLockup({
   className,

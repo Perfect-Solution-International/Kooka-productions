@@ -1,5 +1,5 @@
+import Image from "next/image";
 import type { ProducerPartner } from "@/data/partners";
-import { filledGlyphs, partnerGlyphs } from "@/lib/partnerGlyphs";
 import { cn } from "@/lib/utils";
 
 type LogoTickerProps = Readonly<{
@@ -20,34 +20,27 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
     <div className={cn("mask-edges-x relative overflow-hidden", className)}>
       <ul
         className={cn(
-          "flex w-max animate-ticker items-center gap-14 pr-14 sm:gap-20 sm:pr-20",
+          "flex w-max animate-ticker items-center gap-6 pr-6 sm:gap-7 sm:pr-10",
           "hover:[animation-play-state:paused]",
           reverse && "[animation-direction:reverse]",
         )}
       >
-        {rail.map((partner, index) => {
-          const Glyph = partnerGlyphs[partner.glyph];
-
-          return (
-            <li
-              key={`${partner.name}-${index}`}
-              aria-hidden={index >= items.length}
-              className="group flex shrink-0 items-center gap-3.5"
-            >
-              <Glyph
-                className={cn(
-                  "h-6 w-6 shrink-0 text-kooka-amber/60 transition-colors duration-500 group-hover:text-kooka-amber sm:h-7 sm:w-7",
-                  filledGlyphs.has(partner.glyph) && "fill-current",
-                )}
-                strokeWidth={2}
-                aria-hidden
-              />
-              <span className="font-display text-2xl font-semibold tracking-[-0.02em] whitespace-nowrap text-kooka-muted uppercase transition-colors duration-500 group-hover:text-kooka-white sm:text-3xl">
-                {partner.name}
-              </span>
-            </li>
-          );
-        })}
+        {rail.map((partner, index) => (
+          <li
+            key={`${partner.name}-${index}`}
+            aria-hidden={index >= items.length}
+            className="group flex h-12 w-32 shrink-0 items-center justify-center sm:h-14 sm:w-40"
+          >
+            <Image
+              src={partner.logo}
+              alt={partner.name}
+              width={160}
+              height={56}
+              unoptimized
+              className="h-full w-full object-contain"
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
