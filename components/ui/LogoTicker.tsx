@@ -20,7 +20,7 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
     <div className={cn("mask-edges-x relative overflow-hidden", className)}>
       <ul
         className={cn(
-          "flex w-max animate-ticker items-center gap-14 pr-14 sm:gap-20 sm:pr-20",
+          "flex w-max animate-ticker items-center gap-6 pr-6 sm:gap-7 sm:pr-10",
           "hover:[animation-play-state:paused]",
           reverse && "[animation-direction:reverse]",
         )}
@@ -37,7 +37,7 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
               width={160}
               height={56}
               unoptimized
-              className="h-full w-full object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+              className="h-full w-full object-contain"
             />
           </li>
         ))}
