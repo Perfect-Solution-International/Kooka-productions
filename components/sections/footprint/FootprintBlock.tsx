@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { CursorParallax } from "@/components/effects/CursorParallax";
+import { ButtonLink } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { RevealItem } from "@/components/ui/Reveal";
 import { img } from "@/data/media";
@@ -47,6 +49,15 @@ export function FootprintBlock({ category, index }: FootprintBlockProps) {
             <p className="mt-4 ml-auto max-w-sm text-sm leading-relaxed text-kooka-mist">
               {category.description}
             </p>
+            <ButtonLink
+              href={`/footprint#${category.slug}`}
+              variant="ghost"
+              size="sm"
+              className="mt-6 ml-auto px-0"
+            >
+              Explore
+              <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+            </ButtonLink>
           </div>
         </GlassCard>
       </CursorParallax>
