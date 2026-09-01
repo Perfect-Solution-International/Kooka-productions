@@ -30,7 +30,7 @@ export const mainNav = (solutions: readonly { slug: string; title: string }[]): 
     description: "Events, environments & experiences we deliver",
     children: footprintCategories.map((category) => ({
       label: category.title,
-      href: `/footprint#${category.slug}`,
+      href: `/footprint/${category.slug}`,
     })),
   },
   {

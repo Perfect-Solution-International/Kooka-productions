@@ -3,9 +3,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { ScrollProjectShowcase } from "@/components/projects/scroll-project-showcase";
-import { featuredProjects } from "@/data/projects";
+import { listLatestShowreel } from "@/services/showreel.service";
 
-export function HighlightedProjects() {
+export async function HighlightedProjects() {
+  const featuredProjects = (await listLatestShowreel(3)).map((project) => ({
+    title: project.title,
+    type: project.type,
+    location: project.location,
+    year: project.year,
+    summary: project.blurb,
+    image: project.image,
+    href: `/showreel/${project.slug}`,
+  }));
+
   return (
     <section
       id="projects"

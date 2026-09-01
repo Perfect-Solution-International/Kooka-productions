@@ -1,8 +1,7 @@
-import { unstable_cache } from "next/cache";
-import { prisma } from "@/lib/db";
 import { ServiceError } from "@/lib/errors";
 import { uniqueSlug } from "@/lib/slug";
 import { deleteUnreferencedUploads } from "@/lib/uploads";
+import showreelItems from "@/prisma/seed-data/showreel.json";
 import {
   showreelCreateSchema,
   showreelUpdateSchema,
@@ -38,6 +37,19 @@ const withGallery = {
   images: { orderBy: { sortOrder: "asc" } },
 } as const;
 
+type StaticShowreelItem = {
+  slug: string;
+  title: string;
+  type: string;
+  location: string;
+  year: string;
+  blurb: string;
+  image: string;
+  video?: string;
+  href?: string;
+  gallery?: ShowreelGalleryEntry[];
+};
+
 type ShowreelRow = {
   id: string;
   slug: string;
@@ -54,6 +66,10 @@ type ShowreelRow = {
   updatedAt: Date;
   images: { id: string; url: string; alt: string | null }[];
 };
+
+async function getPrisma() {
+  return (await import("@/lib/db")).prisma;
+}
 
 function toItem(row: ShowreelRow): ShowreelItem {
   const { images, ...rest } = row;
@@ -72,6 +88,7 @@ function normaliseGallery(entries: ShowreelGalleryEntry[]) {
 }
 
 async function slugTaken(candidate: string, ignoreId?: string): Promise<boolean> {
+  const prisma = await getPrisma();
   const existing = await prisma.showreel.findUnique({
     where: { slug: candidate },
     select: { id: true },
@@ -80,6 +97,7 @@ async function slugTaken(candidate: string, ignoreId?: string): Promise<boolean>
 }
 
 async function nextSortOrder(): Promise<number> {
+  const prisma = await getPrisma();
   const last = await prisma.showreel.findFirst({
     orderBy: { sortOrder: "desc" },
     select: { sortOrder: true },
@@ -89,33 +107,45 @@ async function nextSortOrder(): Promise<number> {
 
 /* ---------------------------------------------------------------- reads --- */
 
-export const listShowreel = unstable_cache(
-  async (): Promise<ShowreelItem[]> => {
-    const rows = await prisma.showreel.findMany({
-      where: { published: true },
-      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-      include: withGallery,
-    });
-    return rows.map(toItem);
-  },
-  ["showreel:list:v2"],
-  { tags: [CACHE_TAGS.showreel] },
-);
+export async function listShowreel(): Promise<ShowreelItem[]> {
+  return (showreelItems as StaticShowreelItem[]).map((item, index) => ({
+    id: item.slug,
+    slug: item.slug,
+    title: item.title,
+    type: item.type,
+    location: item.location,
+    year: item.year,
+    blurb: item.blurb,
+    image: item.image,
+    video: item.video ?? null,
+    href: item.href ?? null,
+    published: true,
+    sortOrder: index,
+    updatedAt: new Date("2026-01-01T00:00:00.000Z"),
+    gallery: normaliseGallery(item.gallery ?? []).map((image, imageIndex) => ({
+      id: `${item.slug}-gallery-${imageIndex}`,
+      url: image.url,
+      alt: image.alt,
+    })),
+  }));
+}
 
-export const getShowreelBySlug = unstable_cache(
-  async (slug: string): Promise<ShowreelItem | null> => {
-    const row = await prisma.showreel.findFirst({
-      where: { slug, published: true },
-      include: withGallery,
-    });
-    return row ? toItem(row) : null;
-  },
-  ["showreel:by-slug:v2"],
-  { tags: [CACHE_TAGS.showreel] },
-);
+export async function getShowreelBySlug(slug: string): Promise<ShowreelItem | null> {
+  return (await listShowreel()).find((item) => item.slug === slug) ?? null;
+}
+
+export async function listLatestShowreel(limit = 3): Promise<ShowreelItem[]> {
+  return [...(await listShowreel())]
+    .sort((left, right) => {
+      const yearOrder = Number(right.year) - Number(left.year);
+      return yearOrder || right.sortOrder - left.sortOrder;
+    })
+    .slice(0, limit);
+}
 
 /* Admin reads bypass the cache and include unpublished drafts. */
 export async function listShowreelAdmin(): Promise<ShowreelItem[]> {
+  const prisma = await getPrisma();
   const rows = await prisma.showreel.findMany({
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
     include: withGallery,
@@ -124,6 +154,7 @@ export async function listShowreelAdmin(): Promise<ShowreelItem[]> {
 }
 
 export async function getShowreelById(id: string): Promise<ShowreelItem> {
+  const prisma = await getPrisma();
   const row = await prisma.showreel.findUnique({ where: { id }, include: withGallery });
   if (!row) {
     throw new ServiceError("NOT_FOUND", "Showreel item not found.");
@@ -134,6 +165,7 @@ export async function getShowreelById(id: string): Promise<ShowreelItem> {
 /* ------------------------------------------------------------ mutations --- */
 
 export async function createShowreel(body: unknown): Promise<ShowreelItem> {
+  const prisma = await getPrisma();
   const input = parseInput(showreelCreateSchema, body);
   const slug = await uniqueSlug(
     input.slug ?? input.title,
@@ -168,6 +200,7 @@ export async function createShowreel(body: unknown): Promise<ShowreelItem> {
  * used to regenerate it and break the live URL.
  */
 export async function updateShowreel(id: string, body: unknown): Promise<ShowreelItem> {
+  const prisma = await getPrisma();
   const input = parseInput(showreelUpdateSchema, body);
   const existing = await prisma.showreel.findUnique({
     where: { id },
@@ -225,6 +258,7 @@ export async function updateShowreel(id: string, body: unknown): Promise<Showree
 }
 
 export async function deleteShowreel(id: string): Promise<void> {
+  const prisma = await getPrisma();
   const existing = await prisma.showreel.findUnique({
     where: { id },
     select: { id: true, image: true, video: true, images: { select: { url: true } } },

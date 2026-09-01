@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { listShowreel } from "@/services/showreel.service";
 import { listHomeSolutions } from "@/services/home-solution.service";
 import { site } from "@/data/site";
+import { footprintCategories } from "@/data/footprint";
 
 export const dynamic = "force-dynamic";
 
@@ -78,7 +79,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [imgUrl(service.image)],
   }));
 
-  return [...pages, ...servicePages, ...projectPages];
+  const footprintPages: MetadataRoute.Sitemap = footprintCategories.map((category) => ({
+    url: `${site.url}/footprint/${category.slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+    images: [imgUrl(category.image)],
+  }));
+
+  return [...pages, ...servicePages, ...footprintPages, ...projectPages];
 }
 
 function imgUrl(value: string): string {
