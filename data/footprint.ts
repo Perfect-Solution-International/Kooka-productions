@@ -9,14 +9,14 @@ export type FootprintCategory = {
 
 export const footprintCategories: FootprintCategory[] = [
   {
-    slug: "business-corporate-events",
+    slug: "corporate-events",
     title: "Business & Corporate Events",
     description:
       "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
     image: media.boardroom,
   },
   {
-    slug: "conferences-meetings",
+    slug: "conferences-and-meetings",
     title: "Conferences & Meetings",
     description:
       "Seamless multi-room AV, presentation systems, and hybrid delivery for conferences and business events.",
@@ -37,21 +37,21 @@ export const footprintCategories: FootprintCategory[] = [
     image: media.runway,
   },
   {
-    slug: "gala-awards-nights",
+    slug: "gala-and-awards-nights",
     title: "Gala & Awards Nights",
     description:
       "Elegant staging, lighting, and AV solutions tailored for formal events and award presentations.",
     image: media.galaDinner,
   },
   {
-    slug: "live-shows-touring",
+    slug: "live-shows-and-touring",
     title: "Live Shows & Touring",
     description:
       "Scalable production systems for live performances, touring shows, and entertainment-driven events.",
     image: media.touring,
   },
   {
-    slug: "festivals-outdoor-events",
+    slug: "festivals-and-outdoor-events",
     title: "Festivals & Outdoor Events",
     description:
       "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
@@ -65,14 +65,14 @@ export const footprintCategories: FootprintCategory[] = [
     image: media.sportArena,
   },
   {
-    slug: "community-public-events",
+    slug: "community-and-public-events",
     title: "Community & Public Events",
     description:
       "Flexible AV and production setups designed for diverse audiences and open public environments.",
     image: media.community,
   },
   {
-    slug: "worship-church-events",
+    slug: "worship-and-church-events",
     title: "Worship & Church Events",
     description:
       "Reliable AV, lighting, and streaming solutions for worship services and community engagement.",

@@ -50,7 +50,7 @@ export function FootprintBlock({ category, index }: FootprintBlockProps) {
               {category.description}
             </p>
             <ButtonLink
-              href={`/footprint#${category.slug}`}
+              href={`/footprint/${category.slug}`}
               variant="ghost"
               size="sm"
               className="mt-6 ml-auto px-0"

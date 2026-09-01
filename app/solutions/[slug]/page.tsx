@@ -14,6 +14,7 @@ import { listHomeSolutions } from "@/services/home-solution.service";
 import { site } from "@/data/site";
 import { solutionContentBySlug } from "@/data/solution-content";
 import { footprintCategories } from "@/data/footprint";
+import { resolveFootprintSlug } from "@/data/footprint-content";
 
 type ServicePageProps = {
   readonly params: Promise<{ slug: string }>;
@@ -70,8 +71,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const resolveLinkHref = (linkSlug: string): string =>
     footprintCategories.some((category) => category.slug === linkSlug)
-      ? `/footprint#${linkSlug}`
-      : `/solutions/${linkSlug}`;
+      ? `/footprint/${linkSlug}`
+      : footprintCategories.some((category) => category.slug === resolveFootprintSlug(linkSlug))
+        ? `/footprint/${resolveFootprintSlug(linkSlug)}`
+        : `/solutions/${linkSlug}`;
 
   return (
     <>
