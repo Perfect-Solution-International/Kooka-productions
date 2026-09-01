@@ -16,6 +16,6 @@ export const leadership: TeamMember[] = [
     name: "Ryan Senn",
     role: "Director of Operations & Partnerships",
     bio: "Ryan Senn oversees the operational execution of all projects, ensuring every event is delivered efficiently, professionally, and to the highest standard. Acting as the connection between clients, partners, and production teams, he manages workflows, logistics, client communications, and strategic partnerships. Ryan is focused on creating seamless event experiences while building long-term relationships with venues, suppliers, sponsors, and clients.",
-    image: "/team/ryan-senn.png",
+    image: "/team/rayan-senn.jpeg",
   },
 ];

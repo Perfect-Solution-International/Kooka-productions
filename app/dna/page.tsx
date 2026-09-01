@@ -43,7 +43,7 @@ export default function DnaPage() {
         <RevealGroup
           as="ul"
           stagger={0.07}
-          className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3"
+          className="mx-auto mt-10 grid max-w-4xl gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-2"
         >
           {leadership.map((person) => (
             <RevealItem key={person.name} as="li" className="h-full">
@@ -52,7 +52,7 @@ export default function DnaPage() {
                 className="flex h-full flex-col overflow-hidden transition-shadow duration-500 hover:shadow-[0_36px_90px_-46px_rgb(255_176_32/0.42)]"
               >
                 {person.image ? (
-                  <div className="relative aspect-4/5 overflow-hidden border-b border-white/[0.08] bg-kooka-carbon">
+                  <div className="relative aspect-4/3 overflow-hidden border-b border-white/[0.08] bg-kooka-carbon">
                     <Image
                       src={person.image}
                       alt={`${person.name}, ${person.role}`}
@@ -63,14 +63,14 @@ export default function DnaPage() {
                     />
                   </div>
                 ) : null}
-                <div className="flex flex-1 flex-col p-6 sm:p-7">
-                  <h3 className="font-display text-xl leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-2xl">
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <h3 className="font-display text-lg leading-tight font-bold tracking-[0.06em] break-words uppercase [hyphens:auto] sm:text-xl">
                     {person.name}
                   </h3>
-                  <p className="mt-3 font-display text-sm text-kooka-ember sm:text-base">
+                  <p className="mt-2 font-display text-sm text-kooka-ember">
                     {person.role}
                   </p>
-                  <p className="mt-5 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
+                  <p className="mt-4 text-sm leading-relaxed text-justify text-kooka-mist [hyphens:auto]">
                     {person.bio}
                   </p>
                 </div>
