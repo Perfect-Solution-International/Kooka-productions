@@ -69,12 +69,20 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const pageUrl = `${site.url}/solutions/${service.slug}`;
   const content = solutionContentBySlug(service.slug);
 
-  const resolveLinkHref = (linkSlug: string): string =>
-    footprintCategories.some((category) => category.slug === linkSlug)
-      ? `/footprint/${linkSlug}`
-      : footprintCategories.some((category) => category.slug === resolveFootprintSlug(linkSlug))
-        ? `/footprint/${resolveFootprintSlug(linkSlug)}`
-        : `/solutions/${linkSlug}`;
+  const resolveLinkHref = (linkSlug: string): string => {
+    const hasMatchingFootprint = footprintCategories.some(
+      (category) => category.slug === linkSlug,
+    );
+    if (hasMatchingFootprint) return `/footprint/${linkSlug}`;
+
+    const footprintSlug = resolveFootprintSlug(linkSlug);
+    const hasResolvedFootprint = footprintCategories.some(
+      (category) => category.slug === footprintSlug,
+    );
+    if (hasResolvedFootprint) return `/footprint/${footprintSlug}`;
+
+    return `/solutions/${linkSlug}`;
+  };
 
   return (
     <>
