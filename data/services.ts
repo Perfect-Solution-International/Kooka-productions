@@ -9,7 +9,11 @@ export type IconName =
   | "layout-panel-top"
   | "radio-tower"
   | "settings-2"
-  | "building-2";
+  | "building-2"
+  | "presentation"
+  | "satellite-dish"
+  | "clapperboard"
+  | "smartphone";
 
 export type Service = {
   slug: string;
@@ -111,6 +115,46 @@ export const services: Service[] = [
       "Integrated AV and production systems designed for long-term use across venues, studios, and corporate environments. We handle system design, installation, commissioning, and optimisation, delivering reliable infrastructure supported by ongoing maintenance and technical support.",
     deliverables: ["System design", "Equipment installation", "Commissioning", "Ongoing support"],
     idealFor: ["Venues", "Corporate offices", "Studios", "Education spaces"],
+  },
+  {
+    slug: "projection",
+    title: "Projection",
+    icon: "presentation",
+    image: media.projection,
+    description:
+      "Large-format projection and projection mapping that turns stages, buildings and scenic surfaces into living canvases. We handle lens and throw calculations, blending, warping and media server playback to deliver bright, seamless imagery in any venue.",
+    deliverables: ["Projection mapping", "Edge blending and warping", "Media server playback", "Lens and throw design"],
+    idealFor: ["Building projections", "Immersive rooms", "Theatre and stage shows", "Product reveals"],
+  },
+  {
+    slug: "broadcast",
+    title: "Broadcast",
+    icon: "satellite-dish",
+    image: media.mixingConsole,
+    description:
+      "Broadcast-grade capture and delivery for events that need to look and sound like television. We build multi-camera setups, vision mixing, comms and encoding chains with redundant paths, so the feed stays clean from the venue to air.",
+    deliverables: ["Multi-camera capture", "Vision mixing and graphics", "Comms and talkback", "Encoding and contribution feeds"],
+    idealFor: ["Televised events", "Sports coverage", "Media launches", "Broadcast partnerships"],
+  },
+  {
+    slug: "content-creation",
+    title: "Content Creation & Services",
+    icon: "clapperboard",
+    image: media.studioMonitor,
+    description:
+      "Creative content built for the screens we supply. From motion graphics and stage visuals to event films, photography and post-production, we produce assets sized and formatted for LED walls, projection canvases and streaming platforms.",
+    deliverables: ["Motion graphics and stage visuals", "Event videography and photography", "Editing and post-production", "Screen-ready asset formatting"],
+    idealFor: ["Brand campaigns", "Conference openers", "Highlight reels", "Social and digital content"],
+  },
+  {
+    slug: "online-events",
+    title: "Online Events & Event Apps",
+    icon: "smartphone",
+    image: media.workspace,
+    description:
+      "Virtual event platforms and custom event apps that carry your programme, audience and data online. We configure registration, agendas, live Q&A, polling and networking, then connect them to the live production for one joined-up experience.",
+    deliverables: ["Virtual event platforms", "Custom event apps", "Registration and ticketing", "Live polling, Q&A and analytics"],
+    idealFor: ["Virtual conferences", "Hybrid summits", "Member and trade events", "Internal town halls"],
   },
 ];
 
