@@ -4,7 +4,7 @@ import { ShowreelGrid } from "@/components/sections/showreel/ShowreelGrid";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { Section } from "@/components/ui/Section";
-import { media } from "@/data/media";
+import { localMedia } from "@/data/media";
 
 const tagline = "Events, Environments & Experiences We Deliver";
 
@@ -31,7 +31,7 @@ export default function ShowreelPage() {
         title="Kooka Showreel"
         subtitle={tagline}
         description={intro}
-        image={media.stadiumNight}
+        image={localMedia.showreelHero}
       />
 
       <Section bloom="top" density="tight">

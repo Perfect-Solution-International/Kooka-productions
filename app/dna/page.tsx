@@ -6,7 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { leadership } from "@/data/team";
-import { media } from "@/data/media";
+import { localMedia } from "@/data/media";
 
 const intro =
   "Together, our leadership team combines strategic vision, operational excellence, and technical innovation to deliver high-quality event experiences across corporate events, brand activations, cultural events, and large-scale productions. We are passionate about creating impactful experiences that connect people, elevate brands, and leave lasting impressions.";
@@ -26,7 +26,7 @@ export default function DnaPage() {
         title="Kooka DNA"
         subtitle="Strategic Vision. Operational Excellence. Technical Innovation."
         description={intro}
-        image={media.smokeStage}
+        image={localMedia.dnaHero}
       />
 
       <Section

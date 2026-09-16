@@ -77,6 +77,13 @@ export const localMedia = {
   whyChooseBackdrop: "/Choose/BTC-747.jpg",
   /** Folder name carries spaces and an ampersand — both must be encoded. */
   trustedBackdrop: "/Venues%20%26%20Events/venue.jpg",
+
+  // Page-hero backdrops
+  dnaHero: "/Hero/dna.jpg",
+  showreelHero: "/Hero/showreel.jpg",
+  solutionsHero: "/Hero/solutions.jpg",
+  footprintHero: "/Hero/footprint.jpg",
+  contactHero: "/Hero/contact.jpg",
 } as const;
 
 /**

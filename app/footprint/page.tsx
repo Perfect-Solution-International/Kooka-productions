@@ -5,7 +5,7 @@ import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { Section } from "@/components/ui/Section";
 import { RevealGroup } from "@/components/ui/Reveal";
 import { footprintCategories } from "@/data/footprint";
-import { media } from "@/data/media";
+import { localMedia } from "@/data/media";
 
 const intro =
   "From corporate stages to large-scale public events, we deliver tailored production solutions across diverse environments and audiences.";
@@ -25,7 +25,7 @@ export default function FootprintPage() {
         title="Kooka Footprint"
         subtitle="Events, Environments & Experiences We Deliver"
         description={intro}
-        image={media.crowdHands}
+        image={localMedia.footprintHero}
       />
 
       <Section bloom="top">
