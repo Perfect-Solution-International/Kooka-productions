@@ -1,0 +1,5 @@
+# Shell scripts must keep LF endings. A CRLF shebang line makes the kernel
+# look for an interpreter named "bash\r", so a hook checked out on Windows
+# would fail with "bad interpreter" instead of running.
+.githooks/** text eol=lf
+*.sh text eol=lf
