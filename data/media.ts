@@ -78,12 +78,12 @@ export const localMedia = {
   /** Folder name carries spaces and an ampersand — both must be encoded. */
   trustedBackdrop: "/Venues%20%26%20Events/venue.jpg",
 
-  // Page-hero backdrops
-  dnaHero: "/Hero/dna.jpg",
-  showreelHero: "/Hero/showreel.jpg",
-  solutionsHero: "/Hero/solutions.jpg",
-  footprintHero: "/Hero/footprint.jpg",
-  contactHero: "/Hero/contact.jpg",
+  // Page-hero backdrops.
+  dnaHero: "/Hero/dna.webp",
+  showreelHero: "/Hero/showreel.webp",
+  solutionsHero: "/Hero/solutions.webp",
+  footprintHero: "/Hero/footprint.webp",
+  contactHero: "/Hero/contact.webp",
 } as const;
 
 /**
