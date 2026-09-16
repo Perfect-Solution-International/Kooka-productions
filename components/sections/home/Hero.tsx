@@ -29,11 +29,11 @@ export function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
-    const next = !video.muted;
-    video.muted = !next;
-    setSoundOn(next);
+    const enableSound = video.muted;
+    video.muted = !enableSound;
+    setSoundOn(enableSound);
 
-    if (!next) return;
+    if (!enableSound) return;
 
     /* The click is the gesture that permits audio, but a paused or stalled
      * element still has to be nudged, and a rejected play leaves the control
