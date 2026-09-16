@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, MoveDown, Play } from "lucide-react";
-import { useRef } from "react";
+import { Mail, MoveDown, Play, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { localMedia } from "@/data/media";
 import { contact, site } from "@/data/site";
@@ -13,8 +13,36 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [soundOn, setSoundOn] = useState(false);
   const reduceMotion = useReducedMotion();
   const touch = useMediaQuery(TOUCH_QUERY);
+
+  /*
+   * The `muted` attribute stays hard-coded in the markup so the server render
+   * carries it too — a video that reaches the browser unmuted has its autoplay
+   * refused outright, and the backdrop never starts. Sound is therefore toggled
+   * on the element itself, which React leaves alone because the prop it
+   * rendered never changes.
+   */
+  const toggleSound = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const next = !video.muted;
+    video.muted = !next;
+    setSoundOn(next);
+
+    if (!next) return;
+
+    /* The click is the gesture that permits audio, but a paused or stalled
+     * element still has to be nudged, and a rejected play leaves the control
+     * out of step with what the visitor can hear. */
+    video.play().catch(() => {
+      video.muted = true;
+      setSoundOn(false);
+    });
+  }, []);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -68,6 +96,7 @@ export function Hero() {
           />
         ) : (
           <video
+            ref={videoRef}
             poster={localMedia.heroVideoPoster}
             preload="metadata"
             autoPlay
@@ -181,6 +210,29 @@ export function Hero() {
         <span className="h-px w-10 bg-kooka-amber/70" aria-hidden />
         {site.sideTagline}
       </motion.p>
+
+      {/*
+        Reduced motion renders a still, so there is nothing to unmute — the
+        control only exists alongside the video.
+      */}
+      {reduceMotion ? null : (
+        <motion.button
+          type="button"
+          onClick={toggleSound}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          aria-pressed={soundOn}
+          aria-label={soundOn ? "Mute background video" : "Unmute background video"}
+          className="absolute right-6 bottom-10 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-kooka-black/55 text-kooka-white backdrop-blur-md transition-colors duration-500 hover:border-kooka-amber hover:bg-kooka-amber hover:text-kooka-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-kooka-amber lg:bottom-24 xl:right-14"
+        >
+          {soundOn ? (
+            <Volume2 className="h-4 w-4" aria-hidden />
+          ) : (
+            <VolumeX className="h-4 w-4" aria-hidden />
+          )}
+        </motion.button>
+      )}
 
       <motion.a
         href="#kooka-experience"
