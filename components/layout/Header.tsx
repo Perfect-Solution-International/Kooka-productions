@@ -46,7 +46,7 @@ export function Header({ solutions }: { readonly solutions: readonly { slug: str
   // while the sheet is open. Close it so the hidden sheet never keeps body
   // scrolling locked behind the desktop navigation.
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 1440px)");
+    const desktop = window.matchMedia("(min-width: 1024px)");
     const closeOnDesktop = (event: MediaQueryListEvent) => {
       if (event.matches) setMenuOpen(false);
     };
@@ -100,7 +100,7 @@ export function Header({ solutions }: { readonly solutions: readonly { slug: str
             <Wordmark className="text-base lg:text-lg" />
           </Link>
 
-          <nav aria-label="Primary" className="hidden shrink-0 min-[1440px]:block">
+          <nav aria-label="Primary" className="hidden shrink-0 lg:block">
             <ul className="flex items-center gap-1">
               {navigation.map((item) => {
                 const active = isActive(item.href) || hasActiveChild(item);
@@ -175,7 +175,7 @@ export function Header({ solutions }: { readonly solutions: readonly { slug: str
             </ul>
           </nav>
 
-          <div className="hidden shrink-0 items-center gap-3 min-[1440px]:flex">
+          <div className="hidden shrink-0 items-center gap-3 lg:flex">
             <a
               href={contact.phoneHref}
               className="hidden shrink-0 items-center gap-2 whitespace-nowrap text-sm text-kooka-mist transition-colors duration-300 hover:text-kooka-white min-[1680px]:inline-flex"
@@ -195,7 +195,7 @@ export function Header({ solutions }: { readonly solutions: readonly { slug: str
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="-mr-1 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber min-[1440px]:hidden"
+            className="-mr-1 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-kooka-white backdrop-blur-md transition-colors duration-300 hover:border-kooka-amber/50 hover:text-kooka-amber lg:hidden"
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden />
@@ -209,7 +209,7 @@ export function Header({ solutions }: { readonly solutions: readonly { slug: str
       {menuOpen ? (
           <div
             id="mobile-menu"
-            className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl min-[1440px]:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-kooka-void/95 backdrop-blur-2xl lg:hidden"
           >
             {/* The sheet runs under the home indicator, so the pad clears it. */}
             <div className="kooka-container flex min-h-full flex-col justify-between gap-12 pt-28 pb-[max(3rem,calc(env(safe-area-inset-bottom)+1.5rem))]">
