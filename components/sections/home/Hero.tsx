@@ -85,11 +85,11 @@ export function Hero() {
       {/* Gradient scrims — keeps the headline legible over any frame */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void/85 via-kooka-void/45 to-kooka-void/15"
+        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void/55 via-kooka-void/25 to-kooka-void/5"
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/70 via-transparent to-kooka-void/45"
+        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/40 via-transparent to-kooka-void/25"
       />
       <div
         aria-hidden
