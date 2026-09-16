@@ -5,7 +5,7 @@ import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { Section } from "@/components/ui/Section";
 import { RevealGroup } from "@/components/ui/Reveal";
 import { listHomeSolutions } from "@/services/home-solution.service";
-import { media } from "@/data/media";
+import { localMedia } from "@/data/media";
 
 export const metadata: Metadata = {
   title: "Event Production & AV Solutions Melbourne",
@@ -23,7 +23,7 @@ export default async function SolutionsPage() {
         title="Kooka Solutions"
         subtitle="Integrated Event Production & Technical Solutions"
         description="End-to-end production, AV, LED, lighting and technical systems designed to deliver seamless, high-impact event experiences across corporate, live and large-scale environments."
-        image={media.ledWall}
+        image={localMedia.solutionsHero}
       />
 
       <Section bloom="top">

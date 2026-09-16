@@ -37,7 +37,7 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
               width={160}
               height={56}
               unoptimized
-              className="h-full w-full object-contain"
+              className="h-full w-full object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
             />
           </li>
         ))}

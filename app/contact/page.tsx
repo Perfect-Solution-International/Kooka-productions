@@ -4,7 +4,7 @@ import { PageHero } from "@/components/sections/shared/PageHero";
 import { ContactForm } from "@/components/sections/contact/ContactForm";
 import { Section } from "@/components/ui/Section";
 import { contact, site } from "@/data/site";
-import { media } from "@/data/media";
+import { localMedia } from "@/data/media";
 
 export const metadata: Metadata = {
   title: "Contact Our Event Production Team",
@@ -26,7 +26,7 @@ export default function ContactPage() {
         title="Let's Create Something Remarkable"
         subtitle="Melbourne Based. Australia Wide."
         description="Tell us what you are planning and our production team will help shape the right technical and creative solution."
-        image={media.conferenceStage}
+        image={localMedia.contactHero}
         size="compact"
       />
 
