@@ -13,6 +13,7 @@ import {
 } from "@/services/showreel.service";
 import { site } from "@/data/site";
 import { img, isRemoteImage } from "@/data/media";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type ShowreelDetailProps = {
   readonly params: Promise<{ slug: string }>;
@@ -143,10 +144,10 @@ export default async function ShowreelDetailPage({
           ) : (
             <Image
               src={isRemoteImage(item.image) ? img(item.image, 2200, 82) : item.image}
+              loader={isRemoteImage(item.image) ? unsplashLoader : undefined}
               alt={item.title}
               fill
               priority
-              unoptimized={!isRemoteImage(item.image)}
               sizes="100vw"
               className="-z-20 object-cover"
             />
@@ -252,9 +253,9 @@ function ProjectLink({
     >
       <Image
         src={isRemoteImage(project.image) ? img(project.image, 1200, 78) : project.image}
+        loader={isRemoteImage(project.image) ? unsplashLoader : undefined}
         alt=""
         fill
-        unoptimized={!isRemoteImage(project.image)}
         sizes="(min-width: 640px) 50vw, 100vw"
         className="-z-20 object-cover transition-transform duration-[1400ms] ease-kooka group-hover:scale-[1.04]"
       />

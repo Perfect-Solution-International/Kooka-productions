@@ -11,6 +11,16 @@ import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
+/*
+ * `<video poster>` takes a single URL, so it cannot carry a srcset the way
+ * `next/image` does. Naming the optimizer route directly still buys the AVIF
+ * encode — roughly a third of the original JPEG — for the frame that is the
+ * page's LCP candidate.
+ */
+const HERO_POSTER = `/_next/image?url=${encodeURIComponent(
+  localMedia.heroVideoPoster,
+)}&w=1920&q=75`;
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -79,6 +89,19 @@ export function Hero() {
       ref={ref}
       className="relative isolate flex min-h-[100svh] items-end overflow-hidden pt-32 pb-16 sm:pb-20"
     >
+      {/*
+        The poster is the largest thing painted above the fold, and inside a
+        `<video>` it is not discovered until the element is parsed. Preloading
+        it hands the LCP candidate to the browser with the document, at the
+        same URL the element asks for so the two share one fetch.
+      */}
+      <link
+        rel="preload"
+        as="image"
+        href={HERO_POSTER}
+        fetchPriority="high"
+      />
+
       <motion.div
         style={{ y: backdropY, scale: backdropScale }}
         className="absolute inset-0 -z-20 opacity-90"
@@ -91,14 +114,19 @@ export function Hero() {
             priority
             quality={75}
             sizes="100vw"
-            unoptimized
             className="object-cover object-center"
           />
         ) : (
           <video
             ref={videoRef}
-            poster={localMedia.heroVideoPoster}
-            preload="metadata"
+            poster={HERO_POSTER}
+            /*
+             * The poster is the LCP candidate and the source files run several
+             * megabytes, so the video must not open a competing connection
+             * before the first frame is painted. `autoPlay` still fetches it
+             * once the element is live.
+             */
+            preload="none"
             autoPlay
             loop
             muted

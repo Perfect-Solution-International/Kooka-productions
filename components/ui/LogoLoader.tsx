@@ -152,12 +152,12 @@ export function LogoLoader({
         alt=""
         width={483}
         height={517}
-        priority
         /*
-         * Local asset: the custom loader (lib/imageLoader.ts) passes it through
-         * untouched, so there is no width-derived srcset to generate.
+         * The loader is a route-transition fallback, never the first paint of
+         * a landing, so it does not compete for the preload queue. 47% of the
+         * 15rem box is ~113px; 256 covers that at 2x DPR.
          */
-        unoptimized
+        sizes="256px"
         className="kooka-loader-logo"
       />
 

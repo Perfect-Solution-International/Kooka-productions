@@ -57,7 +57,6 @@ export default function DnaPage() {
                       src={person.image}
                       alt={`${person.name}, ${person.role}`}
                       fill
-                      unoptimized
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       className="object-contain object-center transition-transform duration-[1200ms] ease-kooka hover:scale-[1.02]"
                     />

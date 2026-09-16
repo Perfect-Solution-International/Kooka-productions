@@ -4,6 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { maskUp } from "@/lib/motion";
 import { img, isRemoteImage } from "@/data/media";
 import { cn } from "@/lib/utils";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type PageHeroProps = {
   readonly eyebrow: string;
@@ -44,10 +45,10 @@ export function PageHero({
     >
       <Image
         src={isRemoteImage(image) ? img(image, 2200, 82) : image}
+        loader={isRemoteImage(image) ? unsplashLoader : undefined}
         alt=""
         fill
         priority
-        unoptimized={!isRemoteImage(image)}
         quality={90}
         sizes="100vw"
         className="-z-20 object-cover object-center"

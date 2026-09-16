@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import { RevealItem } from "@/components/ui/Reveal";
 import { img, isRemoteImage } from "@/data/media";
 import type { HomeSolutionItem } from "@/services/home-solution.service";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type ServiceBlockProps = {
   readonly service: HomeSolutionItem;
@@ -25,9 +26,9 @@ export function ServiceBlock({ service, index }: ServiceBlockProps) {
           <div className="relative aspect-16/10 overflow-hidden">
             <Image
               src={isRemoteImage(service.image) ? img(service.image, 800, 78) : service.image}
+              loader={isRemoteImage(service.image) ? unsplashLoader : undefined}
               alt={service.title}
               fill
-              unoptimized={!isRemoteImage(service.image)}
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
               className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />

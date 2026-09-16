@@ -22,9 +22,6 @@ export function TrustedPartners() {
          * the first connections on a phone, which is exactly the wrong trade.
          */
         loading="lazy"
-        // Local asset: the custom loader passes it through untouched, so there
-        // is no width-derived srcset to generate.
-        unoptimized
         className="-z-20 object-cover object-center"
       />
 

@@ -84,11 +84,6 @@ export function ProjectImage({
             priority={priority}
             loading={priority ? undefined : "lazy"}
             fetchPriority={priority ? undefined : "low"}
-            /*
-             * Local asset: the custom loader passes it through untouched, so
-             * there is no width-derived srcset to generate.
-             */
-            unoptimized
             className={cn("object-cover", project.focus ?? "object-center")}
           />
         </motion.div>

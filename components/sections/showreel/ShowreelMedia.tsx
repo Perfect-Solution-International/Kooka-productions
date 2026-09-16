@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ShowreelGalleryImage } from "@/services/showreel.service";
 import { img, isRemoteImage } from "@/data/media";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type ShowreelMediaProps = {
   readonly title: string;
@@ -30,9 +31,9 @@ export function ShowreelMedia({ title, cover, gallery }: ShowreelMediaProps) {
           >
             <Image
               src={remote ? img(image.url, feature ? 1800 : 900, 82) : image.url}
+              loader={remote ? unsplashLoader : undefined}
               alt={image.alt ?? `${title} — gallery image ${index + 1}`}
               fill
-              unoptimized={!remote}
               sizes={feature ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 34vw, 100vw"}
               className="object-cover transition-transform duration-[1400ms] ease-kooka group-hover:scale-[1.025]"
             />

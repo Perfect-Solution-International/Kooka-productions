@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { RevealItem } from "@/components/ui/Reveal";
 import { img } from "@/data/media";
 import type { FootprintCategory } from "@/data/footprint";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type FootprintBlockProps = {
   readonly category: FootprintCategory;
@@ -23,16 +24,13 @@ export function FootprintBlock({ category, index }: FootprintBlockProps) {
         >
           <Image
             src={img(category.image, 900, 78)}
+            loader={unsplashLoader}
             alt={category.title}
             fill
             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
             className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
           />
 
-          {/*
-           * Brief calls for a black gradient rising 40-60% of the frame so the
-           * bottom-aligned copy stays readable over any photograph.
-           */}
           <div
             aria-hidden
             className="absolute inset-0 bg-linear-to-t from-kooka-black via-kooka-black/75 via-40% to-transparent to-70%"

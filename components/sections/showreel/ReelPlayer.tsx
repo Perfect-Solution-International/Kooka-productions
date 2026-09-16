@@ -14,6 +14,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { img, showreelVideo } from "@/data/media";
 import { EASE_KOOKA } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 function formatTime(seconds: number) {
   if (!Number.isFinite(seconds)) return "0:00";
@@ -242,6 +243,7 @@ export function ReelPlayer() {
         {sourceMissing ? (
           <Image
             src={img(showreelVideo.poster, 2000, 82)}
+            loader={unsplashLoader}
             alt="Kooka Productions showreel"
             fill
             priority
