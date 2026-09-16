@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, MoveDown, Play } from "lucide-react";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { img, localMedia, media } from "@/data/media";
+import { localMedia } from "@/data/media";
 import { contact, site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
@@ -57,23 +57,28 @@ export function Hero() {
       >
         {reduceMotion ? (
           <Image
-            src={img(media.heroStage, 2400, 85)}
+            src={localMedia.heroVideoPoster}
             alt=""
             fill
             priority
             quality={75}
             sizes="100vw"
+            unoptimized
             className="object-cover object-center"
           />
         ) : (
           <video
-            src={localMedia.heroVideo}
+            poster={localMedia.heroVideoPoster}
+            preload="metadata"
             autoPlay
             loop
             muted
             playsInline
             className="h-full w-full object-cover object-center"
-          />
+          >
+            <source src={localMedia.heroVideoWebm} type="video/webm" />
+            <source src={localMedia.heroVideoMp4} type="video/mp4" />
+          </video>
         )}
       </motion.div>
 

@@ -76,9 +76,10 @@ export type MediaKey = keyof typeof media;
 export const localMedia = {
   whyChooseBackdrop: "/Choose/BTC-747.jpg",
   whyChooseVideo: "/Choose/why-choose-kooka.mp4",
-  /** Filename carries a space, which must be encoded. */
-  heroVideo: "/home%20banner.MOV",
-  /** Folder name carries spaces and an ampersand — both must be encoded. */
+
+  heroVideoWebm: "/home-banner.webm",
+  heroVideoMp4: "/home-banner.mp4",
+  heroVideoPoster: "/home-banner-poster.jpg",
   trustedBackdrop: "/Venues%20%26%20Events/venue.jpg",
 
   // Page-hero backdrops.
