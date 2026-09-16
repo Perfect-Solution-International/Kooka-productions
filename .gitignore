@@ -24,6 +24,11 @@
 .DS_Store
 *.pem
 
+# camera masters — GitHub rejects any file over 100MB, and these run larger.
+# Ship the transcoded .webm/.mp4 in public/ instead.
+*.MOV
+*.mov
+
 # debug
 npm-debug.log*
 yarn-debug.log*
