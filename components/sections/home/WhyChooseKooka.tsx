@@ -1,11 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { valueProps } from "@/data/values";
 import { localMedia } from "@/data/media";
 import { fadeLeft, fadeUp } from "@/lib/motion";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export function WhyChooseKooka() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <Section
       id="why-kooka"
@@ -13,17 +18,33 @@ export function WhyChooseKooka() {
       density="tight"
       className="overflow-hidden border-t border-white/[0.06]"
     >
-      <Image
-        src={localMedia.whyChooseBackdrop}
-        alt=""
-        fill
-        quality={82}
-        sizes="100vw"
-        // Local asset: the custom loader passes it through untouched, so there
-        // is no width-derived srcset to generate.
-        unoptimized
-        className="-z-20 object-cover object-center"
-      />
+      {/*
+        Reduced motion falls back to the poster frame — an autoplaying
+        backdrop is exactly the kind of motion that preference opts out of.
+      */}
+      {reduceMotion ? (
+        <Image
+          src={localMedia.whyChooseBackdrop}
+          alt=""
+          fill
+          quality={82}
+          sizes="100vw"
+          // Local asset: the custom loader passes it through untouched, so there
+          // is no width-derived srcset to generate.
+          unoptimized
+          className="-z-20 object-cover object-center"
+        />
+      ) : (
+        <video
+          src={localMedia.whyChooseVideo}
+          poster={localMedia.whyChooseBackdrop}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        />
+      )}
 
       {/* Scrims — the frame is bright, so the type needs its own ground */}
       <div aria-hidden className="absolute inset-0 -z-10 bg-kooka-void/55" />
