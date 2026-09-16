@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, MoveDown, Play } from "lucide-react";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { img, media } from "@/data/media";
+import { localMedia } from "@/data/media";
 import { contact, site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
@@ -51,34 +51,45 @@ export function Hero() {
       ref={ref}
       className="relative isolate flex min-h-[100svh] items-end overflow-hidden pt-32 pb-16 sm:pb-20"
     >
-      {/*
-        Cinematic backdrop. Held back to a haze so the WebGL rig behind the
-        document reads through it — the photograph is still the ground the
-        scene sits on, it is no longer the whole of it.
-      */}
       <motion.div
         style={{ y: backdropY, scale: backdropScale }}
-        className="absolute inset-0 -z-20 opacity-35"
+        className="absolute inset-0 -z-20 opacity-90"
       >
-        <Image
-          src={img(media.heroStage, 2400, 85)}
-          alt=""
-          fill
-          priority
-          quality={75}
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        {reduceMotion ? (
+          <Image
+            src={localMedia.heroVideoPoster}
+            alt=""
+            fill
+            priority
+            quality={75}
+            sizes="100vw"
+            unoptimized
+            className="object-cover object-center"
+          />
+        ) : (
+          <video
+            poster={localMedia.heroVideoPoster}
+            preload="metadata"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover object-center"
+          >
+            <source src={localMedia.heroVideoWebm} type="video/webm" />
+            <source src={localMedia.heroVideoMp4} type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       {/* Gradient scrims — keeps the headline legible over any frame */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void/85 via-kooka-void/45 to-kooka-void/15"
+        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void/55 via-kooka-void/25 to-kooka-void/5"
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/70 via-transparent to-kooka-void/45"
+        className="absolute inset-0 -z-10 bg-linear-to-r from-kooka-void/40 via-transparent to-kooka-void/25"
       />
       <div
         aria-hidden

@@ -27,6 +27,16 @@ function orPending(value: string | null | undefined): string {
   return value && value.trim().length > 0 ? value : PENDING;
 }
 
+/*
+ * A project may legitimately carry no location or year, so the meta line drops
+ * the blanks rather than padding them out with the pending placeholder.
+ */
+function metaParts(project: Project): string[] {
+  return [project.type, project.location, project.year].filter(
+    (part) => part.trim().length > 0,
+  );
+}
+
 const enter = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
@@ -46,6 +56,7 @@ export function ProjectDetails({
   reduced,
   compact = false,
 }: ProjectDetailsProps) {
+  const meta = metaParts(project);
   const variants = reduced ? reducedEnter : enter;
   const transition = reduced
     ? { duration: 0.18, ease: "linear" as const }
@@ -82,20 +93,25 @@ export function ProjectDetails({
             {project.title}
           </h3>
 
-          <p
-            className={cn(
-              "font-display font-medium tracking-[0.2em] text-kooka-mist uppercase",
-              compact
-                ? "mt-2 text-[0.55rem]"
-                : "mt-3 text-[0.58rem] sm:mt-4 sm:text-[0.66rem] sm:tracking-[0.24em]",
-            )}
-          >
-            {orPending(project.type)}
-            <span className="mx-2.5 text-kooka-muted">·</span>
-            {orPending(project.location)}
-            <span className="mx-2.5 text-kooka-muted">·</span>
-            {orPending(project.year)}
-          </p>
+          {meta.length > 0 ? (
+            <p
+              className={cn(
+                "font-display font-medium tracking-[0.2em] text-kooka-mist uppercase",
+                compact
+                  ? "mt-2 text-[0.55rem]"
+                  : "mt-3 text-[0.58rem] sm:mt-4 sm:text-[0.66rem] sm:tracking-[0.24em]",
+              )}
+            >
+              {meta.map((part, partIndex) => (
+                <span key={part}>
+                  {partIndex > 0 ? (
+                    <span className="mx-2.5 text-kooka-muted">·</span>
+                  ) : null}
+                  {part}
+                </span>
+              ))}
+            </p>
+          ) : null}
 
           <p
             className={cn(

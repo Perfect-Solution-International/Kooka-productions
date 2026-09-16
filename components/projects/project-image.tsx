@@ -18,6 +18,17 @@ type ProjectImageProps = {
   readonly simplified: boolean;
 };
 
+/*
+ * Location and year are optional on a project, so they join the description
+ * only when set — otherwise the alt text trails empty separators.
+ */
+function describe(project: Project): string {
+  const detail = [project.type, project.location, project.year]
+    .filter((part) => part.trim().length > 0)
+    .join(", ");
+  return detail.length > 0 ? `${project.title} — ${detail}` : project.title;
+}
+
 /**
  * Layered image plate. Each active project mounts its own absolutely
  * positioned layer, so the outgoing frame keeps rendering while the incoming
@@ -67,7 +78,7 @@ export function ProjectImage({
         >
           <Image
             src={project.image}
-            alt={`${project.title} — ${project.type} production in ${project.location}, ${project.year}`}
+            alt={describe(project)}
             fill
             sizes="100vw"
             priority={priority}

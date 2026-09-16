@@ -1,68 +1,125 @@
 [
   {
-    "slug": "live-in-concert",
-    "title": "Live In Concert",
-    "type": "Live Concert",
-    "location": "Melbourne",
-    "year": "2025",
-    "blurb": "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
-    "image": "/Highlighted/project-1.webp",
-    "gallery": [
-      "/Highlighted/project-2.webp",
-      "/Highlighted/project-3.webp",
-      "/Highlighted/project-4.webp",
-      "/exprience/experience-1.webp",
-      "/exprience/experience-2.webp",
-      "/exprience/experience-3.webp",
-      "/Choose/BTC-747.jpg",
-      "/Venues%20%26%20Events/venue.jpg"
-    ]
-  },
-  {
     "slug": "golden-jubilee-dance-of-the-lions",
     "title": "Golden Jubilee — Dance of the Lions",
     "type": "Gala Night",
-    "location": "Trinity College Kandy OBA, Melbourne",
+    "location": "",
     "year": "2026",
-    "blurb": "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
-    "image": "/Highlighted/project-2.webp",
+    "blurb": "Fiftieth-anniversary ballroom gala — centre LED stage, twin crest projection screens and a red beam-work plot washing the full banquet floor.",
+    "image": "/showreel/trinity/trinity-4.jpg",
     "gallery": [
-      "/exprience/BTC-850.jpg",
-      "/exprience/1O5A2999eee.jpg",
-      "/Highlighted/project-1.webp",
-      "/Highlighted/project-4.webp",
-      "/Choose/BTC-747.jpg"
+      "/showreel/trinity/trinity-1.jpg",
+      "/showreel/trinity/trinity-2.jpg",
+      "/showreel/trinity/trinity-3.jpg",
+      "/showreel/trinity/trinity-5.jpg",
+      "/showreel/trinity/trinity-6.jpg",
+      "/showreel/trinity/trinity-7.jpg",
+      "/showreel/trinity/trinity-8.jpg",
+      "/showreel/trinity/trinity-9.jpg",
+      "/showreel/trinity/trinity-10.jpg",
+      "/showreel/trinity/trinity-11.jpg"
     ]
   },
   {
     "slug": "a-night-in-rio-dinner-dance",
     "title": "A Night In Rio — Annual Dinner Dance",
     "type": "Dinner Dance",
-    "location": "St. Peter's College OBSC, Melbourne",
+    "location": "",
     "year": "2026",
-    "blurb": "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
-    "image": "/Highlighted/project-3.webp",
+    "blurb": "Carnival-themed LED stage canvas with full band backline, flown line array and a hot wash-and-beam plot built around the floor performance.",
+    "image": "/showreel/st-peters/st-peters-5.jpg",
     "gallery": [
-      "/exprience/Copy%20of%20DSC08254.jpg",
-      "/exprience/experience-2.webp",
-      "/Highlighted/project-2.webp",
-      "/Venues%20%26%20Events/venue.jpg"
+      "/showreel/st-peters/st-peters-1.jpg",
+      "/showreel/st-peters/st-peters-2.jpg",
+      "/showreel/st-peters/st-peters-3.jpg",
+      "/showreel/st-peters/st-peters-4.jpg",
+      "/showreel/st-peters/st-peters-6.jpg",
+      "/showreel/st-peters/st-peters-7.jpg",
+      "/showreel/st-peters/st-peters-8.jpg",
+      "/showreel/st-peters/st-peters-9.jpg"
     ]
   },
   {
-    "slug": "the-finale-tour",
-    "title": "The Finale Tour",
-    "type": "Live Touring",
-    "location": "Australia",
+    "slug": "ru-sanda-re-the-finale-tour",
+    "title": "Ru Sanda Re — The Finale Tour",
+    "type": "Live Concert",
+    "location": "",
     "year": "2025",
-    "blurb": "Touring production package — staging, lighting, audio and screens travelling the full run of dates.",
-    "image": "/Highlighted/project-4.webp",
+    "blurb": "Proscenium theatre build — wide LED backdrop running show content, full band and vocal line, cold-spark pyro and a warm front wash to camera.",
+    "image": "/showreel/ru-sanda-re/ru-sanda-re-1.jpg",
     "gallery": [
-      "/Highlighted/project-1.webp",
-      "/Highlighted/project-3.webp",
-      "/exprience/experience-1.webp",
-      "/exprience/experience-3.webp",
-      "/Choose/BTC-747.jpg"
+      "/showreel/ru-sanda-re/ru-sanda-re-2.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-3.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-4.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-5.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-6.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-7.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-8.jpg",
+      "/showreel/ru-sanda-re/ru-sanda-re-9.jpg"
+    ]
+  },
+  {
+    "slug": "aluth-kalawak-world-tour",
+    "title": "Aluth Kalawak — Legends Are Back World Tour",
+    "type": "Live Concert",
+    "location": "",
+    "year": "",
+    "blurb": "Standing-room concert hall — LED strobe columns behind the band, crossed beam plot over the floor and front-of-house audio for a packed room.",
+    "image": "/showreel/aluth-kalawak/aluth-kalawak-1.jpg",
+    "gallery": [
+      "/showreel/aluth-kalawak/aluth-kalawak-2.jpg",
+      "/showreel/aluth-kalawak/aluth-kalawak-3.jpg",
+      "/showreel/aluth-kalawak/aluth-kalawak-4.jpg",
+      "/showreel/aluth-kalawak/aluth-kalawak-5.jpg",
+      "/showreel/aluth-kalawak/aluth-kalawak-6.jpg"
+    ]
+  },
+  {
+    "slug": "wayo-360",
+    "title": "Wayo 360",
+    "type": "Live Concert",
+    "location": "",
+    "year": "",
+    "blurb": "In-the-round staging — circular truss ring carrying a patterned LED ribbon and flown PA, with the band centred and the audience on every side.",
+    "image": "/showreel/wayo-360/wayo-360-1.jpg",
+    "gallery": [
+      "/showreel/wayo-360/wayo-360-2.jpg",
+      "/showreel/wayo-360/wayo-360-3.jpg",
+      "/showreel/wayo-360/wayo-360-4.jpg",
+      "/showreel/wayo-360/wayo-360-5.jpg",
+      "/showreel/wayo-360/wayo-360-6.jpg",
+      "/showreel/wayo-360/wayo-360-7.jpg",
+      "/showreel/wayo-360/wayo-360-8.jpg"
+    ]
+  },
+  {
+    "slug": "wayo-live-in-narrm",
+    "title": "Wayo — Live In Narrm",
+    "type": "Live Concert",
+    "location": "",
+    "year": "2024",
+    "blurb": "Seated theatre production for a full house across both levels — thrust-stage backline, warm top wash and tight specials with no screen to hide behind.",
+    "image": "/showreel/wayo-live-in-narrm/wayo-live-in-narrm-1.jpg",
+    "gallery": [
+      "/showreel/wayo-live-in-narrm/wayo-live-in-narrm-2.jpg",
+      "/showreel/wayo-live-in-narrm/wayo-live-in-narrm-3.jpg",
+      "/showreel/wayo-live-in-narrm/wayo-live-in-narrm-4.jpg"
+    ]
+  },
+  {
+    "slug": "yaga-festival",
+    "title": "Yaga Festival — Roots Of The Notes",
+    "type": "Music Festival",
+    "location": "",
+    "year": "",
+    "blurb": "Open-air festival main stage — sculpted set pieces mapped with projection and LED, festival-scale PA, confetti and pyro over a full-site crowd.",
+    "image": "/showreel/yaga-festival/yaga-festival-1.jpg",
+    "gallery": [
+      "/showreel/yaga-festival/yaga-festival-2.jpg",
+      "/showreel/yaga-festival/yaga-festival-3.jpg",
+      "/showreel/yaga-festival/yaga-festival-4.jpg",
+      "/showreel/yaga-festival/yaga-festival-5.jpg",
+      "/showreel/yaga-festival/yaga-festival-6.jpg"
     ]
   }
 ]
