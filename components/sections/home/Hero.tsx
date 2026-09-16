@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, MoveDown, Play } from "lucide-react";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { img, media } from "@/data/media";
+import { img, localMedia, media } from "@/data/media";
 import { contact, site } from "@/data/site";
 import { EASE_KOOKA, maskUp, staggerContainer } from "@/lib/motion";
 import { TOUCH_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
@@ -51,24 +51,30 @@ export function Hero() {
       ref={ref}
       className="relative isolate flex min-h-[100svh] items-end overflow-hidden pt-32 pb-16 sm:pb-20"
     >
-      {/*
-        Cinematic backdrop. Held back to a haze so the WebGL rig behind the
-        document reads through it — the photograph is still the ground the
-        scene sits on, it is no longer the whole of it.
-      */}
       <motion.div
         style={{ y: backdropY, scale: backdropScale }}
-        className="absolute inset-0 -z-20 opacity-35"
+        className="absolute inset-0 -z-20 opacity-90"
       >
-        <Image
-          src={img(media.heroStage, 2400, 85)}
-          alt=""
-          fill
-          priority
-          quality={75}
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        {reduceMotion ? (
+          <Image
+            src={img(media.heroStage, 2400, 85)}
+            alt=""
+            fill
+            priority
+            quality={75}
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        ) : (
+          <video
+            src={localMedia.heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover object-center"
+          />
+        )}
       </motion.div>
 
       {/* Gradient scrims — keeps the headline legible over any frame */}
