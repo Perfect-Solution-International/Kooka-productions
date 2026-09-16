@@ -12,6 +12,7 @@ import { img, isRemoteImage } from "@/data/media";
 import type { HomeSolutionItem } from "@/services/home-solution.service";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 export function KookaSolutions({ services }: { readonly services: readonly HomeSolutionItem[] }) {
   const [openSlug, setOpenSlug] = useState<string | null>(services[0]?.slug ?? null);
@@ -115,9 +116,9 @@ export function KookaSolutions({ services }: { readonly services: readonly HomeS
                       <div className="group/panel relative mb-6 block aspect-video overflow-hidden sm:aspect-21/9">
                         <Image
                           src={isRemoteImage(service.image) ? img(service.image, 1400, 80) : service.image}
+                          loader={isRemoteImage(service.image) ? unsplashLoader : undefined}
                           alt={service.title}
                           fill
-                          unoptimized={!isRemoteImage(service.image)}
                           sizes="(min-width: 1024px) 55vw, 100vw"
                           className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/panel:scale-[1.05]"
                         />

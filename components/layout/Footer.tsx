@@ -72,7 +72,7 @@ export function Footer({ solutions }: { readonly solutions: readonly HomeSolutio
           */}
           <div className="grid grid-cols-2 gap-x-4 sm:contents">
             <nav aria-label="Quick links" className="lg:col-span-2">
-              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Explore</h2>
+              <p className="kooka-eyebrow mb-2 lg:mb-4">Explore</p>
               <ul className="lg:space-y-2">
                 {footerQuickLinks.map((item) => (
                   <li key={item.href}>
@@ -88,7 +88,7 @@ export function Footer({ solutions }: { readonly solutions: readonly HomeSolutio
             </nav>
 
             <nav aria-label="Services" className="lg:col-span-3">
-              <h2 className="kooka-eyebrow mb-2 lg:mb-4">Solutions</h2>
+              <p className="kooka-eyebrow mb-2 lg:mb-4">Solutions</p>
               <ul className="lg:space-y-2">
                 {footerServices.map((service) => (
                   <li key={service.slug}>
@@ -113,9 +113,9 @@ export function Footer({ solutions }: { readonly solutions: readonly HomeSolutio
           </div>
 
           <div className="sm:col-span-2 lg:col-span-3">
-            <h2 className="kooka-eyebrow mb-2 text-center sm:text-left lg:mb-4">
+            <p className="kooka-eyebrow mb-2 text-center sm:text-left lg:mb-4">
               Contact
-            </h2>
+            </p>
             <ul className="space-y-1 text-sm lg:space-y-3">
               <li>
                 <a

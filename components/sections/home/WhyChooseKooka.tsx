@@ -29,9 +29,6 @@ export function WhyChooseKooka() {
           fill
           quality={82}
           sizes="100vw"
-          // Local asset: the custom loader passes it through untouched, so there
-          // is no width-derived srcset to generate.
-          unoptimized
           className="-z-20 object-cover object-center"
         />
       ) : (

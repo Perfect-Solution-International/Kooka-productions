@@ -31,11 +31,6 @@ export function KookaExperience() {
               fill
               sizes="(min-width: 640px) 33vw, 78vw"
               loading="lazy"
-              /*
-               * Local asset: the custom loader passes it through untouched, so
-               * there is no width-derived srcset to generate.
-               */
-              unoptimized
               className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             />
 

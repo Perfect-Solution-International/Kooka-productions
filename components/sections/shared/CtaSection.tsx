@@ -5,12 +5,12 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { contact } from "@/data/site";
 import { img, media } from "@/data/media";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 type CtaSectionProps = {
   readonly title?: string;
   readonly description?: string;
   readonly eyebrow?: string;
-  /** Forwarded to `Section`, so the home page can run the tighter rhythm. */
   readonly density?: "default" | "tight";
 };
 
@@ -31,6 +31,7 @@ export function CtaSection({
         <div className="relative isolate overflow-hidden rounded-3xl border border-white/[0.08]">
           <Image
             src={img(media.crowdHands, 1800, 78)}
+            loader={unsplashLoader}
             alt=""
             fill
             sizes="100vw"

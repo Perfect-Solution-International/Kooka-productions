@@ -3,26 +3,20 @@
 import type { ImageLoaderProps } from "next/image";
 
 /**
- * Custom `next/image` loader.
+ * Per-image loader for Unsplash CDN art.
  *
- * Unsplash's CDN already resizes and format-negotiates (`auto=format` returns
- * WebP/AVIF), so routing its images through Next's own optimizer only means the
- * dev server re-downloads and re-encodes every frame. On a page with ~20 images
- * that saturates the CPU and blows the optimizer's hardcoded 7s upstream-fetch
- * abort, producing `TimeoutError` + 500 on `/_next/image`.
+ * Unsplash already resizes and format-negotiates (`auto=format` returns
+ * WebP/AVIF), so its images are handed straight to the CDN. Routing them
+ * through Next's own optimizer means the server re-downloads and re-encodes
+ * every frame; on a page with ~20 images that saturates the CPU and blows the
+ * optimizer's hardcoded 7s upstream-fetch abort, producing `TimeoutError` + 500.
  *
- * Deferring to the CDN removes the server round trip entirely.
- *
- * Local assets are passed through untouched, so they cannot vary by width —
- * mark those `<Image>` instances `unoptimized` or Next warns that the loader
- * ignores `width`.
+ * This is applied per `<Image>` via the `loader` prop rather than as the
+ * project-wide `loader: "custom"` — setting that globally disables the
+ * `/_next/image` endpoint, which is what the files under `public/` need in
+ * order to be served as AVIF/WebP at the width each layout actually paints.
  */
-export default function kookaImageLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps): string {
-  // Local files (and data URIs) are served as-is.
+export function unsplashLoader({ src, width, quality }: ImageLoaderProps): string {
   if (!src.startsWith("http")) {
     return src;
   }

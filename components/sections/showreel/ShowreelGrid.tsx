@@ -4,6 +4,7 @@ import { ArrowUpRight, Eye } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { listShowreel, type ShowreelItem } from "@/services/showreel.service";
 import { img, isRemoteImage } from "@/data/media";
+import { unsplashLoader } from "@/lib/imageLoader";
 
 const indexLabel = (position: number) => String(position + 1).padStart(2, "0");
 
@@ -12,6 +13,14 @@ export async function ShowreelGrid() {
   const total = indexLabel(showreel.length);
 
   return (
+    <>
+      {/*
+        The tiles are `h3`, so without this the page outline steps straight
+        from the hero's `h1` to `h3`. The grid carries its own visual framing
+        from the hero above it, so the label is for assistive tech only.
+      */}
+      <h2 className="sr-only">Selected projects</h2>
+
     <RevealGroup
       className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-5"
       stagger={0.07}
@@ -32,9 +41,9 @@ export async function ShowreelGrid() {
           >
             <Image
               src={remote ? img(item.image, 1600, 80) : item.image}
+              loader={remote ? unsplashLoader : undefined}
               alt=""
               fill
-              unoptimized={!remote}
               sizes="(min-width: 640px) 50vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1400ms] ease-kooka group-hover:scale-[1.04]"
             />
@@ -110,6 +119,7 @@ export async function ShowreelGrid() {
         );
       })}
     </RevealGroup>
+    </>
   );
 }
 

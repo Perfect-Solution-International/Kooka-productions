@@ -21,7 +21,6 @@ function PartnerMark({ partner }: { readonly partner: ProducerPartner }) {
         alt={partner.name}
         width={112}
         height={36}
-        unoptimized
         className="h-full w-full object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
       />
     </span>

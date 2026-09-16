@@ -33,10 +33,16 @@ export function LogoTicker({ items, className, reverse }: LogoTickerProps) {
           >
             <Image
               src={partner.logo}
-              alt={partner.name}
+              alt={index >= items.length ? "" : partner.name}
               width={160}
               height={56}
-              unoptimized
+              sizes="160px"
+              /*
+               * The rail sits below several full-height sections, and the list
+               * is rendered twice, so eager loading would pull 50 files into
+               * the initial load for art nobody has scrolled to yet.
+               */
+              loading="lazy"
               className="h-full w-full object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
             />
           </li>
