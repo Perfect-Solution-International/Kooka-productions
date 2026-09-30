@@ -11,8 +11,8 @@ import { listLatestShowreel } from "@/services/showreel.service";
   is cycled so the section still fills when more projects than images surface.
 */
 const HIGHLIGHT_IMAGES = [
-  "/Highlighted/project-1.jpg",
-  "/Highlighted/project-2.webp",
+  "/Highlighted/aluth-kalawak-1.jpg",
+  "/Highlighted/3.jpg",
   "/Highlighted/project-3.jpg",
 ] as const;
 
