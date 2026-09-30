@@ -80,7 +80,15 @@ export function ProjectImage({
             src={project.image}
             alt={describe(project)}
             fill
+            /*
+              The plate is full-bleed, so it paints at the window width at
+              every breakpoint — the height cap crops through `object-cover`
+              without ever narrowing the box. Any narrower hint here would have
+              the browser pick a candidate below the paint width and soften the
+              photography.
+            */
             sizes="100vw"
+            quality={90}
             priority={priority}
             loading={priority ? undefined : "lazy"}
             fetchPriority={priority ? undefined : "low"}

@@ -5,16 +5,29 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ScrollProjectShowcase } from "@/components/projects/scroll-project-showcase";
 import { listLatestShowreel } from "@/services/showreel.service";
 
+/*
+  The home showcase runs its own artwork from `public/Highlighted` rather than
+  the showreel entry images, which stay reserved for the detail pages. The list
+  is cycled so the section still fills when more projects than images surface.
+*/
+const HIGHLIGHT_IMAGES = [
+  "/Highlighted/project-1.jpg",
+  "/Highlighted/project-2.webp",
+  "/Highlighted/project-3.jpg",
+] as const;
+
 export async function HighlightedProjects() {
-  const featuredProjects = (await listLatestShowreel(3)).map((project) => ({
-    title: project.title,
-    type: project.type,
-    location: project.location,
-    year: project.year,
-    summary: project.blurb,
-    image: project.image,
-    href: `/showreel/${project.slug}`,
-  }));
+  const featuredProjects = (await listLatestShowreel(HIGHLIGHT_IMAGES.length)).map(
+    (project, index) => ({
+      title: project.title,
+      type: project.type,
+      location: project.location,
+      year: project.year,
+      summary: project.blurb,
+      image: HIGHLIGHT_IMAGES[index % HIGHLIGHT_IMAGES.length],
+      href: `/showreel/${project.slug}`,
+    }),
+  );
 
   return (
     <section
