@@ -10,35 +10,40 @@ export type Project = {
 };
 
 /**
- * Kooka's own project stills (public/Highlighted). The `.webp` files are
- * 1600px re-encodes of the supplied JPEGs; the originals stay as masters.
+ * Kooka's own project stills (public/Highlighted), each paired with the
+ * production it is a frame of. The pairing lives here rather than being
+ * index-mapped onto a showreel query, so reordering the showreel cannot put a
+ * still against the wrong write-up.
  */
 export const featuredProjects: Project[] = [
   {
-    title: "Live In Concert",
+    title: "Aluth Kalawak — Legends Are Back World Tour",
     type: "Live Concert",
-    location: "Melbourne",
+    location: "",
+    year: "",
+    summary:
+      "Standing-room concert hall — LED strobe columns behind the band, crossed beam plot over the floor and front-of-house audio for a packed room.",
+    image: "/Highlighted/aluth-kalawak-1.jpg",
+    href: "/showreel/aluth-kalawak-world-tour",
+  },
+  {
+    title: "Wayo — Live In Narrm",
+    type: "Live Concert",
+    location: "",
+    year: "2024",
+    summary:
+      "Seated theatre production for a full house across both levels — thrust-stage backline, warm top wash and tight specials with no screen to hide behind.",
+    image: "/Highlighted/project-3.jpg",
+    href: "/showreel/wayo-live-in-narrm",
+  },
+  {
+    title: "Ru Sanda Re — The Finale Tour",
+    type: "Live Concert",
+    location: "",
     year: "2025",
     summary:
-      "Full stage build with LED backdrop, moving light rig and front-of-house audio for a seated theatre house.",
-    image: "/Highlighted/project-1.webp",
-  },
-  {
-    title: "Golden Jubilee — Dance of the Lions",
-    type: "Gala Night",
-    location: "Trinity College Kandy OBA, Melbourne",
-    year: "2026",
-    summary:
-      "Ballroom gala with branded LED walls, gobo projection and a beam-work lighting plot across the room.",
-    image: "/Highlighted/project-2.webp",
-  },
-  {
-    title: "A Night In Rio — Annual Dinner Dance",
-    type: "Dinner Dance",
-    location: "St. Peter's College OBSC, Melbourne",
-    year: "2026",
-    summary:
-      "Themed LED stage canvas, full band backline and a coloured wash plot built to the night's carnival brief.",
-    image: "/Highlighted/project-3.webp",
+      "Proscenium theatre build — wide LED backdrop running show content, full band and vocal line, cold-spark pyro and a warm front wash to camera.",
+    image: "/Highlighted/3.jpg",
+    href: "/showreel/ru-sanda-re-the-finale-tour",
   },
 ];

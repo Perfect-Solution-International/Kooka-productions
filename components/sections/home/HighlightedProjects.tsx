@@ -3,19 +3,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { ScrollProjectShowcase } from "@/components/projects/scroll-project-showcase";
-import { listLatestShowreel } from "@/services/showreel.service";
+import { featuredProjects } from "@/data/projects";
 
-export async function HighlightedProjects() {
-  const featuredProjects = (await listLatestShowreel(3)).map((project) => ({
-    title: project.title,
-    type: project.type,
-    location: project.location,
-    year: project.year,
-    summary: project.blurb,
-    image: project.image,
-    href: `/showreel/${project.slug}`,
-  }));
-
+/*
+  The showcase reads `data/projects`, which pairs each still in
+  `public/Highlighted` with its own production. The showreel service is not
+  consulted here: its ordering is free to change, and mapping stills onto it by
+  position put the wrong photograph against the wrong write-up.
+*/
+export function HighlightedProjects() {
   return (
     <section
       id="projects"
