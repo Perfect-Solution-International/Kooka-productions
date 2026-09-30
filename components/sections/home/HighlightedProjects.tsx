@@ -3,32 +3,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { ScrollProjectShowcase } from "@/components/projects/scroll-project-showcase";
-import { listLatestShowreel } from "@/services/showreel.service";
+import { featuredProjects } from "@/data/projects";
 
 /*
-  The home showcase runs its own artwork from `public/Highlighted` rather than
-  the showreel entry images, which stay reserved for the detail pages. The list
-  is cycled so the section still fills when more projects than images surface.
+  The showcase reads `data/projects`, which pairs each still in
+  `public/Highlighted` with its own production. The showreel service is not
+  consulted here: its ordering is free to change, and mapping stills onto it by
+  position put the wrong photograph against the wrong write-up.
 */
-const HIGHLIGHT_IMAGES = [
-  "/Highlighted/aluth-kalawak-1.jpg",
-  "/Highlighted/3.jpg",
-  "/Highlighted/project-3.jpg",
-] as const;
-
-export async function HighlightedProjects() {
-  const featuredProjects = (await listLatestShowreel(HIGHLIGHT_IMAGES.length)).map(
-    (project, index) => ({
-      title: project.title,
-      type: project.type,
-      location: project.location,
-      year: project.year,
-      summary: project.blurb,
-      image: HIGHLIGHT_IMAGES[index % HIGHLIGHT_IMAGES.length],
-      href: `/showreel/${project.slug}`,
-    }),
-  );
-
+export function HighlightedProjects() {
   return (
     <section
       id="projects"
