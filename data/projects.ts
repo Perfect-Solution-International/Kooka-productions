@@ -46,4 +46,14 @@ export const featuredProjects: Project[] = [
     image: "/Highlighted/3.jpg",
     href: "/showreel/ru-sanda-re-the-finale-tour",
   },
+  {
+    title: "Yaga Festival — Roots Of The Notes",
+    type: "Music Festival",
+    location: "",
+    year: "",
+    summary:
+      "Open-air festival main stage — sculpted set pieces mapped with projection and LED, festival-scale PA, confetti and pyro over a full-site crowd.",
+    image: "/Highlighted/yaga.jpg",
+    href: "/showreel/yaga-festival",
+  },
 ];
