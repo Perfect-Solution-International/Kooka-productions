@@ -102,7 +102,7 @@ export const experienceSlides = [
     caption: "Full-house theatre show — stage, lighting rig and front-of-house.",
   },
   {
-    src: "/exprience/BTC-850.jpg",
+    src: "/exprience/Aluth-Kalawak-1.jpg",
     title: "Gala & Celebration",
     caption: "Golden Jubilee gala — LED backdrop, beam work and live band.",
   },
