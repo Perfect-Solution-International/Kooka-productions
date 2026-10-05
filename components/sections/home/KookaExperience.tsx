@@ -31,6 +31,7 @@ export function KookaExperience() {
               fill
               sizes="(min-width: 640px) 33vw, 78vw"
               loading="lazy"
+              quality={90}
               className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             />
 
@@ -41,3 +42,4 @@ export function KookaExperience() {
     </Section>
   );
 }
+

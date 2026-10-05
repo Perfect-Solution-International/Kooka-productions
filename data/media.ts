@@ -97,17 +97,17 @@ export const localMedia = {
  */
 export const experienceSlides = [
   {
-    src: "/exprience/experience-1.webp",
+    src: "/exprience/1O5A2999eee.jpg",
     title: "Live Concert Production",
     caption: "Full-house theatre show — stage, lighting rig and front-of-house.",
   },
   {
-    src: "/exprience/experience-2.webp",
+    src: "/exprience/BTC-850.jpg",
     title: "Gala & Celebration",
     caption: "Golden Jubilee gala — LED backdrop, beam work and live band.",
   },
   {
-    src: "/exprience/experience-3.webp",
+    src: "/exprience/DSC08254.jpg",
     title: "Touring & Stage Design",
     caption: "Finale tour — projection canvas, pyro and full stage build.",
   },
