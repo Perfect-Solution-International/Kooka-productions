@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/sections/home/Hero";
 import { KookaExperience } from "@/components/sections/home/KookaExperience";
+import { KookaShowreel } from "@/components/sections/home/KookaShowreel";
 import { KookaSolutions } from "@/components/sections/home/KookaSolutions";
 import { HighlightedProjects } from "@/components/sections/home/HighlightedProjects";
 import { WhyChooseKooka } from "@/components/sections/home/WhyChooseKooka";
@@ -23,6 +24,7 @@ export default async function HomePage() {
     <>
       <Hero />
       <KookaExperience />
+      <KookaShowreel />
       <KookaSolutions services={homeSolutions} />
       <HighlightedProjects />
       <WhyChooseKooka />
