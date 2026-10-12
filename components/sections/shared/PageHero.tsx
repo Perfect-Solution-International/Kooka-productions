@@ -67,8 +67,10 @@ export function PageHero({
         <div
           aria-hidden
           className={cn(
-            "absolute inset-0 -z-10 bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45",
-            video && "hidden md:block",
+            "absolute inset-0 -z-10",
+            video
+              ? "hidden bg-linear-to-br from-kooka-void/85 via-kooka-void/45 to-kooka-void/15 lg:block"
+              : "bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45",
           )}
         />
         <div
@@ -81,7 +83,7 @@ export function PageHero({
         className={cn(
           "kooka-container",
           video
-            ? "pointer-events-none relative py-10 md:absolute md:inset-x-0 md:bottom-0 md:pb-14 lg:pb-20"
+            ? "pointer-events-none relative py-10 lg:absolute lg:inset-x-0 lg:top-0 lg:pt-32 lg:pb-0 xl:pt-36"
             : "relative",
         )}
       >
