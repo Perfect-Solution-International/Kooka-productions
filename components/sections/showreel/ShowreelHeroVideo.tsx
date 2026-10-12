@@ -38,7 +38,9 @@ export function ShowreelHeroVideo() {
         preload="none"
         poster="/media/kooka-showreel-poster.jpg"
         aria-label="Kooka Productions showreel"
-        className="absolute inset-0 -z-20 size-full object-cover object-center"
+        width={1280}
+        height={720}
+        className="absolute inset-0 -z-20 size-full object-contain object-center"
       >
         <source src="/media/kooka-showreel.mp4" type="video/mp4" />
         Your browser does not support embedded video.

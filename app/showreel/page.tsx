@@ -33,6 +33,7 @@ export default function ShowreelPage() {
         description={intro}
         image="/media/kooka-showreel-poster.jpg"
         backgroundMedia={<ShowreelHeroVideo />}
+        size="video"
       />
 
       <Section bloom="top" density="tight">
