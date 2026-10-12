@@ -12,6 +12,7 @@ type PageHeroProps = {
   readonly subtitle: string;
   readonly description?: string;
   readonly image: string;
+  readonly backgroundMedia?: ReactNode;
   readonly children?: ReactNode;
   readonly className?: string;
   /**
@@ -27,6 +28,7 @@ export function PageHero({
   subtitle,
   description,
   image,
+  backgroundMedia,
   children,
   className,
   size = "default",
@@ -53,6 +55,7 @@ export function PageHero({
         sizes="100vw"
         className="-z-20 object-cover object-center"
       />
+      {backgroundMedia}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45"
