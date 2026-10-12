@@ -12,13 +12,15 @@ type PageHeroProps = {
   readonly subtitle: string;
   readonly description?: string;
   readonly image: string;
+  readonly backgroundMedia?: ReactNode;
   readonly children?: ReactNode;
   readonly className?: string;
   /**
    * `compact` trades the full-bleed height for a shallow banner — used by
    * secondary pages that lead with their content rather than the image.
+   * `video` keeps 16:9 media intact and places the copy below it on phones.
    */
-  readonly size?: "default" | "compact";
+  readonly size?: "default" | "compact" | "video";
 };
 
 export function PageHero({
@@ -27,42 +29,64 @@ export function PageHero({
   subtitle,
   description,
   image,
+  backgroundMedia,
   children,
   className,
   size = "default",
 }: PageHeroProps) {
   const compact = size === "compact";
+  const video = size === "video";
 
   return (
     <section
       className={cn(
-        "relative isolate flex items-end overflow-hidden",
-        compact
-          ? "min-h-[42svh] pt-28 pb-10 sm:min-h-[46svh] sm:pt-32 sm:pb-14"
-          : "min-h-[68svh] pt-32 pb-14 sm:min-h-[74svh] sm:pt-36 sm:pb-20",
+        "relative isolate overflow-hidden",
+        video
+          ? "block"
+          : cn(
+              "flex items-end",
+              compact
+                ? "min-h-[42svh] pt-28 pb-10 sm:min-h-[46svh] sm:pt-32 sm:pb-14"
+                : "min-h-[68svh] pt-32 pb-14 sm:min-h-[74svh] sm:pt-36 sm:pb-20",
+            ),
         className,
       )}
     >
-      <Image
-        src={isRemoteImage(image) ? img(image, 2200, 82) : image}
-        loader={isRemoteImage(image) ? unsplashLoader : undefined}
-        alt=""
-        fill
-        priority
-        quality={90}
-        sizes="100vw"
-        className="-z-20 object-cover object-center"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45"
-      />
-      <div
-        aria-hidden
-        className="kooka-bloom bottom-0 -left-16 h-[16rem] w-[16rem] animate-glow-pulse sm:-left-24 sm:h-[26rem] sm:w-[26rem]"
-      />
+      <div className={video ? "relative isolate aspect-video w-full overflow-hidden" : "contents"}>
+        <Image
+          src={isRemoteImage(image) ? img(image, 2200, 82) : image}
+          loader={isRemoteImage(image) ? unsplashLoader : undefined}
+          alt=""
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="-z-20 object-cover object-center"
+        />
+        {backgroundMedia}
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 -z-10",
+            video
+              ? "hidden bg-linear-to-br from-kooka-void/85 via-kooka-void/45 to-kooka-void/15 lg:block"
+              : "bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45",
+          )}
+        />
+        <div
+          aria-hidden
+          className="kooka-bloom bottom-0 -left-16 h-[16rem] w-[16rem] animate-glow-pulse sm:-left-24 sm:h-[26rem] sm:w-[26rem]"
+        />
+      </div>
 
-      <div className="kooka-container relative">
+      <div
+        className={cn(
+          "kooka-container",
+          video
+            ? "pointer-events-none relative py-10 lg:absolute lg:inset-x-0 lg:top-0 lg:pt-32 lg:pb-0 xl:pt-36"
+            : "relative",
+        )}
+      >
         {/* Phones read the hero as a centred block; the rail returns at md. */}
         <RevealGroup className="max-w-4xl text-center md:text-left" stagger={0.1}>
           <RevealItem
@@ -104,7 +128,7 @@ export function PageHero({
         </RevealGroup>
 
         {children ? (
-          <Reveal className="mt-10 text-center md:text-left">{children}</Reveal>
+          <Reveal className="pointer-events-auto mt-10 text-center md:text-left">{children}</Reveal>
         ) : null}
       </div>
     </section>

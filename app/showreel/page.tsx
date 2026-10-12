@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/shared/PageHero";
 import { ShowreelGrid } from "@/components/sections/showreel/ShowreelGrid";
+import { ShowreelHeroVideo } from "@/components/sections/showreel/ShowreelHeroVideo";
 import { CtaSection } from "@/components/sections/shared/CtaSection";
 import { ContactStrip } from "@/components/sections/shared/ContactStrip";
 import { Section } from "@/components/ui/Section";
-import { localMedia } from "@/data/media";
 
 const tagline = "Events, Environments & Experiences We Deliver";
 
@@ -31,7 +31,9 @@ export default function ShowreelPage() {
         title="Kooka Showreel"
         subtitle={tagline}
         description={intro}
-        image={localMedia.showreelHero}
+        image="/media/kooka-showreel-poster.jpg"
+        backgroundMedia={<ShowreelHeroVideo />}
+        size="video"
       />
 
       <Section bloom="top" density="tight">
