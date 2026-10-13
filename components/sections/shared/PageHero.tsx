@@ -69,7 +69,7 @@ export function PageHero({
           className={cn(
             "absolute inset-0 -z-10",
             video
-              ? "hidden bg-linear-to-br from-kooka-void/85 via-kooka-void/45 to-kooka-void/15 lg:block"
+              ? "hidden bg-linear-to-t from-kooka-void/85 via-kooka-void/35 to-transparent lg:block"
               : "bg-linear-to-t from-kooka-void via-kooka-void/75 to-kooka-void/45",
           )}
         />
@@ -83,15 +83,15 @@ export function PageHero({
         className={cn(
           "kooka-container",
           video
-            ? "pointer-events-none relative py-10 lg:absolute lg:inset-x-0 lg:top-0 lg:pt-32 lg:pb-0 xl:pt-36"
+            ? "pointer-events-none relative py-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:pt-0 lg:pb-14 xl:pb-20"
             : "relative",
         )}
       >
-        {/* Phones read the hero as a centred block; the rail returns at md. */}
-        <RevealGroup className="max-w-4xl text-center md:text-left" stagger={0.1}>
+        {/* Video copy stays left aligned, including below the media on phones. */}
+        <RevealGroup className={cn("max-w-4xl", video ? "text-left" : "text-center md:text-left")} stagger={0.1}>
           <RevealItem
             as="p"
-            className="kooka-eyebrow mb-5 flex items-center justify-center gap-3 sm:mb-7 md:justify-start"
+            className={cn("kooka-eyebrow mb-5 flex items-center gap-3 sm:mb-7", video ? "justify-start" : "justify-center md:justify-start")}
           >
             <span className="h-px w-6 shrink-0 bg-kooka-amber/70 sm:w-10" aria-hidden />
             {eyebrow}
@@ -120,7 +120,7 @@ export function PageHero({
           {description ? (
             <RevealItem
               as="p"
-              className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg md:mx-0"
+              className={cn("mt-6 max-w-2xl text-base leading-relaxed text-kooka-mist sm:text-lg", video ? "mx-0" : "mx-auto md:mx-0")}
             >
               {description}
             </RevealItem>
@@ -128,7 +128,7 @@ export function PageHero({
         </RevealGroup>
 
         {children ? (
-          <Reveal className="pointer-events-auto mt-10 text-center md:text-left">{children}</Reveal>
+          <Reveal className={cn("pointer-events-auto mt-10", video ? "text-left" : "text-center md:text-left")}>{children}</Reveal>
         ) : null}
       </div>
     </section>

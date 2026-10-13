@@ -99,17 +99,17 @@ export const experienceSlides = [
   {
     src: "/exprience/1O5A2999eee.jpg",
     title: "Live Concert Production",
-    caption: "Full-house theatre show — stage, lighting rig and front-of-house.",
+    caption: "Full house theatre show: stage, lighting rig and front of house.",
   },
   {
     src: "/exprience/Aluth-Kalawak-1.jpg",
     title: "Gala & Celebration",
-    caption: "Golden Jubilee gala — LED backdrop, beam work and live band.",
+    caption: "Golden Jubilee gala: LED backdrop, beam work and live band.",
   },
   {
     src: "/exprience/DSC08254.jpg",
     title: "Touring & Stage Design",
-    caption: "Finale tour — projection canvas, pyro and full stage build.",
+    caption: "Finale tour: projection canvas, pyro and full stage build.",
   },
 ] as const;
 

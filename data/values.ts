@@ -9,15 +9,15 @@ export type ValueProp = {
 /** "Why Choose Kooka" — five-point value proposition. */
 export const valueProps: ValueProp[] = [
   {
-    title: "End-to-End Event Production Solutions",
+    title: "End to End Event Production Solutions",
     description:
-      "Concept, design, build, operate and pack down. One team carries the event from first sketch to final load-out, so nothing falls between suppliers.",
+      "Concept, design, build, operate and pack down. One team carries the event from first sketch to final load out, so nothing falls between suppliers.",
     icon: "sparkles",
   },
   {
-    title: "Industry-Grade Equipment and Technology",
+    title: "Industry Grade Equipment and Technology",
     description:
-      "Current-generation LED, line array, moving light and control inventory — maintained, tested and prepped before every job, never sourced on a guess.",
+      "Current generation LED, line array, moving light and control inventory, maintained, tested and prepped before every job, never sourced on a guess.",
     icon: "settings-2",
   },
   {
