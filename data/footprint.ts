@@ -12,21 +12,21 @@ export const footprintCategories: FootprintCategory[] = [
     slug: "corporate-events",
     title: "Business & Corporate Events",
     description:
-      "Professional AV and production solutions for corporate events, presentations, and brand-led experiences.",
+      "Professional AV and production solutions for corporate events, presentations, and brand led experiences.",
     image: media.boardroom,
   },
   {
     slug: "conferences-and-meetings",
     title: "Conferences & Meetings",
     description:
-      "Seamless multi-room AV, presentation systems, and hybrid delivery for conferences and business events.",
+      "Seamless multi room AV, presentation systems, and hybrid delivery for conferences and business events.",
     image: media.conferenceHall,
   },
   {
     slug: "product-launch-events",
     title: "Product Launch Events",
     description:
-      "High-impact production designed to showcase products through immersive visuals, staging, and lighting.",
+      "High impact production designed to showcase products through immersive visuals, staging, and lighting.",
     image: media.expo,
   },
   {
@@ -47,14 +47,14 @@ export const footprintCategories: FootprintCategory[] = [
     slug: "live-shows-and-touring",
     title: "Live Shows & Touring",
     description:
-      "Scalable production systems for live performances, touring shows, and entertainment-driven events.",
+      "Scalable production systems for live performances, touring shows, and entertainment driven events.",
     image: media.touring,
   },
   {
     slug: "festivals-and-outdoor-events",
     title: "Festivals & Outdoor Events",
     description:
-      "Large-scale production for festivals and outdoor events with high-impact visuals and sound.",
+      "Large scale production for festivals and outdoor events with high impact visuals and sound.",
     image: media.festivalNight,
   },
   {

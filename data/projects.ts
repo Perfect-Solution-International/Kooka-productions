@@ -22,7 +22,7 @@ export const featuredProjects: Project[] = [
     location: "",
     year: "",
     summary:
-      "Standing-room concert hall LED strobe columns behind the band, crossed beam plot over the floor and front of house audio for a packed room.",
+      "Standing room concert hall LED strobe columns behind the band, crossed beam plot over the floor and front of house audio for a packed room.",
     image: "/Highlighted/aluth-kalawak-1.jpg",
     href: "/showreel/aluth-kalawak-world-tour",
   },
@@ -42,7 +42,7 @@ export const featuredProjects: Project[] = [
     location: "",
     year: "2025",
     summary:
-      "Proscenium theatre build wide LED backdrop running show content, full band and vocal line, cold-spark pyro and a warm front wash to camera.",
+      "Proscenium theatre build wide LED backdrop running show content, full band and vocal line, cold spark pyro and a warm front wash to camera.",
     image: "/Highlighted/3.jpg",
     href: "/showreel/ru-sanda-re-the-finale-tour",
   },

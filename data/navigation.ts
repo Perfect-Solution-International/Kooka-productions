@@ -36,7 +36,7 @@ export const mainNav = (solutions: readonly { slug: string; title: string }[]): 
   {
     label: "Contact Us",
     href: "/contact",
-    description: "Melbourne HQ, Australia-wide",
+    description: "Melbourne HQ, Australia wide",
   },
 ];
 

@@ -43,20 +43,20 @@ export type SolutionContent = {
 const solutionContent: SolutionContent[] = [
   {
     slug: "event-production",
-    seoTitle: "End-to-End Event Production Services | Seamless Live Events",
+    seoTitle: "End to End Event Production Services | Seamless Live Events",
     metaDescription:
-      "Deliver high-impact events with our end-to-end event production services. We manage technical planning, system design, logistics, and on-site execution.",
+      "Deliver high impact events with our end to end event production services. We manage technical planning, system design, logistics, and on site execution.",
     searchIntent: "Commercial/Transactional",
-    primaryKeyword: "End-to-end event production",
+    primaryKeyword: "End to end event production",
     secondaryKeywords: [
       "Event technical planning",
       "live event operations",
       "corporate event logistics",
       "event production company Melbourne",
     ],
-    articleHeading: "Seamless End-to-End Event Production",
+    articleHeading: "Seamless End to End Event Production",
     articleIntro:
-      "Delivering a high-impact event requires more than just top-tier equipment; it demands flawless execution and meticulous technical planning. Our end-to-end event production services take the stress out of event management by handling every technical and logistical detail from concept to curtain close.",
+      "Delivering a high impact event requires more than just top tier equipment; it demands flawless execution and meticulous technical planning. Our end to end event production services take the stress out of event management by handling every technical and logistical detail from concept to curtain close.",
     sections: [
       {
         heading: "Comprehensive Technical Planning & Logistics",
@@ -68,7 +68,7 @@ const solutionContent: SolutionContent[] = [
               "Tailoring technical solutions (AV, lighting, and staging) to your specific venue and audience.",
           },
           {
-            title: "Pre-Production Logistics",
+            title: "Pre Production Logistics",
             description:
               "Managing run sheets, scheduling, and comprehensive crew coordination.",
           },
@@ -86,12 +86,12 @@ const solutionContent: SolutionContent[] = [
       },
     ],
     featuredSnippet:
-      "End-to-end event production is a comprehensive service that manages all technical and logistical aspects of a live event. This includes concept development, technical system design, crew coordination, run sheet management, and live on-site execution to ensure a seamless, high-impact audience experience.",
+      "End to end event production is a comprehensive service that manages all technical and logistical aspects of a live event. This includes concept development, technical system design, crew coordination, run sheet management, and live on site execution to ensure a seamless, high impact audience experience.",
     faqs: [
       {
-        question: "What does end-to-end event production include?",
+        question: "What does end to end event production include?",
         answer:
-          "It covers everything from initial technical planning and system design to logistics, run sheets, rehearsals, and live on-site execution.",
+          "It covers everything from initial technical planning and system design to logistics, run sheets, rehearsals, and live on site execution.",
       },
       {
         question: "How does technical planning improve an event?",
@@ -101,7 +101,7 @@ const solutionContent: SolutionContent[] = [
       {
         question: "Can you scale production for different event sizes?",
         answer:
-          "Yes. Our production management processes are highly scalable, adapting to everything from small corporate product launches to large-scale international touring shows.",
+          "Yes. Our production management processes are highly scalable, adapting to everything from small corporate product launches to large scale international touring shows.",
       },
     ],
     internalLinks: [
@@ -115,32 +115,32 @@ const solutionContent: SolutionContent[] = [
   },
   {
     slug: "av-production",
-    seoTitle: "Professional Audio Visual Production Services | High-Impact AV",
+    seoTitle: "Professional Audio Visual Production Services | High Impact AV",
     metaDescription:
-      "Elevate your event with professional audio visual production. We deploy cutting-edge vision systems, projection, and signal workflows for flawless presentations.",
+      "Elevate your event with professional audio visual production. We deploy cutting edge vision systems, projection, and signal workflows for flawless presentations.",
     searchIntent: "Commercial",
     primaryKeyword: "Audio visual production services",
     secondaryKeywords: [
       "Professional AV solutions",
       "event vision systems",
-      "multi-screen presentations",
+      "multi screen presentations",
       "AV deployment Melbourne",
     ],
     articleHeading: "Professional Audio Visual Production Services",
     articleIntro:
-      "Visuals and sound are the heartbeat of any live event. Our professional audio visual production services deliver high-impact experiences that capture attention and communicate your message with absolute clarity. From corporate conferences to immersive brand activations, we deploy state-of-the-art AV solutions tailored to your unique environment.",
+      "Visuals and sound are the heartbeat of any live event. Our professional audio visual production services deliver high impact experiences that capture attention and communicate your message with absolute clarity. From corporate conferences to immersive brand activations, we deploy state of the art AV solutions tailored to your unique environment.",
     sections: [
       {
         heading: "Advanced Vision Systems and Projection",
         body: "A seamless visual presentation keeps audiences engaged. We design robust signal workflows that guarantee flawless content playback, no matter the complexity of the setup.",
         points: [
           {
-            title: "Multi-Screen Presentations",
+            title: "Multi Screen Presentations",
             description:
               "Synchronized content delivery across multiple displays for dynamic viewing angles.",
           },
           {
-            title: "High-Definition Projection",
+            title: "High Definition Projection",
             description:
               "Crisp, bright projection mapping and standard screen projections suited for any venue size.",
           },
@@ -158,12 +158,12 @@ const solutionContent: SolutionContent[] = [
       },
     ],
     featuredSnippet:
-      "Professional audio visual (AV) production involves the design and deployment of vision systems, displays, and audio equipment for live events. It includes managing signal workflows, multi-screen presentations, and reliable content playback to deliver high-impact, engaging experiences for diverse audiences.",
+      "Professional audio visual (AV) production involves the design and deployment of vision systems, displays, and audio equipment for live events. It includes managing signal workflows, multi screen presentations, and reliable content playback to deliver high impact, engaging experiences for diverse audiences.",
     faqs: [
       {
         question: "What is included in your AV production services?",
         answer:
-          "Our services include the design and deployment of vision systems, projection mapping, multi-screen displays, and comprehensive signal workflow management.",
+          "Our services include the design and deployment of vision systems, projection mapping, multi screen displays, and comprehensive signal workflow management.",
       },
       {
         question: "Why are signal workflows important for events?",
@@ -171,9 +171,9 @@ const solutionContent: SolutionContent[] = [
           "A robust signal workflow ensures that audio and video feeds are routed correctly and reliably, preventing glitches and ensuring seamless content playback during the event.",
       },
       {
-        question: "Do you handle content integration for multi-screen setups?",
+        question: "Do you handle content integration for multi screen setups?",
         answer:
-          "Yes. We integrate and format your media for multi-screen presentations, ensuring synchronized, high-quality playback across all displays.",
+          "Yes. We integrate and format your media for multi screen presentations, ensuring synchronized, high quality playback across all displays.",
       },
     ],
     internalLinks: [
@@ -187,20 +187,20 @@ const solutionContent: SolutionContent[] = [
   },
   {
     slug: "led-screens",
-    seoTitle: "High-Resolution LED Screens for Events | Modular Display Solutions",
+    seoTitle: "High Resolution LED Screens for Events | Modular Display Solutions",
     metaDescription:
-      "Create maximum visual impact with high-resolution LED screens. We provide modular LED systems and custom configurations for indoor and outdoor events.",
+      "Create maximum visual impact with high resolution LED screens. We provide modular LED systems and custom configurations for indoor and outdoor events.",
     searchIntent: "Commercial/Informational",
     primaryKeyword: "LED screen hire for events",
     secondaryKeywords: [
-      "High-resolution LED displays",
+      "High resolution LED displays",
       "modular LED systems",
       "outdoor event screens",
       "custom LED configurations",
     ],
-    articleHeading: "High-Resolution LED Screens for Maximum Impact",
+    articleHeading: "High Resolution LED Screens for Maximum Impact",
     articleIntro:
-      "When you need to make a bold statement, standard projection often isn't enough. Our high-resolution LED screen solutions are engineered to deliver maximum visual impact, offering unmatched brightness, clarity, and color depth for both indoor and outdoor events.",
+      "When you need to make a bold statement, standard projection often isn't enough. Our high resolution LED screen solutions are engineered to deliver maximum visual impact, offering unmatched brightness, clarity, and color depth for both indoor and outdoor events.",
     sections: [
       {
         heading: "Modular and Custom LED Configurations",
@@ -214,10 +214,10 @@ const solutionContent: SolutionContent[] = [
           {
             title: "Custom Configurations",
             description:
-              "Modular panels can be built into curved, ultra-wide, or multi-dimensional shapes.",
+              "Modular panels can be built into curved, ultra wide, or multi dimensional shapes.",
           },
           {
-            title: "Large-Scale Deployments",
+            title: "Large Scale Deployments",
             description:
               "Capable of supporting massive stadium shows and touring productions.",
           },
@@ -225,12 +225,12 @@ const solutionContent: SolutionContent[] = [
       },
       {
         heading: "Seamless Integration",
-        body: "An LED wall is only as good as the content driving it. We ensure seamless integration between the physical LED hardware and the video processing units, guaranteeing a flawless, artifact-free image that captivates your audience from every angle.",
+        body: "An LED wall is only as good as the content driving it. We ensure seamless integration between the physical LED hardware and the video processing units, guaranteeing a flawless, artifact free image that captivates your audience from every angle.",
         points: [],
       },
     ],
     featuredSnippet:
-      "Event LED screens are high-resolution, modular display systems used to deliver maximum visual impact at indoor and outdoor events. Because they are built using scalable panels, they can be customized into various shapes and sizes, providing superior brightness and clarity compared to traditional projection.",
+      "Event LED screens are high resolution, modular display systems used to deliver maximum visual impact at indoor and outdoor events. Because they are built using scalable panels, they can be customized into various shapes and sizes, providing superior brightness and clarity compared to traditional projection.",
     faqs: [
       {
         question: "Can LED screens be used for outdoor daytime events?",
@@ -245,7 +245,7 @@ const solutionContent: SolutionContent[] = [
       {
         question: "Are LED screens better than standard projectors?",
         answer:
-          "For environments with high ambient light or when vibrant, high-contrast colors are required, LED screens generally outperform traditional projectors.",
+          "For environments with high ambient light or when vibrant, high contrast colors are required, LED screens generally outperform traditional projectors.",
       },
     ],
     internalLinks: [
@@ -253,7 +253,7 @@ const solutionContent: SolutionContent[] = [
       { label: "Audio Visual Production", slug: "av-production" },
     ],
     externalSources: [
-      { label: "PLSN", note: "Projection, Lights and Staging News — LED tech reviews" },
+      { label: "PLSN", note: "Projection, Lights and Staging News: LED tech reviews" },
       { label: "Commercial Integrator", note: "display technology trends" },
     ],
   },
@@ -276,7 +276,7 @@ const solutionContent: SolutionContent[] = [
     sections: [
       {
         heading: "Comprehensive PA Deployment & Mixing",
-        body: "We provide full-spectrum audio solutions tailored to the specific requirements of your event. From intimate speaking engagements to massive outdoor festivals, our audio engineers deploy technology that guarantees a balanced soundscape.",
+        body: "We provide full spectrum audio solutions tailored to the specific requirements of your event. From intimate speaking engagements to massive outdoor festivals, our audio engineers deploy technology that guarantees a balanced soundscape.",
         points: [
           {
             title: "Precision PA Deployment",
@@ -286,12 +286,12 @@ const solutionContent: SolutionContent[] = [
           {
             title: "Advanced Digital Mixing",
             description:
-              "Real-time audio balancing using industry-standard digital consoles.",
+              "Real time audio balancing using industry standard digital consoles.",
           },
           {
             title: "Monitoring & Microphones",
             description:
-              "High-fidelity wireless microphone systems and clear foldback monitoring for performers and presenters.",
+              "High fidelity wireless microphone systems and clear foldback monitoring for performers and presenters.",
           },
         ],
       },
@@ -312,12 +312,12 @@ const solutionContent: SolutionContent[] = [
       {
         question: "What is digital mixing?",
         answer:
-          "Digital mixing involves using advanced, computerized audio consoles to process, route, and balance multiple sound inputs (like microphones and instruments) in real-time.",
+          "Digital mixing involves using advanced, computerized audio consoles to process, route, and balance multiple sound inputs (like microphones and instruments) in real time.",
       },
       {
         question: "Do you provide wireless microphones for corporate presenters?",
         answer:
-          "Yes, we supply reliable, high-fidelity wireless microphone systems to ensure clear audio capture and freedom of movement for presenters on stage.",
+          "Yes, we supply reliable, high fidelity wireless microphone systems to ensure clear audio capture and freedom of movement for presenters on stage.",
       },
     ],
     internalLinks: [
