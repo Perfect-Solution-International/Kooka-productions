@@ -113,7 +113,7 @@ export function Footer({ solutions }: { readonly solutions: readonly HomeSolutio
           </div>
 
           <div className="sm:col-span-2 lg:col-span-3">
-            <p className="kooka-eyebrow mb-2 text-center sm:text-left lg:mb-4">
+            <p className="kooka-eyebrow mb-2 text-left lg:mb-4">
               Contact
             </p>
             <ul className="space-y-1 text-sm lg:space-y-3">
